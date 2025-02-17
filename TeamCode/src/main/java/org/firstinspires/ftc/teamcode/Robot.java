@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.misc.ReLocalizer;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
@@ -57,6 +58,7 @@ public class Robot{
     public Intake intake;
     public GamepadMapping controls;
     public SpecimenClaw specimenClaw;
+    public Arm arm;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, GamepadMapping controls) {
         imu = hardwareMap.get(IMU.class, "imu");
@@ -78,7 +80,8 @@ public class Robot{
         intake = new Intake(hardwareMap, telemetry, controls);
         outtake = new Outtake(hardwareMap, 0, 0.012, 0, 0.0001, 0.03, telemetry, controls); // tune PID values
         //ultraSonics = new ReLocalizer(hardwareMap, imu);
-        specimenClaw = new SpecimenClaw(hardwareMap);
+        //specimenClaw = new SpecimenClaw(hardwareMap);
+        arm = new Arm(hardwareMap);
     }
 
     // this is for junit testing only

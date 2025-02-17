@@ -31,8 +31,8 @@ public class Outtake {
         outtakeSlideLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         outtakeSlideRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        rightBucketServo = hardwareMap.get(Servo.class, "rightBucketServo");
-        leftBucketServo = hardwareMap.get(Servo.class, "leftBucketServo");
+//        rightBucketServo = hardwareMap.get(Servo.class, "rightBucketServo");
+//        leftBucketServo = hardwareMap.get(Servo.class, "leftBucketServo");
 
         if(direction == 0){
             outtakeSlideLeft.setDirection(DcMotorEx.Direction.FORWARD);
@@ -54,8 +54,8 @@ public class Outtake {
     public Outtake(DcMotorEx slidesMotorLeft, DcMotorEx slidesMotorRight, Servo rightBucketServo, Servo leftBucketServo, PIDController controller) {
         this.outtakeSlideLeft = slidesMotorLeft;
         this.outtakeSlideRight = slidesMotorRight;
-        this.rightBucketServo = rightBucketServo;
-        this.leftBucketServo = leftBucketServo;
+//        this.rightBucketServo = rightBucketServo;
+//        this.leftBucketServo = leftBucketServo;
         this.controller = controller;
     }
 
@@ -89,24 +89,24 @@ public class Outtake {
         moveTicks(OuttakeConstants.SlidePositions.SPECIMEN_HIGH_RACK.getSlidePos()); // tune target obviously
     }
 
-    public void depositToHP() {
-        // this just flips bucket at slide pos 0
-        moveTicks(OuttakeConstants.SlidePositions.RETRACTED.getSlidePos());
-        bucketDeposit();
-    }
+//    public void depositToHP() {
+//        // this just flips bucket at slide pos 0
+//        moveTicks(OuttakeConstants.SlidePositions.RETRACTED.getSlidePos());
+//        bucketDeposit();
+//    }
 
     public void returnToRetracted() {
         moveTicks(OuttakeConstants.SlidePositions.RETRACTED.getSlidePos());
     }
 
-    public void extendToRemoveSpecFromWall() {
-        moveTicks(OuttakeConstants.SlidePositions.GRABBING_SPEC.getSlidePos());
-    }
+//    public void extendToRemoveSpecFromWall() {
+//        moveTicks(OuttakeConstants.SlidePositions.GRABBING_SPEC.getSlidePos());
+//    }
 
     public void resetHardware() {
         returnToRetracted();
         // other resetting bucket stuff here
-        bucketToReadyForTransfer();
+        //bucketToReadyForTransfer();
     }
 
     public void resetEncoders() {
@@ -117,26 +117,21 @@ public class Outtake {
         outtakeSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeSlideRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
-    public void bucketToReadyForTransfer() {
-        rightBucketServo.setPosition(OuttakeConstants.BucketPositions.TRANSFER_READY.getRightBucketPos());
-        leftBucketServo.setPosition(OuttakeConstants.BucketPositions.TRANSFER_READY.getLeftBucketPos());
-    }
-
-    public void bucketDeposit() {
-        rightBucketServo.setPosition(OuttakeConstants.BucketPositions.DEPOSIT.getRightBucketPos());
-        leftBucketServo.setPosition(OuttakeConstants.BucketPositions.DEPOSIT.getLeftBucketPos());
-    }
-
-    public void bucketTilt() {
-        rightBucketServo.setPosition(OuttakeConstants.BucketPositions.TILT.getRightBucketPos());
-        leftBucketServo.setPosition(OuttakeConstants.BucketPositions.TILT.getLeftBucketPos());
-    }
-
-    public void hang() {
-        moveTicks(OuttakeConstants.SlidePositions.HANG.getSlidePos());
-        bucketDeposit();
-    }
+//
+//    public void bucketToReadyForTransfer() {
+//        rightBucketServo.setPosition(OuttakeConstants.BucketPositions.TRANSFER_READY.getRightBucketPos());
+//        leftBucketServo.setPosition(OuttakeConstants.BucketPositions.TRANSFER_READY.getLeftBucketPos());
+//    }
+//
+//    public void bucketDeposit() {
+//        rightBucketServo.setPosition(OuttakeConstants.BucketPositions.DEPOSIT.getRightBucketPos());
+//        leftBucketServo.setPosition(OuttakeConstants.BucketPositions.DEPOSIT.getLeftBucketPos());
+//    }
+//
+//    public void bucketTilt() {
+//        rightBucketServo.setPosition(OuttakeConstants.BucketPositions.TILT.getRightBucketPos());
+//        leftBucketServo.setPosition(OuttakeConstants.BucketPositions.TILT.getLeftBucketPos());
+//    }
 
     public void setMotorsToTeleOpMode() {
         outtakeSlideLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

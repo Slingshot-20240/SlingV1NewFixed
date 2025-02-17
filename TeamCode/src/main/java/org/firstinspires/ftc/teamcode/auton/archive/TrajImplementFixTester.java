@@ -36,7 +36,7 @@ public class TrajImplementFixTester extends LinearOpMode {
         specimenClaw = robot.specimenClaw;
         robot.outtake.resetEncoders();
         moveLift(0);
-        outtake.bucketToReadyForTransfer();
+        //outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
         specimenClaw.closeClaw();
