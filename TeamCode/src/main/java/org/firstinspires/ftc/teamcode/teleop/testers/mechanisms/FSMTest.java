@@ -32,6 +32,7 @@ public class FSMTest extends OpMode {
 
         robot.intake.resetHardware();
         robot.outtake.resetHardware();
+        robot.arm.resetHardware();
 
         //robot.specimenClaw.openClaw();
     }

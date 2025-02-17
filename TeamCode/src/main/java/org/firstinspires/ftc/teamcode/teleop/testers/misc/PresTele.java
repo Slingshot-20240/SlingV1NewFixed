@@ -27,7 +27,7 @@ public class PresTele extends OpMode {
 
         intake = robot.intake;
         outtake = robot.outtake;
-        specimenClaw = robot.specimenClaw;
+        //specimenClaw = robot.specimenClaw;
 
         robot.outtake.setMotorsToTeleOpMode();
         robot.outtake.resetEncoders();
@@ -59,11 +59,11 @@ public class PresTele extends OpMode {
                     controls.flipBucket.set(false);
                     //startTime = loopTime.milliseconds();
                 } else if (controls.highBasket.value()) {
-                    outtake.bucketTilt();
+                    robot.arm.toTransfering();
                     transferState = TransferState.HIGH_BASKET;
                     controls.flipBucket.set(false);
                 } else if (controls.lowBasket.value()) {
-                    outtake.bucketTilt();
+                    robot.arm.toTransfering();
                     transferState = TransferState.LOW_BASKET;
                     controls.flipBucket.set(false);
                 }
@@ -86,11 +86,6 @@ public class PresTele extends OpMode {
                 if (controls.intakeOnToIntake.locked() || controls.toClear.locked()) {
                     transferState = TransferState.INTAKING;
                     controls.flipBucket.set(false);
-                }
-                if (controls.flipBucket.value()) {
-                    outtake.bucketDeposit();
-                } else {
-                    outtake.bucketToReadyForTransfer();
                 }
                 break;
             case INTAKING:
@@ -128,8 +123,8 @@ public class PresTele extends OpMode {
                 intake.activeIntake.pivotUpForOuttake();
                 intake.extendForOuttake();
                 outtake.extendToHighBasket();
-                if (controls.flipBucket.value()) {
-                    outtake.bucketDeposit();
+                if (controls.openClaw.value()) {
+                    robot.arm.openClaw();
                 }
                 if (!controls.highBasket.value()) {
                     transferState = TransferState.SLIDES_RETRACTED;
@@ -145,7 +140,7 @@ public class PresTele extends OpMode {
                 intake.extendForOuttake();
                 outtake.extendToLowBasket();
                 if (controls.flipBucket.value()) {
-                    outtake.bucketDeposit();
+                    robot.arm.openClaw();
                 }
                 if (!controls.lowBasket.value()) {
                     transferState = TransferState.SLIDES_RETRACTED;
@@ -160,7 +155,7 @@ public class PresTele extends OpMode {
                 controls.resetOuttakeControls();
                 controls.resetMultipleControls(controls.transfer, controls.extend);
                 // could also do to base state
-                outtake.bucketToReadyForTransfer();
+                robot.arm.closeClaw();
                 outtake.returnToRetracted();
                 intake.extendoFullRetract();
                 transferState = TransferState.EXTENDO_FULLY_RETRACTED;

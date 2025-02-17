@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.misc.ReLocalizer;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
@@ -30,10 +31,6 @@ public class Robot{
     // analog encoder -> 0 on expansion analog ports
     // color sensor -> 1 on control hub i2c ports
 
-    // wrist (gobilda torque) -> 2 on expansion hub
-    // claw (mini) -> 0 on expansion hub
-    // v4b (max) -> 1 on expansion hub
-
     // drivetrain:
     // rightBack = 0 control
     // rightFront = 1 control
@@ -43,42 +40,43 @@ public class Robot{
     // outtake:
     // slideLeft = expansion 3
     // slideRight = expansion 2
-    // bucketServoRight = 3 expansion
-    // bucketServoLeft = 5 expansion
+    // wrist
+    // claw
+    // arm
 
-    // spec:
-    // spec claw = 2 on control hub
 
 
     public DriveTrain drivetrain;
     public ReLocalizer ultraSonics;
-    public IMU imu;
+    //public IMU imu;
     public Outtake outtake;
     public Intake intake;
     public GamepadMapping controls;
-    public SpecimenClaw specimenClaw;
+    //public SpecimenClaw specimenClaw;
+    public Arm arm;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, GamepadMapping controls) {
-        imu = hardwareMap.get(IMU.class, "imu");
+        //imu = hardwareMap.get(IMU.class, "imu");
         // params for slingshot robot
                 IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
 
  //          params for papaya (tester bot)
-       // IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-             //   RevHubOrientationOnRobot.LogoFacingDirection.UP,
-               // RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+//                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+//                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
+        //imu.initialize(parameters);
         // will reset imu before auton only, in resetHardware
 
         this.controls = controls;
-        drivetrain = new DriveTrain(hardwareMap, imu, telemetry, controls);
+        //drivetrain = new DriveTrain(hardwareMap, imu, telemetry, controls);
         intake = new Intake(hardwareMap, telemetry, controls);
         outtake = new Outtake(hardwareMap, 0, 0.012, 0, 0.0001, 0.03, telemetry, controls); // tune PID values
         //ultraSonics = new ReLocalizer(hardwareMap, imu);
-        specimenClaw = new SpecimenClaw(hardwareMap);
+        //specimenClaw = new SpecimenClaw(hardwareMap);
+        arm = new Arm(hardwareMap);
     }
 
     // this is for junit testing only
@@ -87,7 +85,7 @@ public class Robot{
         this.drivetrain = drivetrain;
         this.outtake = outtake;
         this.intake = intake;
-        this.specimenClaw = specimenClaw;
+        //this.specimenClaw = specimenClaw;
     }
 
 //    public Pose2d reLocalize(){
@@ -105,9 +103,9 @@ public class Robot{
         // reset intake
         intake.resetHardware();
         // reset dt & ultrasonics
-        imu.resetYaw();
-        // reset specimen claw
-        specimenClaw.openClaw();
+        //imu.resetYaw();
+        // reset arm
+        arm.resetHardware();
     }
 
     // this is for teleop, when we ant to preserve encoder and sensor input

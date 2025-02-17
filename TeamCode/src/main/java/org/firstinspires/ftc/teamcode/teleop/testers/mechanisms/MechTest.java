@@ -23,7 +23,7 @@ public class MechTest extends OpMode {
     public void init() {
         controls = new GamepadMapping(gamepad1, gamepad2);
         robot = new Robot(hardwareMap, telemetry, controls);
-        specClaw = robot.specimenClaw;
+        //specClaw = robot.specimenClaw;
     }
 
     @Override

@@ -16,7 +16,8 @@ public class PivotAxonTester extends OpMode {
     private Robot robot;
     private GamepadMapping controls;
     private Intake intake;
-    public static double servoPos = 0;
+    public static double servoPos = .2;
+    public static double linkagePos = .5;
 
     @Override
     public void init() {
@@ -24,10 +25,15 @@ public class PivotAxonTester extends OpMode {
         robot = new Robot(hardwareMap, telemetry, controls);
         intake = robot.intake;
         intake.activeIntake.pivotAxon.setPosition(IntakeConstants.ActiveIntakeStates.FULLY_RETRACTED.pivotPos());
+        //robot.arm.retract();
+        //robot.arm.openClaw();
+        intake.extendForOuttake();
     }
 
     @Override
     public void loop() {
-         intake.activeIntake.pivotAxon.setPosition(servoPos);
+        intake.leftExtendo.setPosition(linkagePos);
+        intake.rightExtendo.setPosition(linkagePos);
+        intake.activeIntake.pivotAxon.setPosition(servoPos);
     }
 }

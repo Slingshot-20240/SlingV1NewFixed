@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.auton;
+package org.firstinspires.ftc.teamcode.auton.archive;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+@Disabled
 @Autonomous
 public class SpecAuto extends LinearOpMode {
 
@@ -30,10 +32,10 @@ public class SpecAuto extends LinearOpMode {
         robot = new Robot(hardwareMap, telemetry, controls);
         intake = robot.intake;
         outtake = robot.outtake;
-        specimenClaw = robot.specimenClaw;
+        //specimenClaw = robot.specimenClaw;
         robot.outtake.resetEncoders();
         moveLift(0);
-        outtake.bucketToReadyForTransfer();
+        //outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
         specimenClaw.closeClaw();
@@ -52,7 +54,7 @@ public class SpecAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1250);
                 })
-                .lineToConstantHeading(new Vector2d(11,-32))
+                .lineToConstantHeading(new Vector2d(11,-30.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(825);
                 })
@@ -79,9 +81,8 @@ public class SpecAuto extends LinearOpMode {
                 })
 
 
-                .splineToSplineHeading(new Pose2d(24,-33.6 , Math.toRadians(18)), Math.toRadians(18))
+                .splineToSplineHeading(new Pose2d(24,-34 , Math.toRadians(18)), Math.toRadians(20))
                 .forward(12)
-                .strafeRight(5)
                 .waitSeconds(.1)
 
 
@@ -91,7 +92,7 @@ public class SpecAuto extends LinearOpMode {
 //                                            extendo full
                     intake.extendoFullExtend();
                 })
-                .lineToSplineHeading(new Pose2d(20,-52, Math.toRadians(330)))
+                .lineToSplineHeading(new Pose2d(20,-52, Math.toRadians(320)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
 //                                            run transfer
                     intake.activeIntake.rollerMotor.setPower(.7);
@@ -119,7 +120,6 @@ public class SpecAuto extends LinearOpMode {
                     intake.activeIntake.flipDownFull();
                 })
                 .lineToLinearHeading(new Pose2d(35,-35, Math.toRadians(33)))
-                .strafeRight(5)
                 .waitSeconds(0.1)
 
                 //O-zone #2
@@ -149,7 +149,7 @@ public class SpecAuto extends LinearOpMode {
 //                                            intake
                     moveExtendo(0.04);
                 })
-                .lineToLinearHeading(new Pose2d(42.25,-36, Math.toRadians(29)))
+                .lineToLinearHeading(new Pose2d(42.25,-38.5, Math.toRadians(29)))
                 .waitSeconds(0.3)
                 .strafeRight(5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -186,8 +186,8 @@ public class SpecAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1250);
                 })
-                .lineToSplineHeading(new Pose2d(-4,-41,Math.toRadians(270.05)))
-                .back(5)
+                .lineToSplineHeading(new Pose2d(-6,-41,Math.toRadians(270.05)))
+                .back(5.75)
 
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(800);
@@ -217,7 +217,8 @@ public class SpecAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1250);
                 })
-                .lineToSplineHeading(new Pose2d(-2,-42.5,Math.toRadians(270.05)))
+                .lineToSplineHeading(new Pose2d(0,-42.5,Math.toRadians(270.05)))
+                .back(2.5)
 
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(825);
@@ -246,7 +247,7 @@ public class SpecAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1250);
                 })
-                .lineToSplineHeading(new Pose2d(0,-42.5,Math.toRadians(270.05)))
+                .lineToSplineHeading(new Pose2d(1,-44,Math.toRadians(270.05)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
 
                     moveLift(825);

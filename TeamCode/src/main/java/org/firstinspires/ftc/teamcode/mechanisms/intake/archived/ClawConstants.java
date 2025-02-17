@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.mechanisms.intake.archived;
 
 public class ClawConstants {
     // open, closed
-    private static final double[] clawPositions = {.2, .72};
+    private static final double[] clawPositions = {.7, .9};
 
     // 90 degrees (sample "up and down" -> original pos & init transfer), 180 degrees (sample "left and right" -> transfer)
     private static final double[] wristPositions = {.6, 1}; // wrist also changed by joystick

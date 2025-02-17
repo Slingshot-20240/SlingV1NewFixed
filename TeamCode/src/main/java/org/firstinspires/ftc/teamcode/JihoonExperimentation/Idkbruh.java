@@ -6,13 +6,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
-@Disabled
+
 @Config
 @TeleOp
 public class Idkbruh extends LinearOpMode {
-    private DcMotor slideMotor;
+    private DcMotorEx slideMotorLeft;
+    private DcMotorEx slideMotorRight;
     private PIDController pidController;
 
     private final int refreshRate = 20; //milliseconds
@@ -26,7 +29,7 @@ public class Idkbruh extends LinearOpMode {
     //TODO: Dont change the static variables during running pls
 
     // PID Gains
-    private static double p = 0.005;  // Initial P gain idk its guessitmeeaeated
+    private static double p = 0.0005;  // Initial P gain idk its guessitmeeaeated
     private static double d = 0.0001;  // Initial D gain idkk its guessitmated
 
     //target
@@ -39,9 +42,16 @@ public class Idkbruh extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize hardware and PID controller
-        slideMotor = hardwareMap.get(DcMotor.class, "slideMotor");
-        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorLeft = hardwareMap.get(DcMotorEx.class, "slideLeft");
+        slideMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        slideMotorRight = hardwareMap.get(DcMotorEx.class, "slideRight");
+        slideMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
 
         pidController = new PIDController(p, 0, d);
         pidController.setSetPoint(targetPositionTicks);
@@ -56,16 +66,18 @@ public class Idkbruh extends LinearOpMode {
     }
 
     private void controlLoop() {
-        int currentTicks = slideMotor.getCurrentPosition();
+        int currentTicks = slideMotorLeft.getCurrentPosition();
 
         double error = targetPositionTicks - currentTicks;
 
         double derivative = (error - previousError) / (refreshRate / 1000.0); // Convert ms to seconds
 
         //set power
+        pidController.setP(p);
         double power = pidController.calculate(currentTicks,targetPositionTicks);
         power += f;
-        slideMotor.setPower(Range.clip(power, -1, 1));
+        slideMotorLeft.setPower(power);
+        slideMotorRight.setPower(power);
 
         //tune
         selfTunePD(error, derivative);
@@ -86,21 +98,22 @@ public class Idkbruh extends LinearOpMode {
         //make P if error too big
         if (Math.abs(error) > errorBuffer) {
             p += adjustP(error);
-            pidController.setP(p); //set to new P
+             //set to new P
         }
 
         // Adjust D gain for oscillation
         double errorChangeRate = derivative / Math.abs(error);
         if (Math.abs(errorChangeRate - lastErrorChangeRate) > oscillationBuffer) {
-            d += 0.005 * Math.signum(errorChangeRate);
-            pidController.setD(d); //set to new D
+            d += 0.00002 * Math.signum(errorChangeRate);
+        //set to new D
         }
-
+        pidController.setP(p);
+        pidController.setD(d);
         lastErrorChangeRate = errorChangeRate;
     }
 
     private double adjustP(double error) {
         // Simple proportional gain adjustment (placeholder)
-        return 0.001 * Math.signum(error);
+        return 0.00001 * Math.signum(error);
     }
 }
