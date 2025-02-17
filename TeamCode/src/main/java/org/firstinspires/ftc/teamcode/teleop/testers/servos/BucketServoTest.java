@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @Config
+@TeleOp
 public class BucketServoTest extends OpMode {
     private GamepadMapping controls;
     private Outtake outtake;
@@ -18,8 +19,8 @@ public class BucketServoTest extends OpMode {
     public void init() {
         controls = new GamepadMapping(gamepad1, gamepad2);
         outtake = new Outtake(hardwareMap, 0, 0, 0, 0, 0, telemetry, controls);
-//        outtake.rightBucketServo.setPosition(1);
-//        outtake.leftBucketServo.setPosition(.982);
+        outtake.rightBucketServo.setPosition(1);
+        outtake.leftBucketServo.setPosition(.982);
 
     }
 
@@ -29,8 +30,8 @@ public class BucketServoTest extends OpMode {
 //        servoPos = Math.min(Math.max(servoPos, 0.0), 1.0);
 
         //outtake.rightBucketServo.setPosition(servoPos);
-//        outtake.leftBucketServo.setPosition(lservoPos);
-//        outtake.rightBucketServo.setPosition(rservoPos);
+        outtake.leftBucketServo.setPosition(lservoPos);
+        outtake.rightBucketServo.setPosition(rservoPos);
 
 
 //        telemetry.addLine("Bucket Servo Test");

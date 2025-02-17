@@ -34,7 +34,7 @@ public class V4bCycle {
     }
 
     public void v4bActiveUpdate() {
-        //controls.v4bActiveUpdate();
+        controls.v4bActiveUpdate();
         robot.drivetrain.update();
 
         switch (transferState) {
@@ -115,7 +115,7 @@ public class V4bCycle {
                 intake.v4bActiveIntake.toTransfer();
                 outtake.extendToHighBasket();
                 if (controls.flipBucket.value()) {
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 }
                 if (!controls.highBasket.value()) {
                     transferState = V4bCycle.TransferState.SLIDES_RETRACTED;
@@ -127,7 +127,7 @@ public class V4bCycle {
                 intake.v4bActiveIntake.toTransfer();
                 outtake.extendToLowBasket();
                 if (controls.flipBucket.value()) {
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 }
                 if (!controls.lowBasket.value()) {
                     transferState = V4bCycle.TransferState.SLIDES_RETRACTED;
@@ -136,13 +136,13 @@ public class V4bCycle {
             case SLIDES_RETRACTED:
                 controls.flipBucket.set(false);
 
-                //outtake.bucketToReadyForTransfer();
+                outtake.bucketToReadyForTransfer();
                 outtake.returnToRetracted();
                 intake.extendoFullRetract();
                 transferState = V4bCycle.TransferState.EXTENDO_FULLY_RETRACTED;
                 break;
             case HANGING:
-                //outtake.hang();
+                outtake.hang();
                 if (!controls.L1hang.value()) {
                     transferState = V4bCycle.TransferState.SLIDES_RETRACTED;
                 }

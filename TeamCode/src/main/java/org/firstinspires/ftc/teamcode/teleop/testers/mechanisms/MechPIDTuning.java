@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
-import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
@@ -31,7 +30,6 @@ public class MechPIDTuning extends OpMode {
     public static int target = 0;
     public static double p = 0.012, i = 0, d = 0.0001, f = .03;
     private int type = 0; // 0 is slides 1 is arm 2 is analog
-    private Arm arm;
 
     private Telemetry dashboardTelemetry;
     @Override
@@ -46,9 +44,6 @@ public class MechPIDTuning extends OpMode {
         outtake.setMotorsToTeleOpMode();
         outtake.resetEncoders();
         outtake.returnToRetracted();
-        arm = new Arm(hardwareMap);
-        arm.toScoreSpecimen();
-        arm.closeClaw();
     }
 
     @Override

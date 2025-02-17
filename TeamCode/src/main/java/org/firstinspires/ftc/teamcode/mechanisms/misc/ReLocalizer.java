@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ReLocalizer {
-    public DistanceSensor backDS;
+    public ColorRangeSensor backDS;
     public DistanceSensor sideDS;
     private IMU imu;
 
@@ -28,7 +28,7 @@ public class ReLocalizer {
     }
 
     // This is for JUnit testing only
-    public ReLocalizer(DistanceSensor backDS, DistanceSensor sideDS, IMU imu) {
+    public ReLocalizer(ColorRangeSensor backDS, DistanceSensor sideDS, IMU imu) {
         this.backDS = backDS;
         this.sideDS = sideDS;
         this.imu = imu;

@@ -2,20 +2,20 @@ package org.firstinspires.ftc.teamcode.mechanisms.intake;
 
 public class IntakeConstants {
 
-    // pivoted up, pivoted down, transfer pos, clearing samples, spec mode
+    // pivoted up, pivoted down, transfer pos, clearing samples, failsafe clear
     // axon programmed for 0-255, 66 PMW (inverted)
-    private static final double[] pivotPositions = {.27, .91, .2, .49, };
+    private static final double[] pivotPositions = {.27, .91, .27, .49, .4};
 
     // neutral pos, back roller push out sample (extendo), back roller transfer
     private static final double[] backRollerPositions = {0.5, 1, -1};
 
     // right linkage in, right linkage extended, outtaking
     // axon programmed for 0-255, 66 PMW
-    private static final double[] rightLinkagePositions = {.33, .035, .265};
+    private static final double[] rightLinkagePositions = {.33, .035, .3};
 
     // left linkage in, left linkage extended
     // axon programmed for 0-255, 66 PMW
-    private static final double[] leftLinkagePositions = {.33, .035, .265};
+    private static final double[] leftLinkagePositions = {.33, .035, .3};
 
     // pivot positions for the v4b for active claw
     // transfer pos, hovering, intaking
@@ -26,7 +26,7 @@ public class IntakeConstants {
         CLEARING(pivotPositions[3], backRollerPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]),
         WRONG_ALLIANCE_COLOR_SAMPLE(pivotPositions[1], backRollerPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]), // pivoted down, pushing out sample, extended
         FULLY_EXTENDED(pivotPositions[1], backRollerPositions[0], rightLinkagePositions[1], leftLinkagePositions[1]), // pivoted down, idle back roller, extended
-        TRANSFER(pivotPositions[2], backRollerPositions[2], rightLinkagePositions[2], leftLinkagePositions[2]), // pivoted up, back roller push, retracted
+        TRANSFER(pivotPositions[2], backRollerPositions[2], rightLinkagePositions[0], leftLinkagePositions[0]), // pivoted up, back roller push, retracted
         FAILSAFE_CLEARING(pivotPositions[4], backRollerPositions[0], rightLinkagePositions[1], leftLinkagePositions[1]),
         OUTTAKING(pivotPositions[2], backRollerPositions[0], rightLinkagePositions[2], leftLinkagePositions[2]);
 

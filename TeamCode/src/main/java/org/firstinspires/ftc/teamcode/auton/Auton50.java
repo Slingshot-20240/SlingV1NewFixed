@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auton.archive;
+package org.firstinspires.ftc.teamcode.auton;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
+import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
@@ -30,10 +31,10 @@ public class Auton50 extends LinearOpMode {
         robot = new Robot(hardwareMap, telemetry, controls);
         intake = robot.intake;
         outtake = robot.outtake;
-        //specimenClaw = robot.specimenClaw;
+        specimenClaw = robot.specimenClaw;
         robot.outtake.resetEncoders();
         moveLift(0);
-        //outtake.bucketToReadyForTransfer();
+        outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
         specimenClaw.closeClaw();

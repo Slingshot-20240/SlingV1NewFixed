@@ -123,7 +123,7 @@ public class ClawCycle {
                 claw.closeClaw();
                 claw.moveToOuttaking();
                 if (controls.flipBucket.value()) {
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 }
                 if (!controls.highBasket.value()) {
                     transferState = ClawCycle.TransferState.SLIDES_RETRACTED;
@@ -133,7 +133,7 @@ public class ClawCycle {
             case LOW_BASKET:
                 outtake.extendToLowBasket();
                 if (controls.flipBucket.value()) {
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 }
                 if (!controls.lowBasket.value()) {
                     transferState = ClawCycle.TransferState.SLIDES_RETRACTED;
@@ -141,13 +141,13 @@ public class ClawCycle {
                 break;
             case SLIDES_RETRACTED:
                 controls.flipBucket.set(false);
-                //outtake.bucketToReadyForTransfer();
+                outtake.bucketToReadyForTransfer();
                 outtake.returnToRetracted();
                 intake.extendoFullRetract();
                 transferState = ClawCycle.TransferState.EXTENDO_FULLY_RETRACTED;
                 break;
             case HANGING:
-                //outtake.hang();
+                outtake.hang();
                 if (!controls.L1hang.value()) {
                     transferState = ClawCycle.TransferState.SLIDES_RETRACTED;
                 }

@@ -31,10 +31,10 @@ public class Archived40 extends LinearOpMode {
         robot = new Robot(hardwareMap, telemetry, controls);
         intake = robot.intake;
         outtake = robot.outtake;
-        //specimenClaw = robot.specimenClaw;
+        specimenClaw = robot.specimenClaw;
         robot.outtake.resetEncoders();
         moveLift(0);
-        //outtake.bucketToReadyForTransfer();
+        outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
         specimenClaw.closeClaw();

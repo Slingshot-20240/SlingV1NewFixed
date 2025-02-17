@@ -35,7 +35,6 @@ public class GamepadMapping {
     public static Toggle intakeOnToIntake;
     public static Toggle toClear;
     public static Toggle clear;
-    public static Toggle clearSpec;
 
 
     // INTAKE (CLAW)
@@ -64,7 +63,6 @@ public class GamepadMapping {
     public static Toggle scoreSpec;
     public static Toggle openClaw;
     public static Toggle L1hang;
-    public static Toggle specMode;
 
     // LOCKED HEADING
     // -----------------
@@ -100,7 +98,6 @@ public class GamepadMapping {
 
         pivot = new Toggle(false);
         transferHover = new Toggle(false);
-        clearSpec = new Toggle(false);
         // openClaw = new Toggle(false);
 
         // OUTTAKE
@@ -117,7 +114,6 @@ public class GamepadMapping {
         botToBaseState = new Toggle(false);
         isBlue = new Toggle(false);
         slowMode = new Toggle(false);
-        specMode = new Toggle(false);
     }
 
     public void joystickUpdate() {
@@ -126,6 +122,24 @@ public class GamepadMapping {
         turn = gamepad1.right_stick_x;
     }
 
+    public void clawUpdate() {
+        pivot.update(gamepad2.right_trigger > 0.5); // hover and intaking, button held
+        // first driver
+        transferHover.update(gamepad1.left_bumper);
+        wristYaw = gamepad2.right_stick_x;
+        // openClaw.update(gamepad2.b);
+    }
+
+    public void v4bActiveUpdate() {
+        extend.update(gamepad1.right_bumper);
+        pivot.update(gamepad2.a); // hover and intaking, button held
+
+        // first driver
+        transferHover.update(gamepad1.left_bumper);
+
+        intakeOnToIntake.update(gamepad2.right_trigger > 0.5);
+        toClear.update(gamepad2.left_trigger > 0.5);
+    }
 
     // v1 robot
     public void update() {
@@ -150,7 +164,6 @@ public class GamepadMapping {
         // spec
         openClaw.update(gamepad2.right_trigger > 0.3);
         scoreSpec.update(gamepad2.right_bumper);
-        specMode.update(gamepad2.dpad_right);
 
         // Reset/Fail Safes (Both controllers should have these)
 //        botToBaseState.update(gamepad1.dpad_down);
@@ -161,7 +174,6 @@ public class GamepadMapping {
         intakeOnToIntake.update(gamepad1.right_trigger > 0.5);
         toClear.update(gamepad1.left_trigger > 0.5);
         transfer.update(gamepad2.dpad_up);
-        clearSpec.update(gamepad1.left_bumper);
 
         //clearFailsafe.update(gamepad1.x);
     }

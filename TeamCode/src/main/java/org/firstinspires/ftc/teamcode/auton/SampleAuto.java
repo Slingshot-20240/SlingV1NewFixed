@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode.auton.archive;
+package org.firstinspires.ftc.teamcode.auton;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -13,8 +12,8 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import java.util.Scanner;
 
-@Disabled
 @Autonomous
 public class SampleAuto extends LinearOpMode {
     private GamepadMapping controls;
@@ -32,14 +31,14 @@ public class SampleAuto extends LinearOpMode {
         robot.outtake.resetEncoders();
 
         moveLift(0);
-        //outtake.bucketToReadyForTransfer();
+        outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
-        //robot.specimenClaw.openClaw();
+        robot.specimenClaw.openClaw();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-18.5, -63.5, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(-12, -63.5, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
@@ -51,17 +50,17 @@ public class SampleAuto extends LinearOpMode {
                 })
                 .setReversed(true)
                 //preload to bucket
-                .splineToLinearHeading(new Pose2d(-54.5,-57,Math.toRadians(45)),Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-56,-57,Math.toRadians(45)),Math.toRadians(225))
                 .setReversed(false)
-                .back(7)
+                .back(5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //flip bucket
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 })
                 .waitSeconds(0.75)
                 .forward(7)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //outtake.bucketToReadyForTransfer();
+                    outtake.bucketToReadyForTransfer();
                     moveLift(0);
                 })
 
@@ -100,20 +99,20 @@ public class SampleAuto extends LinearOpMode {
                     intake.activeIntake.transferOff();
                     intake.activeIntake.flipUp();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.75, () -> {
                         //raise slides
                         moveLift(2550);
                     })
-                .waitSeconds(1.2)
-                .back(4)
+                .waitSeconds(1)
+                .back(7)
                 .UNSTABLE_addTemporalMarkerOffset(0.15, () -> {
                     //flip bucket
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 })
                 .waitSeconds(0.75)
                 .forward(7)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
-                    //outtake.bucketToReadyForTransfer();
+                    outtake.bucketToReadyForTransfer();
                     moveLift(0);
                 })
 
@@ -150,20 +149,20 @@ public class SampleAuto extends LinearOpMode {
                     intake.activeIntake.transferOff();
                     intake.activeIntake.flipUp();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
                     //raise slides
                     moveLift(2550);
                 })
-                .waitSeconds(1.2)
-                .back(7)
+                .waitSeconds(1)
+                .back(11)
                 .UNSTABLE_addTemporalMarkerOffset(0.15, () -> {
                     //flip bucket
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 })
-                .waitSeconds(0.75)
-                .forward(8)
+                .waitSeconds(1.25)
+                .forward(7)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //outtake.bucketToReadyForTransfer();
+                    outtake.bucketToReadyForTransfer();
                     moveLift(0);
                 })
 
@@ -195,7 +194,7 @@ public class SampleAuto extends LinearOpMode {
                     intake.activeIntake.motorRollerOff();
                 })
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-50,-53.5,Math.toRadians(45)),Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-50.5,-53,Math.toRadians(45)),Math.toRadians(225))
                 .setReversed(false)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     //transfer sample
@@ -205,21 +204,21 @@ public class SampleAuto extends LinearOpMode {
                     intake.activeIntake.transferOff();
                     intake.activeIntake.flipUp();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.75, () -> {
                     //raise slides
                     moveLift(2550);
                 })
-                .waitSeconds(1.2)
-                .back(10.5)
+                .waitSeconds(1)
+                .back(8)
 
                 .UNSTABLE_addTemporalMarkerOffset(0.15, () -> {
                     //flip bucket
-                    //outtake.bucketDeposit();
+                    outtake.bucketDeposit();
                 })
-                .waitSeconds(0.5)
+                .waitSeconds(0.75)
                 .forward(3)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //outtake.bucketToReadyForTransfer();
+                    outtake.bucketToReadyForTransfer();
                     moveLift(0);
                 })
 
