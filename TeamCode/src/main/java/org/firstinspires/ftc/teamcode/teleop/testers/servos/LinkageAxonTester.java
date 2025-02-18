@@ -18,7 +18,7 @@ public class LinkageAxonTester extends OpMode {
 
     public static boolean smallAdjust = false;
     public static double rservoPos = .5;
-    public static double lservoPos = .5;
+    public static double pivotServoPos = .5;
 
     @Override
     public void init() {
@@ -26,17 +26,18 @@ public class LinkageAxonTester extends OpMode {
         robot = new Robot(hardwareMap, telemetry, controls);
         intake = robot.intake;
         intake.activeIntake.flipUp();
+
+        robot.arm.retract();
+        robot.arm.openClaw();
     }
 
     @Override
     public void loop() {
-        if (smallAdjust) {
             intake.rightExtendo.setPosition(rservoPos);
-            intake.leftExtendo.setPosition(lservoPos);
-        } else {
-            intake.rightExtendo.setPosition(lservoPos);
-            intake.leftExtendo.setPosition(lservoPos);
-        }
+            intake.leftExtendo.setPosition(rservoPos);
+
+            intake.activeIntake.pivotAxon.setPosition(pivotServoPos);
+
 
     }
 }

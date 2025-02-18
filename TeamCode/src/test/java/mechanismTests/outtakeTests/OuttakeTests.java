@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
@@ -56,7 +55,7 @@ public class OuttakeTests {
 
     @Test
     public void canExtendSpecHighRack() {
-        outtake.extendToSpecimenHighRack();
+        outtake.extendToSpecimenHighRackLow();
         verify(outtakeSlideLeft).setPower(anyDouble());
         verify(outtakeSlideRight).setPower(anyDouble());
     }

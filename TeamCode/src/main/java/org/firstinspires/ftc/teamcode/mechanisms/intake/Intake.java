@@ -58,6 +58,11 @@ public class Intake {
         leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.lLinkagePos());
     }
 
+    public void extendForSpecMode() {
+        rightExtendo.setPosition(.2);
+        leftExtendo.setPosition(.2);
+    }
+
     public void resetHardware() {
         // claw.resetClaw();
         activeIntake.motorRollerOff();

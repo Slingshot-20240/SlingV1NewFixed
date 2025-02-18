@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
@@ -23,6 +24,7 @@ public class Outtake {
     // OTHER
     Telemetry telemetry;
     GamepadMapping controls;
+    public TouchSensor touchSensor;
 
     public Outtake(HardwareMap hardwareMap, int direction, double inP, double inI, double inD, double inF, Telemetry telemetry,
     GamepadMapping controls){
@@ -30,6 +32,8 @@ public class Outtake {
         outtakeSlideRight = hardwareMap.get(DcMotorEx.class, "slideRight");
         outtakeSlideLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         outtakeSlideRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+        touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
 
 //        rightBucketServo = hardwareMap.get(Servo.class, "rightBucketServo");
 //        leftBucketServo = hardwareMap.get(Servo.class, "leftBucketServo");
@@ -85,8 +89,12 @@ public class Outtake {
         moveTicks(OuttakeConstants.SlidePositions.HIGH_BASKET.getSlidePos());
     }
 
-    public void extendToSpecimenHighRack() {
-        moveTicks(OuttakeConstants.SlidePositions.SPECIMEN_HIGH_RACK.getSlidePos()); // tune target obviously
+    public void extendToSpecimenHighRackLow() {
+        moveTicks(OuttakeConstants.SlidePositions.SPECIMEN_HIGH_RACK_LOW.getSlidePos()); // tune target obviously
+    }
+
+    public void extendToSpecimenHighRackHigh() {
+        moveTicks(OuttakeConstants.SlidePositions.SPECIMEN_HIGH_RACK_HIGH.getSlidePos()); // tune target obviously
     }
 
 //    public void depositToHP() {
