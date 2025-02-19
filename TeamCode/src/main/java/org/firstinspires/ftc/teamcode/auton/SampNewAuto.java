@@ -25,7 +25,6 @@ public class SampNewAuto extends LinearOpMode {
     private static IntakeConstants.ActiveIntakeStates activeIntakeStates;
     private Intake intake;
     private Outtake outtake;
-    private SpecimenClaw specimenClaw;
 
     public static double scorePosX = -53;
     public static double scorePosY = -53;
@@ -51,7 +50,6 @@ public class SampNewAuto extends LinearOpMode {
         //outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
-        specimenClaw.closeClaw();
 
         //robot.hardwareHardReset();
 

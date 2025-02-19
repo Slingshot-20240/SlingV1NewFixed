@@ -148,12 +148,32 @@ public class ActiveCycle {
                 intake.activeIntake.transferSample();
                 if (!controls.transfer.locked()) {
                     intake.activeIntake.transferOff();
-                    transferState = TransferState.TRANSFER_CLOSE;
+//                    transferState = TransferState.TRANSFER_CLOSE;
+//                    startTime = loopTime.milliseconds();
+                }
+                if (controls.openClaw.value()) {
+                    arm.closeClaw();
+                } else {
+                    arm.openClaw();
+                }
+                if (controls.highBasket.value()) {
+                    controls.openClaw.set(false);
+                    arm.closeClaw();
+                    transferState = ActiveCycle.TransferState.HIGH_BASKET;
+                    robot.arm.toTransfering();
                     startTime = loopTime.milliseconds();
                 }
+                if (controls.lowBasket.value()) {
+                    controls.openClaw.set(false);
+                    arm.closeClaw();
+                    transferState = ActiveCycle.TransferState.LOW_BASKET;
+                    robot.arm.toTransfering();
+                    startTime = loopTime.milliseconds();
+                }
+
                 break;
             case TRANSFER_CLOSE:
-                if (loopTime.milliseconds() - startTime >= 300) {
+                if (loopTime.milliseconds() - startTime >= 200) {
                     arm.closeClaw();
                     transferState = TransferState.EXTENDO_FULLY_RETRACTED;
 //                    intake.extendoFullRetract();
@@ -175,6 +195,7 @@ public class ActiveCycle {
                 }
                 if (controls.extend.value()) {
                     intake.extendoFullExtend();
+                    arm.toTransfering();
                     transferState = TransferState.EXTENDO_FULLY_EXTENDED;
                     controls.resetOuttakeControls();
                 }
@@ -192,13 +213,14 @@ public class ActiveCycle {
                 }
                 if (controls.extend.value()) {
                     intake.extendoFullExtend();
+                    arm.toTransfering();
                     transferState = TransferState.EXTENDO_FULLY_EXTENDED;
                     controls.resetOuttakeControls();
                 }
                 break;
             case SLIDES_RETRACTED:
                 controls.resetOuttakeControls();
-                controls.resetMultipleControls(controls.transfer, controls.extend, controls.scoreSpec);
+                controls.resetMultipleControls(controls.transfer, controls.extend, controls.scoreSpec, controls.openClaw);
                 // could also do to base state
                 robot.arm.toTransfering();
                 outtake.returnToRetracted();

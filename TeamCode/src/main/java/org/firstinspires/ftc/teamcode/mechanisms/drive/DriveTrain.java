@@ -134,6 +134,10 @@ public class DriveTrain {
         // but only if at least one is out of the range [-1, 1]
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
 
+        strafe = Math.tan(strafe);
+        drive = Math.tan(drive);
+        turn = Math.tan(turn);
+
         leftFront.setPower(((drive + strafe + turn) / denominator) * slowMultiplier);
         leftBack.setPower(((drive - strafe + turn) / denominator) * slowMultiplier);
         rightFront.setPower(((drive - strafe - turn) / denominator) * slowMultiplier);

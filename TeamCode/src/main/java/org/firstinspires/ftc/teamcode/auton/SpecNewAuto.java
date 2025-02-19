@@ -26,7 +26,6 @@ public class SpecNewAuto extends LinearOpMode {
     private static IntakeConstants.ActiveIntakeStates activeIntakeStates;
     private Intake intake;
     private Outtake outtake;
-    private SpecimenClaw specimenClaw;
 
     public static double hpX = 43;
     public static double hpY = -60;
@@ -46,7 +45,6 @@ public class SpecNewAuto extends LinearOpMode {
         //outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
-        specimenClaw.closeClaw();
 
         //robot.hardwareHardReset();
 
@@ -63,7 +61,7 @@ public class SpecNewAuto extends LinearOpMode {
                     //raise slides (small)
                     //flip arm to score
                 })
-                .lineToConstantHeading(new Vector2d(13.5,  scoreY))
+                .lineToConstantHeading(new Vector2d(6,  scoreY))
 
                 .waitSeconds(.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
