@@ -191,7 +191,7 @@ public class SampNewAuto extends LinearOpMode {
                 })
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    arm.pickSpec();
+                    arm.retract();
                     moveLift(0);
                 })
                 .forward(4)
