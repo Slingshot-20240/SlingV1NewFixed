@@ -28,10 +28,9 @@ public class SpecNewAuto extends LinearOpMode {
     private Outtake outtake;
 
     public static double hpX = 43;
-    public static double hpY = -60;
-    public static Pose2d testPose2d = new Pose2d(0,0,0);
-    public static double scoreY = -32;
-    public static double scoreGap = 2;
+    public static double hpY = -65;
+    public static double scoreY = -33;
+    public static double scoreGap = 3;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,6 +39,7 @@ public class SpecNewAuto extends LinearOpMode {
         intake = robot.intake;
         outtake = robot.outtake;
         //specimenClaw = robot.specimenClaw;
+        robot.intake.extendoFullRetract();
         robot.outtake.resetEncoders();
         moveLift(0);
         //outtake.bucketToReadyForTransfer();
@@ -70,26 +70,26 @@ public class SpecNewAuto extends LinearOpMode {
                 })
 
                 //pickup 1
-                .splineToConstantHeading(new Vector2d(22,  -45),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(36,  -32),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(43,  -10),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(46,  -20),Math.toRadians(270))
-                .forward(35)
+                .splineToConstantHeading(new Vector2d(26,  -45),Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(40,  -32),Math.toRadians(90))
+
+                .lineToConstantHeading(new Vector2d(40,  -20))
+                .splineToConstantHeading(new Vector2d(44,  -10),Math.toRadians(0))
+                .lineToConstantHeading(new Vector2d(44,-55))
 
                 //pickup 2
-                .back(35)
-                .splineToConstantHeading(new Vector2d(51,  -10),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(57,  -20),Math.toRadians(270))
-                .forward(35)
+                .lineToConstantHeading(new Vector2d(44,-10))
+                .splineToConstantHeading(new Vector2d(54,  -10),Math.toRadians(0))
+                .lineToConstantHeading(new Vector2d(54,-55))
 
                 //pickup 3
-                .back(35)
-                .splineToConstantHeading(new Vector2d(57,  -10),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(62,  -20),Math.toRadians(270))
+                .lineToConstantHeading(new Vector2d(47,  -10))
+                .splineToConstantHeading(new Vector2d(62,  -10),Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //set arm to HP
                 })
-                .forward(40) //also gets to HP
+                .lineToConstantHeading(new Vector2d(62,-50)) //also gets to HP
+                .lineToConstantHeading(new Vector2d(hpX,hpY)) //also gets to HP
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                     //closeClaw
                 })
@@ -98,7 +98,7 @@ public class SpecNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     //set arm to score
                 })
-                .lineToConstantHeading(new Vector2d(13.5-scoreGap,  scoreY))
+                .lineToConstantHeading(new Vector2d(6-scoreGap,  scoreY))
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     //set arm to score
                 })
@@ -112,7 +112,7 @@ public class SpecNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                     //set arm to score
                 })
-                .lineToConstantHeading(new Vector2d(13.5-scoreGap*2,  scoreY))
+                .lineToConstantHeading(new Vector2d(6-scoreGap*2,  scoreY))
                 //HP 3
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> {
@@ -122,7 +122,7 @@ public class SpecNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     //set arm to score
                 })
-                .lineToConstantHeading(new Vector2d(13.5-scoreGap*3,  scoreY))
+                .lineToConstantHeading(new Vector2d(6-scoreGap*3,  scoreY))
                 //HP 4
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> {
@@ -132,7 +132,7 @@ public class SpecNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     //set arm to score
                 })
-                .lineToConstantHeading(new Vector2d(13.5-scoreGap*4,  scoreY))
+                .lineToConstantHeading(new Vector2d(6-scoreGap*4,  scoreY))
                 //park
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
 
