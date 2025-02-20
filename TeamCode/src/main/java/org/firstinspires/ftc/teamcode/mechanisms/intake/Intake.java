@@ -53,6 +53,7 @@ public class Intake {
         leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.FULLY_RETRACTED.lLinkagePos());
     }
 
+    // extendo to trasnfer
     public void extendForOuttake() {
         rightExtendo.setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
         leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.lLinkagePos());
