@@ -165,15 +165,19 @@ public class SampNewAuto extends LinearOpMode {
                     intake.activeIntake.motorRollerOnToIntake();
                 })
                 .waitSeconds(0.75)
-                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     intake.activeIntake.motorRollerOff();
                     intake.activeIntake.flipToTransfer();
                     intake.extendForOuttake();
                 })
 
                 //score
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
+                    intake.activeIntake.transferSample();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.closeClaw();
+                    intake.activeIntake.transferOff();
                 })
                 .waitSeconds(0.3)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -187,7 +191,7 @@ public class SampNewAuto extends LinearOpMode {
                 })
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    arm.toTransfering();
+                    arm.pickSpec();
                     moveLift(0);
                 })
                 .forward(4)
