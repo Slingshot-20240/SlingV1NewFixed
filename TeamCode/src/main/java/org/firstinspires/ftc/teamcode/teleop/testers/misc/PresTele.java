@@ -131,31 +131,15 @@ public class PresTele extends OpMode {
                 outtake.returnToRetracted();
                 if (!controls.transfer.locked()) {
                     intake.activeIntake.transferOff();
-//                    transferState = TransferState.TRANSFER_CLOSE;
-//                    startTime = loopTime.milliseconds();
                 } else {
                     intake.activeIntake.transferSample();
                 }
-                if (controls.openClaw.value()) {
-                    robot.arm.closeClaw();
-                } else {
-                    robot.arm.openClaw();
-                }
                 if (controls.highBasket.value()) {
-                    controls.openClaw.set(false);
                     robot.arm.closeClaw();
                     transferState = TransferState.HIGH_BASKET;
                     robot.arm.toTransfering();
                     startTime = loopTime.milliseconds();
                 }
-                if (controls.lowBasket.value()) {
-                    controls.openClaw.set(false);
-                    robot.arm.closeClaw();
-                    transferState = TransferState.LOW_BASKET;
-                    robot.arm.toTransfering();
-                    startTime = loopTime.milliseconds();
-                }
-
                 break;
             case HIGH_BASKET:
                 intake.extendForOuttake();
@@ -169,12 +153,6 @@ public class PresTele extends OpMode {
                 }
                 if (!controls.highBasket.value()) {
                     transferState = TransferState.SLIDES_RETRACTED;
-                }
-                if (controls.extend.value()) {
-                    intake.extendoFullExtend();
-                    robot.arm.toTransfering();
-                    transferState = TransferState.EXTENDO_FULLY_EXTENDED;
-                    controls.resetOuttakeControls();
                 }
                 break;
             case SLIDES_RETRACTED:
