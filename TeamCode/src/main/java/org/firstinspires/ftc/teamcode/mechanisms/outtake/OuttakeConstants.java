@@ -11,7 +11,7 @@ public class OuttakeConstants {
     private static double[] rightBucketPositions = {1, .773, .603};
 
     // Retracted, low basket, high basket, below spec high rack, score spec low, score spec high
-    private static double[] slidePositions = {0, 700, 2000, 0, 700}; // mini extend
+    private static double[] slidePositions = {0, 700, 2000, 0, 700, 700, 500}; // mini extend
     public enum SlidePositions {
         RETRACTED(slidePositions[0]),
         LOW_BASKET(slidePositions[1]), // probably could work for hang
@@ -19,9 +19,10 @@ public class OuttakeConstants {
         SPECIMEN_HIGH_RACK_LOW(slidePositions[3]),
         SPECIMEN_HIGH_RACK_HIGH(slidePositions[4]),
         HUMAN_PLAYER(slidePositions[0]),
-        BASE_STATE(slidePositions[0]);
+        BASE_STATE(slidePositions[0]),
         //GRABBING_SPEC(slidePositions[5]),
-        //HANG(slidePositions[4]);
+        HANGING_HIGH(slidePositions[4]),
+        HANGING_LOW(slidePositions[5]);
 
         private final double slidePos;
 

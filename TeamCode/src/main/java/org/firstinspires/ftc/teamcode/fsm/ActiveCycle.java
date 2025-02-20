@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 public class ActiveCycle {
@@ -83,6 +84,9 @@ public class ActiveCycle {
                     transferState = TransferState.SPEC_MODE;
                     startTime = loopTime.milliseconds();
                 }
+                if (controls.hang.value()) {
+                    transferState = TransferState.HANGING;
+                }
                 break;
             case EXTENDO_FULLY_EXTENDED:
                 controls.resetSpecControls();
@@ -137,24 +141,9 @@ public class ActiveCycle {
                 break;
             case TRANSFERING:
                 outtake.returnToRetracted();
-//                if (loopTime.milliseconds() - startTime <= 700){
-//                    intake.activeIntake.transferSample();
-//
-//                    if (controls.extend.value()) {
-//                        transferState = ActiveCycle.TransferState.EXTENDO_FULLY_EXTENDED;
-//                        intake.extendoFullExtend();
-//                        controls.transfer.set(false);
-//                        break;
-//                    }
-//                } else if (loopTime.milliseconds() - startTime > 700) {
-//                    transferState = ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED;
-//                    controls.transfer.set(false);
-//                }
                 intake.activeIntake.transferSample();
                 if (!controls.transfer.locked()) {
                     intake.activeIntake.transferOff();
-//                    transferState = TransferState.TRANSFER_CLOSE;
-//                    startTime = loopTime.milliseconds();
                 }
                 if (controls.highBasket.value()) {
                     arm.closeClaw();
@@ -225,13 +214,14 @@ public class ActiveCycle {
                 intake.extendoFullRetract();
                 transferState = ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED;
                 break;
-//            case HANGING:
-//                outtake.hang();
-//                if (!controls.L1hang.value()) {
-//                    outtake.bucketToReadyForTransfer();
-//                    transferState = ActiveCycle.TransferState.SLIDES_RETRACTED;
-//                }
-//                break;
+            case HANGING:
+                // high pos
+                outtake.hang();
+                if (!controls.hang.value()) {
+                    outtake.moveTicks(OuttakeConstants.SlidePositions.HANGING_LOW.getSlidePos());
+                    //transferState = ActiveCycle.TransferState.SLIDES_RETRACTED;
+                }
+                break;
 //            case PUSH_OUT_BAD_COLOR:
 //                if (loopTime.milliseconds() - startTime <= 1000 && loopTime.milliseconds() - startTime >= 0) {
 //                    intake.activeIntake.pushOutSample();
