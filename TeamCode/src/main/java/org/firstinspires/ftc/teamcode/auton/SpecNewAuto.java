@@ -29,9 +29,9 @@ public class SpecNewAuto extends LinearOpMode {
     private Arm arm;
 
     public static double hpX = 43;
-    public static double hpY = -65;
-    public static double scoreY = -33;
-    public static double scoreGap = 3;
+    public static double hpY = -67;
+    public static double scoreY = -30.5;
+    public static double scoreGap = 5;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -46,6 +46,7 @@ public class SpecNewAuto extends LinearOpMode {
         //outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
         intake.activeIntake.flipUp();
+        arm.closeClaw();
 
         //robot.hardwareHardReset();
 
@@ -59,12 +60,12 @@ public class SpecNewAuto extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                 //preloaded spec
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    moveLift(200);
+                    moveLift(150);
                     arm.toScoreSpecimen();
                     //raise slides (small);
                     //flip arm to score
                 })
-                .lineToConstantHeading(new Vector2d(6,  scoreY))
+                .lineToConstantHeading(new Vector2d(0,  scoreY))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(600);
                 })
@@ -72,6 +73,7 @@ public class SpecNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
+                    moveLift(0);
                 })
 
                 //pickup 1
@@ -91,85 +93,102 @@ public class SpecNewAuto extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(47,  -10))
                 .splineToConstantHeading(new Vector2d(62,  -10),Math.toRadians(0))
                 .lineToConstantHeading(new Vector2d(62,-50)) //also gets to HP
-                .lineToConstantHeading(new Vector2d(hpX,hpY)) //also gets to HP
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .lineToConstantHeading(new Vector2d(hpX-8,hpY)) //also gets to HP
+                //HP 1
+                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
                 })
+                .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(200);
+                    moveLift(150);
                 })
 
                 //score 1
+                .lineToConstantHeading(new Vector2d(4-scoreGap,  scoreY))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(600);
                 })
-                .waitSeconds(.3)
+                .waitSeconds(.2)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                    moveLift(0);
                 })
                 //HP 2
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.closeClaw();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(200);
+                    moveLift(150);
                 })
                 //score 2
+                .lineToConstantHeading(new Vector2d(4-scoreGap*2,  scoreY))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(600);
                 })
-                .waitSeconds(.3)
+                .waitSeconds(.2)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
-                .lineToConstantHeading(new Vector2d(6-scoreGap*2,  scoreY))
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                    moveLift(0);
+                })
+
                 //HP 3
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.closeClaw();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(200);
+                    moveLift(150);
                 })
                 //score 3
+                .lineToConstantHeading(new Vector2d(4-scoreGap*3,  scoreY))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(600);
                 })
-                .waitSeconds(.3)
+                .waitSeconds(.2)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
-                .lineToConstantHeading(new Vector2d(6-scoreGap*3,  scoreY))
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                    moveLift(0);
+                })
                 //HP 4
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.closeClaw();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(200);
+                    moveLift(150);
                 })
                 //score 4
+                .lineToConstantHeading(new Vector2d(4-scoreGap*4,  scoreY))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(600);
                 })
-                .waitSeconds(.3)
+                .waitSeconds(.2)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
-                .lineToConstantHeading(new Vector2d(6-scoreGap*4,  scoreY))
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                    moveLift(0);
+                })
                 //park
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
-
-
                 .build();
         waitForStart();
 
