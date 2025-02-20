@@ -172,14 +172,14 @@ public class ActiveCycle {
                 }
 
                 break;
-            case TRANSFER_CLOSE:
-                if (loopTime.milliseconds() - startTime >= 200) {
-                    arm.closeClaw();
-                    transferState = TransferState.EXTENDO_FULLY_RETRACTED;
-//                    intake.extendoFullRetract();
-                    break;
-                }
-                break;
+//            case TRANSFER_CLOSE:
+//                if (loopTime.milliseconds() - startTime >= 200) {
+//                    arm.closeClaw();
+//                    transferState = TransferState.EXTENDO_FULLY_RETRACTED;
+////                    intake.extendoFullRetract();
+//                    break;
+//                }
+//                break;
             case HIGH_BASKET:
                 intake.extendForOuttake();
                 outtake.extendToHighBasket();
