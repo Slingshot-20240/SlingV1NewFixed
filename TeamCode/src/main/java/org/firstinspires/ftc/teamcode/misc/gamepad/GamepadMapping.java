@@ -63,7 +63,7 @@ public class GamepadMapping {
     // --------------
     public static Toggle scoreSpec;
     public static Toggle openClaw;
-    public static Toggle L1hang;
+    public static Toggle hang;
     public static Toggle specMode;
 
     // LOCKED HEADING
@@ -107,7 +107,7 @@ public class GamepadMapping {
         flipBucket = new Toggle(false);
         highBasket = new Toggle(false);
         lowBasket = new Toggle(false);
-        L1hang = new Toggle(false);
+        hang = new Toggle(false);
 
         // spec
         openClaw = new Toggle(false);
@@ -133,7 +133,11 @@ public class GamepadMapping {
 
         activeIntakeUpdate();
 
+        botToBaseState.update(gamepad2.dpad_right);
+
         lockedMode.update(gamepad2.x);
+
+        hang.update(gamepad2.dpad_down);
 
         extend.update(gamepad1.right_bumper);
         // This is only when Souren drives
@@ -179,8 +183,10 @@ public class GamepadMapping {
         flipBucket.update(gamepad1.a);
 
         intakeOnToIntake.update(gamepad1.right_trigger > 0.5);
-        toClear.update(gamepad1.left_trigger > 0.5);
+        //toClear.update(gamepad1.left_trigger > 0.5);
         transfer.update(gamepad1.dpad_up);
+
+        openClaw.update(gamepad2.left_trigger > 0.5);
     }
 
     public void resetIntakeControls() {

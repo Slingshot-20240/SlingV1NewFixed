@@ -97,6 +97,10 @@ public class Outtake {
         moveTicks(OuttakeConstants.SlidePositions.SPECIMEN_HIGH_RACK_HIGH.getSlidePos()); // tune target obviously
     }
 
+    public void hang() {
+        moveTicks(OuttakeConstants.SlidePositions.HANGING_HIGH.getSlidePos());
+    }
+
 //    public void depositToHP() {
 //        // this just flips bucket at slide pos 0
 //        moveTicks(OuttakeConstants.SlidePositions.RETRACTED.getSlidePos());
