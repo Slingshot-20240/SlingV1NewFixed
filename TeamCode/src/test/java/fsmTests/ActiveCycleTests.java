@@ -85,7 +85,7 @@ public class ActiveCycleTests {
     public void setUp() {
         activeIntake = new ActiveIntake(rollerMotor, pivotAxon);
         intake = new Intake(rightExtendo, leftExtendo, activeIntake);
-        outtake = new Outtake(slideLeft, slideRight, bucketServo, controller);
+        outtake = new Outtake(slideLeft, slideRight, bucketServo, bucketServo, controller);
         specClaw = new SpecimenClaw(clawServo);
         drivetrain = new DriveTrain(leftFront, rightFront, leftBack, rightBack, imu);
 
