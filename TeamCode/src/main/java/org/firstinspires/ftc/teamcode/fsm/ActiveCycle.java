@@ -45,6 +45,11 @@ public class ActiveCycle {
             outtake.resetEncoders();
         }
 
+        if(controls.botToBaseState.value()) {
+            controls.botToBaseState.set(false);
+            transferState = TransferState.BASE_STATE;
+        }
+
         switch (transferState) {
             case BASE_STATE:
                 robot.hardwareSoftReset();
@@ -151,20 +156,13 @@ public class ActiveCycle {
 //                    transferState = TransferState.TRANSFER_CLOSE;
 //                    startTime = loopTime.milliseconds();
                 }
-                if (controls.openClaw.value()) {
-                    arm.closeClaw();
-                } else {
-                    arm.openClaw();
-                }
                 if (controls.highBasket.value()) {
-                    controls.openClaw.set(false);
                     arm.closeClaw();
                     transferState = ActiveCycle.TransferState.HIGH_BASKET;
                     robot.arm.toTransfering();
                     startTime = loopTime.milliseconds();
                 }
                 if (controls.lowBasket.value()) {
-                    controls.openClaw.set(false);
                     arm.closeClaw();
                     transferState = ActiveCycle.TransferState.LOW_BASKET;
                     robot.arm.toTransfering();

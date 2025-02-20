@@ -117,5 +117,6 @@ public class Robot{
     public void hardwareSoftReset() {
         outtake.resetHardware();
         intake.resetHardware();
+        arm.resetHardware();
     }
 }

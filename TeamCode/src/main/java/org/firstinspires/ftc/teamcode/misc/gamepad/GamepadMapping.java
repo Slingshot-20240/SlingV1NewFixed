@@ -133,6 +133,8 @@ public class GamepadMapping {
 
         activeIntakeUpdate();
 
+        botToBaseState.update(gamepad2.dpad_right);
+
         lockedMode.update(gamepad2.x);
 
         extend.update(gamepad1.right_bumper);
