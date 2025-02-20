@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
@@ -25,7 +26,7 @@ public class SpecNewAuto extends LinearOpMode {
     private Robot robot;
     private static IntakeConstants.ActiveIntakeStates activeIntakeStates;
     private Intake intake;
-    private Outtake outtake;
+    private Arm arm;
 
     public static double hpX = 43;
     public static double hpY = -65;
@@ -37,7 +38,7 @@ public class SpecNewAuto extends LinearOpMode {
         controls = new GamepadMapping(gamepad1, gamepad2);
         robot = new Robot(hardwareMap, telemetry, controls);
         intake = robot.intake;
-        outtake = robot.outtake;
+        arm = robot.arm;
         //specimenClaw = robot.specimenClaw;
         robot.intake.extendoFullRetract();
         robot.outtake.resetEncoders();
@@ -58,15 +59,19 @@ public class SpecNewAuto extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                 //preloaded spec
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //raise slides (small)
+                    moveLift(200);
+                    arm.toScoreSpecimen();
+                    //raise slides (small);
                     //flip arm to score
                 })
                 .lineToConstantHeading(new Vector2d(6,  scoreY))
-
-                .waitSeconds(.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //lower slides (small)
-                    //open claw (preloaded spec)
+                    moveLift(600);
+                })
+                .waitSeconds(.3)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.openClaw();
+                    arm.pickSpec();
                 })
 
                 //pickup 1
@@ -85,52 +90,80 @@ public class SpecNewAuto extends LinearOpMode {
                 //pickup 3
                 .lineToConstantHeading(new Vector2d(47,  -10))
                 .splineToConstantHeading(new Vector2d(62,  -10),Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //set arm to HP
-                })
                 .lineToConstantHeading(new Vector2d(62,-50)) //also gets to HP
                 .lineToConstantHeading(new Vector2d(hpX,hpY)) //also gets to HP
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    //closeClaw
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.closeClaw();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                    arm.toScoreSpecimen();
+                    moveLift(200);
                 })
 
                 //score 1
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
-                    //set arm to score
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    moveLift(600);
                 })
-                .lineToConstantHeading(new Vector2d(6-scoreGap,  scoreY))
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
-                    //set arm to score
+                .waitSeconds(.3)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.openClaw();
+                    arm.pickSpec();
                 })
-                .waitSeconds(0.1)
                 //HP 2
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    //closeClaw
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.closeClaw();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                    arm.toScoreSpecimen();
+                    moveLift(200);
                 })
                 //score 2
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    //set arm to score
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    moveLift(600);
+                })
+                .waitSeconds(.3)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.openClaw();
+                    arm.pickSpec();
                 })
                 .lineToConstantHeading(new Vector2d(6-scoreGap*2,  scoreY))
                 //HP 3
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    //closeClaw
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.closeClaw();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                    arm.toScoreSpecimen();
+                    moveLift(200);
                 })
                 //score 3
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
-                    //set arm to score
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    moveLift(600);
+                })
+                .waitSeconds(.3)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.openClaw();
+                    arm.pickSpec();
                 })
                 .lineToConstantHeading(new Vector2d(6-scoreGap*3,  scoreY))
                 //HP 4
                 .lineToConstantHeading(new Vector2d(hpX,  hpY))
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    //closeClaw
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.closeClaw();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                    arm.toScoreSpecimen();
+                    moveLift(200);
                 })
                 //score 4
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
-                    //set arm to score
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    moveLift(600);
+                })
+                .waitSeconds(.3)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.openClaw();
+                    arm.pickSpec();
                 })
                 .lineToConstantHeading(new Vector2d(6-scoreGap*4,  scoreY))
                 //park
