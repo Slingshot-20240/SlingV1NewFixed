@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auton;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
@@ -15,6 +17,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+@Disabled
 @Config
 @Autonomous
 public class SampNewAutoCycle extends LinearOpMode {
@@ -200,21 +203,15 @@ public class SampNewAutoCycle extends LinearOpMode {
                 case samp4State:
                     if (!drive.isBusy()) {
                         currentState = State.pickUpState;
-//                        drive.followTrajectorySequence(pickupPath);
+                        pickUpPath(drive, drive.getPoseEstimate());
                     }
                     break;
                 case limelightState:
                     if (!drive.isBusy()) {
                         //Check limelight for offsets
                         // use offsets for path
-                        TrajectorySequence offsets = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                                //run intake, extend extendo, lower pivot
-                                .lineToConstantHeading(new Vector2d(robotX, robotY )) //TODO: ADD OFFSET TO Y
-                                .forward(10)
-
-                                .build();
+                        limeLightPath(drive, drive.getPoseEstimate());
                         currentState = State.sensorState;
-                        drive.followTrajectorySequence(offsets);
 
                     }
                     break;
@@ -223,10 +220,10 @@ public class SampNewAutoCycle extends LinearOpMode {
                         //if statement that checks if correct color or not
                         //if yes:
                         currentState = State.scoreState;
-//                        drive.followTrajectorySequence(score);
+                        scorePath(drive, drive.getPoseEstimate());
                         //else
                         currentState = State.spitState;
-//                        drive.followTrajectorySequence(spit);
+                        spitPath(drive, drive.getPoseEstimate());
                     }
                     break;
                 case spitState:
@@ -239,8 +236,7 @@ public class SampNewAutoCycle extends LinearOpMode {
                     if (!drive.isBusy()) {
                         //drive back to pickup pos jawn then spit
                         currentState = State.pickUpState;
-//                        drive.followTrajectorySequenceAsync(ppickup);
-                    }
+                        pickUpPath(drive, drive.getPoseEstimate());                    }
                     break;
                 case IDLE:
                     // Do nothing in IDLE
@@ -275,6 +271,41 @@ public class SampNewAutoCycle extends LinearOpMode {
         robot.outtake.outtakeSlideLeft.setPower(1);
         robot.outtake.outtakeSlideRight.setPower(1);
     }
+
+    public void pickUpPath(SampleMecanumDrive drive, Pose2d poseEstimate){
+        TrajectorySequence Traj = drive.trajectorySequenceBuilder(poseEstimate)
+                .forward(10)
+                .build();
+
+        drive.followTrajectorySequenceAsync(Traj);
+    }
+
+    public void limeLightPath(SampleMecanumDrive drive, Pose2d poseEstimate){
+        TrajectorySequence Traj = drive.trajectorySequenceBuilder(poseEstimate)
+                //run intake, extend extendo, lower pivot
+                .lineToConstantHeading(new Vector2d(robotX, robotY)) //TODO: ADD OFFSET TO Y
+                .forward(10)
+                .build();
+
+        drive.followTrajectorySequenceAsync(Traj);
+    }
+
+    public void spitPath(SampleMecanumDrive drive, Pose2d poseEstimate){
+        TrajectorySequence Traj = drive.trajectorySequenceBuilder(poseEstimate)
+                .forward(10)
+                .build();
+
+        drive.followTrajectorySequenceAsync(Traj);
+    }
+
+    public void scorePath(SampleMecanumDrive drive, Pose2d poseEstimate){
+        TrajectorySequence Traj = drive.trajectorySequenceBuilder(poseEstimate)
+                .forward(10)
+                .build();
+
+        drive.followTrajectorySequenceAsync(Traj);
+    }
+
     public void moveExtendo(double pos){
         robot.intake.leftExtendo.setPosition(pos);
         robot.intake.rightExtendo.setPosition(pos);
