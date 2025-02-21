@@ -38,7 +38,8 @@ public class ActiveCycle {
     }
     public void activeIntakeUpdate() {
         //controls.presModeUpdate();
-        controls.update();
+        //controls.update();
+        // robot.drivetrain.update();
 
         telemetry.addData("transfer state", transferState.toString());
 

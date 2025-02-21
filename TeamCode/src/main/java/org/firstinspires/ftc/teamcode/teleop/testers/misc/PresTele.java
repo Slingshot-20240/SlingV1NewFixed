@@ -58,7 +58,7 @@ public class PresTele extends OpMode {
 
     @Override
     public void loop() {
-        // already does controls.update();
+        // already does dt.update();
         cycle.activeIntakeUpdate();
         controls.presModeUpdate();
         //telemetry.addData("transferState", cycle.getState().stateName());

@@ -59,6 +59,7 @@ public class FSMTest extends OpMode {
         // already does controls.update();
         cycle.activeIntakeUpdate();
         controls.update();
+        robot.drivetrain.update();
         //telemetry.addData("transferState", cycle.getState().stateName());
 
         long currentTime = System.currentTimeMillis();

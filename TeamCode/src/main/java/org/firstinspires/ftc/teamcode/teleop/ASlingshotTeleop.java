@@ -49,6 +49,7 @@ public class ASlingshotTeleop extends OpMode {
     public void loop() {
         cycle.activeIntakeUpdate();
         controls.update();
+        robot.drivetrain.update();
 
         long currentTime = System.currentTimeMillis();
         long loopTime = currentTime - previousTime;
