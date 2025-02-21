@@ -56,8 +56,9 @@ public class FSMTest extends OpMode {
 
     @Override
     public void loop() {
-        // already does dt & controls.update();
+        // already does controls.update();
         cycle.activeIntakeUpdate();
+        controls.update();
         //telemetry.addData("transferState", cycle.getState().stateName());
 
         long currentTime = System.currentTimeMillis();

@@ -186,7 +186,7 @@ public class GamepadMapping {
         //toClear.update(gamepad1.left_trigger > 0.5);
         transfer.update(gamepad1.dpad_up);
 
-        openClaw.update(gamepad2.left_trigger > 0.5);
+        openClaw.update(gamepad1.left_trigger > 0.5);
     }
 
     public void resetIntakeControls() {
