@@ -197,7 +197,7 @@ public class ActiveCycle {
                 break;
             case LOW_BASKET:
                 intake.extendForOuttake();
-                outtake.extendToHighBasket();
+                outtake.extendToLowBasket();
                 robot.arm.toScoreSpecimen();
                 intake.activeIntake.transferOff();
 
