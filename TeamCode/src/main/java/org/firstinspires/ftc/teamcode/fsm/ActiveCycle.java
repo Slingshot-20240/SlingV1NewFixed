@@ -37,9 +37,6 @@ public class ActiveCycle {
         startTime = loopTime.milliseconds();
     }
     public void activeIntakeUpdate() {
-        //controls.presModeUpdate();
-        //controls.update();
-        // robot.drivetrain.update();
 
         telemetry.addData("transfer state", transferState.toString());
 
@@ -85,15 +82,15 @@ public class ActiveCycle {
                     transferState = TransferState.SPEC_MODE;
                     startTime = loopTime.milliseconds();
                 }
-                if (controls.hang.value()) {
-                    transferState = TransferState.HANGING;
-                }
+//                if (controls.hang.value()) {
+//                    transferState = TransferState.HANGING;
+//                }
                 break;
             case EXTENDO_FULLY_EXTENDED:
                 controls.resetSpecControls();
                 outtake.returnToRetracted();
                 intake.extendoFullExtend();
-                if (!controls.extend.value()) {
+                if (!controls.extend.value() && !controls.specMode.value()) {
                     intake.extendForOuttake();
                     intake.activeIntake.flipToTransfer();
                     controls.transfer.set(false);
@@ -102,6 +99,9 @@ public class ActiveCycle {
                     arm.openClaw();
                     transferState = TransferState.EXTENDO_FULLY_RETRACTED;
                     //intake.extendoFullRetract();
+                } else if (!controls.extend.value() && controls.specMode.value()) {
+
+                    transferState = TransferState.SPEC_IDLE;
                 }
                 if (controls.intakeOnToIntake.locked() || controls.toClear.locked() || controls.clearSpec.locked()) {
                     transferState = TransferState.INTAKING;
@@ -112,6 +112,7 @@ public class ActiveCycle {
                 if (!controls.extend.value()) {
                     transferState = TransferState.EXTENDO_FULLY_EXTENDED;
                     controls.clear.set(false);
+                    controls.intakeOnToIntake.set(false);
                 } else if (controls.intakeOnToIntake.locked()) {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
@@ -143,17 +144,22 @@ public class ActiveCycle {
             case TRANSFERING:
                 outtake.returnToRetracted();
                 intake.activeIntake.transferSample();
-                if (!controls.transfer.locked()) {
-                    intake.activeIntake.transferOff();
+                if (controls.openClaw.value()) {
+                    arm.closeClaw();
+                    //intake.activeIntake.transferSample();
+                } else {
+                    arm.openClaw();
                 }
                 if (controls.highBasket.value()) {
                     arm.closeClaw();
+                    controls.openClaw.set(false);
                     transferState = ActiveCycle.TransferState.HIGH_BASKET;
                     robot.arm.toTransfering();
                     startTime = loopTime.milliseconds();
                 }
                 if (controls.lowBasket.value()) {
                     arm.closeClaw();
+                    controls.openClaw.set(false);
                     transferState = ActiveCycle.TransferState.LOW_BASKET;
                     robot.arm.toTransfering();
                     startTime = loopTime.milliseconds();
@@ -171,6 +177,7 @@ public class ActiveCycle {
             case HIGH_BASKET:
                 intake.extendForOuttake();
                 outtake.extendToHighBasket();
+                intake.activeIntake.transferOff();
                 if (loopTime.milliseconds() - startTime >= 300) {
                     robot.arm.toScoreSpecimen();
                 }
@@ -192,6 +199,7 @@ public class ActiveCycle {
                 intake.extendForOuttake();
                 outtake.extendToHighBasket();
                 robot.arm.toScoreSpecimen();
+                intake.activeIntake.transferOff();
 
                 if (controls.openClaw.value()) {
                     arm.openClaw();
@@ -261,6 +269,11 @@ public class ActiveCycle {
                     transferState = TransferState.RETURN_TO_SAMPLE_MODE;
                     startTime = loopTime.milliseconds();
                 }
+                if (controls.extend.value()) {
+                    arm.pickSpec();
+                    arm.openClaw();
+                    transferState = TransferState.EXTENDO_FULLY_EXTENDED;
+                }
                 break;
             case RETURN_TO_SAMPLE_MODE:
                 outtake.returnToRetracted();
@@ -307,6 +320,7 @@ public class ActiveCycle {
                     arm.openClaw();
                 } else if (loopTime.milliseconds() - startTime > 800) {
                     transferState = TransferState.SPEC_IDLE;
+                    arm.pickSpec();
                     controls.openClaw.set(false);
                     controls.resetOuttakeControls();
                 }
