@@ -62,7 +62,7 @@ public class ActiveCycle {
                 if (controls.extend.value()) {
                     transferState = ActiveCycle.TransferState.EXTENDO_FULLY_EXTENDED;
                     controls.resetOuttakeControls();
-                } else if (controls.transfer.locked()) {
+                } else if (controls.transfer.value()) {
                     transferState = TransferState.TRANSFERING;
                 } else if (controls.highBasket.value()) {
                     transferState = ActiveCycle.TransferState.HIGH_BASKET;
@@ -143,16 +143,20 @@ public class ActiveCycle {
                 break;
             case TRANSFERING:
                 outtake.returnToRetracted();
-                intake.activeIntake.transferSample();
+                if(controls.transfer.value()) {
+                    intake.activeIntake.transferSample();
+                } else {
+                    intake.activeIntake.transferOff();
+                }
                 if (controls.openClaw.value()) {
                     arm.closeClaw();
-                    //intake.activeIntake.transferSample();
                 } else {
                     arm.openClaw();
                 }
                 if (controls.highBasket.value()) {
                     arm.closeClaw();
                     controls.openClaw.set(false);
+                    controls.transfer.set(false);
                     transferState = ActiveCycle.TransferState.HIGH_BASKET;
                     robot.arm.toTransfering();
                     startTime = loopTime.milliseconds();
@@ -160,9 +164,14 @@ public class ActiveCycle {
                 if (controls.lowBasket.value()) {
                     arm.closeClaw();
                     controls.openClaw.set(false);
+                    controls.transfer.set(false);
                     transferState = ActiveCycle.TransferState.LOW_BASKET;
                     robot.arm.toTransfering();
                     startTime = loopTime.milliseconds();
+                }
+                if (controls.extend.value()) {
+                    transferState = TransferState.EXTENDO_FULLY_EXTENDED;
+                    controls.resetMultipleControls(controls.openClaw, controls.lowBasket, controls.highBasket, controls.transfer);
                 }
 
                 break;
@@ -216,12 +225,13 @@ public class ActiveCycle {
                 break;
             case SLIDES_RETRACTED:
                 controls.resetOuttakeControls();
-                controls.resetMultipleControls(controls.transfer, controls.extend, controls.scoreSpec, controls.openClaw);
+                controls.resetMultipleControls(controls.transfer, controls.extend, controls.scoreSpec, controls.openClaw, controls.intakeOnToIntake);
                 // could also do to base state
                 robot.arm.toTransfering();
                 outtake.returnToRetracted();
                 intake.extendoFullRetract();
                 transferState = ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED;
+                intake.activeIntake.transferOff();
                 break;
             case HANGING:
                 // high pos
@@ -252,6 +262,7 @@ public class ActiveCycle {
             case SPEC_IDLE:
                 outtake.returnToRetracted();
                 intake.extendoFullRetract();
+                intake.activeIntake.transferOff();
                 intake.activeIntake.pivotAxon.setPosition(IntakeConstants.ActiveIntakeStates.FAILSAFE_CLEARING.pivotPos());
                 arm.pickSpec();
 
