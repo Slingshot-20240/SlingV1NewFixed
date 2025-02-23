@@ -198,9 +198,10 @@ public class GamepadMapping {
     }
 
     public void resetOuttakeControls() {
-        flipBucket.set(false);
+        //flipBucket.set(false);
         highBasket.set(false);
         lowBasket.set(false);
+        openClaw.set(false);
     }
 
     public void resetSpecControls() {
