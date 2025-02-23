@@ -23,29 +23,26 @@ public class SampNewAuto extends LinearOpMode {
 
     private GamepadMapping controls;
     private Robot robot;
-    private static IntakeConstants.ActiveIntakeStates activeIntakeStates;
     private Intake intake;
-    private Outtake outtake;
     private Arm arm;
 
-    public static double scorePosX = -53; // TODO: tune
-    public static double scorePosY = -53;
+    public double scorePosX = -53; // TODO: tune
+    public double scorePosY = -53;
 
-    public static double pick1Angle = 87;
-    public static double pick2Angle = 110;
-    public static double pick3Angle = 143;
+    public double pick1Angle = 87;
+    public double pick2Angle = 110;
+    public double pick3Angle = 143;
 
     //TODO: when implementing extendo positions, use these to make it configurable
-    public static double pick1Ext = 0;
-    public static double pick2Ext = 0;
-    public static double pick3Ext = 0;
+    public double pick1Ext = 0;
+    public double pick2Ext = 0;
+    public double pick3Ext = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
         controls = new GamepadMapping(gamepad1, gamepad2);
         robot = new Robot(hardwareMap, telemetry, controls);
         intake = robot.intake;
-        outtake = robot.outtake;
         arm = robot.arm;
         //specimenClaw = robot.specimenClaw;
         robot.outtake.resetEncoders();

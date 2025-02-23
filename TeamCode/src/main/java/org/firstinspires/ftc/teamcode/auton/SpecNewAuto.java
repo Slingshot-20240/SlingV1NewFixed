@@ -24,14 +24,12 @@ public class SpecNewAuto extends LinearOpMode {
 
     private GamepadMapping controls;
     private Robot robot;
-    private static IntakeConstants.ActiveIntakeStates activeIntakeStates;
     private Intake intake;
     private Arm arm;
 
     public double hpX = 44;
-    public double hpY = -69;
+    public double hpY = -68;
     public double scoreY = -32;
-    public double scoreGap = 3;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -45,7 +43,6 @@ public class SpecNewAuto extends LinearOpMode {
         moveLift(0);
         //outtake.bucketToReadyForTransfer();
         intake.extendoFullRetract();
-        intake.activeIntake.flipUp();
         arm.closeClaw();
 
         //robot.hardwareHardReset();
@@ -83,7 +80,7 @@ public class SpecNewAuto extends LinearOpMode {
 
                 .lineToConstantHeading(new Vector2d(39,  -13))
                 .splineToConstantHeading(new Vector2d(43,  -13),Math.toRadians(0))
-                .lineToConstantHeading(new Vector2d(45.5,  -13))
+                .lineToConstantHeading(new Vector2d(44,  -13))
                 .lineToConstantHeading(new Vector2d(44,-55))
 
                 //pickup 2
@@ -104,16 +101,16 @@ public class SpecNewAuto extends LinearOpMode {
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(50);
+                    moveLift(0);
                 })
 
                 //score 1
-                .lineToConstantHeading(new Vector2d(-3,  scoreY-6))
+                .lineToConstantHeading(new Vector2d(-3,  scoreY-5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
-                .waitSeconds(.15)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
@@ -128,15 +125,15 @@ public class SpecNewAuto extends LinearOpMode {
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(50);
+                    moveLift(0);
                 })
                 //score 2
-                .lineToConstantHeading(new Vector2d(2,  scoreY-7.75))
+                .lineToConstantHeading(new Vector2d(2,  scoreY-7.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
-                .waitSeconds(.15)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
@@ -152,15 +149,15 @@ public class SpecNewAuto extends LinearOpMode {
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(50);
+                    moveLift(0);
                 })
                 //score 3
-                .lineToConstantHeading(new Vector2d(-4,  scoreY-5.75))
+                .lineToConstantHeading(new Vector2d(-4,  scoreY-6.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
-                .waitSeconds(.15)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
@@ -175,15 +172,15 @@ public class SpecNewAuto extends LinearOpMode {
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.toScoreSpecimen();
-                    moveLift(50);
+                    moveLift(0);
                 })
                 //score 4
-                .lineToConstantHeading(new Vector2d(-12,  scoreY-6.5))
+                .lineToConstantHeading(new Vector2d(-10,  scoreY-7.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
-                .waitSeconds(.15)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })

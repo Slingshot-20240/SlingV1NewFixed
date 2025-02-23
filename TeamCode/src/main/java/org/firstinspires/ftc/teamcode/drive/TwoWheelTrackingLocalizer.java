@@ -34,15 +34,15 @@ import java.util.List;
  *
  */
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = 0.688975; // in
+    public static double TICKS_PER_REV = 2000;
+    public static double WHEEL_RADIUS = 1.25984/2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = 2.24; // X is the up and down direction
-    public static double PARALLEL_Y = -6.53; // Y is the strafe direction
+    public static double PARALLEL_X = -5.25; // X is the up and down direction
+    public static double PARALLEL_Y = -0.75; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = -4.68;
-    public static double PERPENDICULAR_Y = 0;
+    public static double PERPENDICULAR_X = 3;
+    public static double PERPENDICULAR_Y = 6.5;
 
     //TODO: Tune the multipliers using Measured Distance / Telemetry Distance Traveled
     public static double X_MULTIPLIER = 1; // Multiplier in the X direction (back forth)
@@ -63,12 +63,10 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         this.drive = drive;
 
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "encoder"));
+        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightBack"));
 
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightBack"));
+        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftBack"));
 
-        // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
-        parallelEncoder.setDirection(Encoder.Direction.REVERSE);
 
     }
 
