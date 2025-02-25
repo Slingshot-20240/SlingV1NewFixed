@@ -1,0 +1,103 @@
+package org.firstinspires.ftc.teamcode.auton;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+@Autonomous
+public class SampleCycler extends LinearOpMode {
+    ElapsedTime limeLightTimer = new ElapsedTime();
+    Pose2d poseEstimate;
+    // We define the current state we're on
+    // Default to IDLE
+    State currentState = State.IDLE;
+    // Define our start pose
+    // This assumes we start at x: 15, y: 10, heading: 180 degrees
+    Pose2d startPose = new Pose2d(15, 10, Math.toRadians(180));
+    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+        waitForStart();
+
+        if (isStopRequested()) return;
+
+
+        currentState = State.initialSamplesState;
+        drive.followTrajectorySequenceAsync(4sampPath);
+
+        while (opModeIsActive() && !isStopRequested()) {
+
+
+            // We essentially define the flow of the state machine through this switch statement
+            switch (currentState) {
+                case initialSamplesState:
+                case scoreState:
+                    if (!drive.isBusy()) {
+                        currentState = State.pickupState;
+                        drive.followTrajectoryAsync(pickupPath);
+                    }
+                    break;
+                case pickupState:
+                case spitState:
+                    if (!drive.isBusy()) {
+                        currentState = State.limelightState;
+                        //start doing limelight and start new elapsed timer for limelight
+                        limeLightTimer.reset();
+                    }
+                    break;
+                case limelightState:
+                    getlimelightOffsets
+                    if (limeLightTimer.milliseconds() > 100) {
+                        currentState = State.intakeState;
+                        drive.followTrajectoryAsync(intakePath);
+                    }
+                    break;
+                case intakeState:
+                    if (!drive.isBusy()) {
+                        if (get color sensor = gud){
+                            currentState = State.scoreState;
+                            drive.followTrajectoryAsync(scorePath);
+                        }else{
+                            currentState = State.spitState;
+                            drive.followTrajectoryAsync(spitPath);
+                        }
+                    }
+                    break;
+                case IDLE:
+                    // Do nothing in IDLE
+                    // currentState does not change once in IDLE
+                    // This concludes the autonomous program
+                    break;
+            }
+
+            drive.update();
+
+            poseEstimate = drive.getPoseEstimate();
+
+            // Print pose to telemetry
+            telemetry.addData("x", poseEstimate.getX());
+            telemetry.addData("y", poseEstimate.getY());
+            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.update();
+        }
+    }
+
+    enum State {
+        initialSamplesState,
+        pickupState,
+        limelightState,
+        intakeState,
+        spitState,
+        scoreState,
+        IDLE            // Our bot will enter the IDLE state when done
+    }
+
+    // Assume we have a hardware class called lift
+    // Lift uses a PID controller to maintain its height
+    // Thus, update() must be called in a loop
+}

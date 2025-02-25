@@ -54,9 +54,9 @@ public class OuttakeConstants {
     }
 
     // Transfer, going up, deposit, grab spec
-    private static double[] armPositions = {.36, .27, 1, .48}; // TODO: tune these values
+    private static double[] armPositions = {.24, .15, .85, .33}; // TODO: tune these values
     // Transfer, deposit
-    private static double[] wristPositions = {.94, 0}; // TODO: tune these values
+    private static double[] wristPositions = {.74, 0}; // TODO: tune these values
     // open, closed
     private static double[] clawPositions = {0, .24}; // TODO: tune these values
 
