@@ -38,7 +38,7 @@ public class Arm {
         moveArm(OuttakeConstants.ArmPositions.SPECIMEN_HIGH_RACK.getArmPos(), OuttakeConstants.ArmPositions.SPECIMEN_HIGH_RACK.getWristPos());
     }
 
-    public void retract() {
+    public void readyForTransfer() {
         moveArm(OuttakeConstants.ArmPositions.RETRACTED.getArmPos(), OuttakeConstants.ArmPositions.RETRACTED.getWristPos());
     }
 
@@ -50,7 +50,7 @@ public class Arm {
         claw.setPosition(OuttakeConstants.ArmPositions.RETRACTED.getClawPos());
     }
 
-    public void toTransfering() {
+    public void pullBackToGoUp() {
         moveArm(OuttakeConstants.ArmPositions.TRANSFERING.getArmPos(), OuttakeConstants.ArmPositions.TRANSFERING.getWristPos());
     }
 
@@ -60,5 +60,9 @@ public class Arm {
 
     public void resetHardware() {
         moveArm(OuttakeConstants.ArmPositions.TRANSFERING.getArmPos(), OuttakeConstants.ArmPositions.RETRACTED.getWristPos());
+    }
+
+    public void toSafeSampleScore() {
+        moveArm(OuttakeConstants.ArmPositions.SAFE_SAMP.getArmPos(), OuttakeConstants.ArmPositions.SAFE_SAMP.getWristPos());
     }
 }

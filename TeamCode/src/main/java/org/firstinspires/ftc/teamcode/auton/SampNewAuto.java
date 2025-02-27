@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.auton;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
-import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,9 +11,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
-import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
-import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
-import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
@@ -75,7 +69,7 @@ public class SampNewAuto extends LinearOpMode {
                 })
                 .waitSeconds(0.05)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    arm.retract();
+                    arm.readyForTransfer();
                     moveLift(0);
                     moveExtendo(.1);
                     //intake.activeIntake.flipDownFull();
@@ -119,7 +113,7 @@ public class SampNewAuto extends LinearOpMode {
                 })
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    arm.retract();
+                    arm.readyForTransfer();
                     moveLift(0);
 //                    moveExtendo(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
                     moveExtendo(.1);
@@ -160,7 +154,7 @@ public class SampNewAuto extends LinearOpMode {
                 })
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    arm.retract();
+                    arm.readyForTransfer();
                     moveLift(0);
                     moveExtendo(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
                 })
@@ -206,7 +200,7 @@ public class SampNewAuto extends LinearOpMode {
                 })
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    arm.retract();
+                    arm.readyForTransfer();
                     moveLift(0);
                 })
                 .forward(10)

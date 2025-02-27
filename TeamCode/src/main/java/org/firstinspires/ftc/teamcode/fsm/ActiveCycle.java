@@ -22,6 +22,9 @@ public class ActiveCycle {
     private final ElapsedTime loopTime;
     private double startTime;
     private final Arm arm;
+
+    private boolean safeDeposit = false;
+
     public ActiveCycle(Telemetry telemetry, GamepadMapping controls, Robot robot) {
         this.robot = robot;
         this.intake = robot.intake;
@@ -47,6 +50,11 @@ public class ActiveCycle {
         if(controls.botToBaseState.value()) {
             controls.botToBaseState.set(false);
             transferState = TransferState.BASE_STATE;
+            controls.resetAllControls();
+        }
+
+        if (controls.safeDeposit.value()) {
+            safeDeposit = true;
         }
 
         switch (transferState) {
@@ -66,11 +74,11 @@ public class ActiveCycle {
                     transferState = TransferState.TRANSFERING;
                 } else if (controls.highBasket.value()) {
                     transferState = ActiveCycle.TransferState.HIGH_BASKET;
-                    robot.arm.toTransfering();
+                    robot.arm.pullBackToGoUp();
                     startTime = loopTime.milliseconds();
                 } else if (controls.lowBasket.value()) {
                     transferState = ActiveCycle.TransferState.LOW_BASKET;
-                    robot.arm.toTransfering();
+                    robot.arm.pullBackToGoUp();
                     startTime = loopTime.milliseconds();
                 }
                 if (controls.intakeOnToIntake.locked()) {
@@ -95,7 +103,7 @@ public class ActiveCycle {
                     intake.activeIntake.flipToTransfer();
                     controls.transfer.set(false);
                     controls.resetOuttakeControls();
-                    arm.retract();
+                    arm.readyForTransfer();
                     arm.openClaw();
                     transferState = TransferState.EXTENDO_FULLY_RETRACTED;
                     //intake.extendoFullRetract();
@@ -158,7 +166,7 @@ public class ActiveCycle {
                     controls.openClaw.set(false);
                     controls.transfer.set(false);
                     transferState = ActiveCycle.TransferState.HIGH_BASKET;
-                    robot.arm.toTransfering();
+                    robot.arm.pullBackToGoUp();
                     startTime = loopTime.milliseconds();
                 }
                 if (controls.lowBasket.value()) {
@@ -166,7 +174,7 @@ public class ActiveCycle {
                     controls.openClaw.set(false);
                     controls.transfer.set(false);
                     transferState = ActiveCycle.TransferState.LOW_BASKET;
-                    robot.arm.toTransfering();
+                    robot.arm.pullBackToGoUp();
                     startTime = loopTime.milliseconds();
                 }
                 if (controls.extend.value()) {
@@ -188,7 +196,11 @@ public class ActiveCycle {
                 outtake.extendToHighBasket();
                 intake.activeIntake.transferOff();
                 if (loopTime.milliseconds() - startTime >= 300) {
-                    robot.arm.toScoreSpecimen();
+                    if (safeDeposit) {
+                        robot.arm.toSafeSampleScore();
+                    } else {
+                        robot.arm.toScoreSample();
+                    }
                 }
 
                 if (controls.openClaw.value()) {
@@ -199,7 +211,7 @@ public class ActiveCycle {
                 }
                 if (controls.extend.value()) {
                     intake.extendoFullExtend();
-                    arm.toTransfering();
+                    arm.pullBackToGoUp();
                     transferState = TransferState.EXTENDO_FULLY_EXTENDED;
                     controls.resetOuttakeControls();
                 }
@@ -207,8 +219,14 @@ public class ActiveCycle {
             case LOW_BASKET:
                 intake.extendForOuttake();
                 outtake.extendToLowBasket();
-                robot.arm.toScoreSpecimen();
                 intake.activeIntake.transferOff();
+                if (loopTime.milliseconds() - startTime >= 300) {
+                    if (safeDeposit) {
+                        robot.arm.toSafeSampleScore();
+                    } else {
+                        robot.arm.toScoreSample();
+                    }
+                }
 
                 if (controls.openClaw.value()) {
                     arm.openClaw();
@@ -218,7 +236,7 @@ public class ActiveCycle {
                 }
                 if (controls.extend.value()) {
                     intake.extendoFullExtend();
-                    arm.toTransfering();
+                    arm.pullBackToGoUp();
                     transferState = TransferState.EXTENDO_FULLY_EXTENDED;
                     controls.resetOuttakeControls();
                 }
@@ -227,7 +245,7 @@ public class ActiveCycle {
                 controls.resetOuttakeControls();
                 controls.resetMultipleControls(controls.transfer, controls.extend, controls.scoreSpec, controls.openClaw, controls.intakeOnToIntake);
                 // could also do to base state
-                robot.arm.toTransfering();
+                robot.arm.pullBackToGoUp();
                 outtake.returnToRetracted();
                 intake.extendoFullRetract();
                 transferState = ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED;
@@ -291,7 +309,7 @@ public class ActiveCycle {
                 intake.extendForSpecMode();
                 controls.specMode.set(false);
                 //if (loopTime.milliseconds() - startTime >= 1500 && loopTime.milliseconds() - startTime <= 2500 ) {
-                    arm.toTransfering();
+                    arm.pullBackToGoUp();
                 if (loopTime.milliseconds() - startTime >= 600) {
                     transferState = TransferState.EXTENDO_FULLY_RETRACTED;
                     intake.extendoFullRetract();
@@ -311,18 +329,6 @@ public class ActiveCycle {
                 } else {
                     outtake.extendToSpecimenHighRackLow();
                 }
-
-                if (controls.highBasket.value()) {
-                    robot.arm.toScoreSample();
-                    transferState = ActiveCycle.TransferState.HIGH_BASKET;
-                    controls.resetMultipleControls(controls.flipBucket, controls.scoreSpec);
-                }
-                // TODO: add later
-//                if (controls.lowBasket.value()) {
-//                    outtake.bucketTilt();
-//                    transferState = ActiveCycle.TransferState.LOW_BASKET;
-//                    controls.resetMultipleControls(controls.flipBucket, controls.scoreSpec);
-//                }
                 break;
             case SPEC_RETRACTING:
                 outtake.extendToSpecimenHighRackHigh();

@@ -80,6 +80,7 @@ public class GamepadMapping {
     public static Toggle botToBaseState;
     public static Toggle isBlue;
     public static Toggle slowMode;
+    public static Toggle safeDeposit;
 
     // TESTING BUTTONS
     // NOT TO BE USED FOR COMP
@@ -118,6 +119,7 @@ public class GamepadMapping {
         isBlue = new Toggle(false);
         slowMode = new Toggle(false);
         specMode = new Toggle(false);
+        safeDeposit = new Toggle(false);
     }
 
     public void joystickUpdate() {
@@ -133,7 +135,8 @@ public class GamepadMapping {
 
         activeIntakeUpdate();
 
-        botToBaseState.update(gamepad2.dpad_right);
+        botToBaseState.update(gamepad1.dpad_right);
+        safeDeposit.update(gamepad2.dpad_right);
 
         lockedMode.update(gamepad2.x);
 
@@ -213,6 +216,20 @@ public class GamepadMapping {
         for (Toggle toggle : toggles) {
             toggle.set(false);
         }
+    }
+
+    public void resetAllControls() {
+        extend.set(false);
+        intakeOnToIntake.set(false);
+        toClear.set(false);
+        transfer.set(false);
+        clear.set(false);
+        openClaw.set(false);
+        scoreSpec.set(false);
+        specMode.set(false);
+        highBasket.set(false);
+        lowBasket.set(false);
+        clearSpec.set(false);
     }
 }
 

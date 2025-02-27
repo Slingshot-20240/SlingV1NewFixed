@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
-import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @Config
@@ -27,7 +26,7 @@ public class LinkageAxonTester extends OpMode {
         intake = robot.intake;
         intake.activeIntake.flipUp();
 
-        robot.arm.retract();
+        robot.arm.readyForTransfer();
         robot.arm.openClaw();
     }
 
