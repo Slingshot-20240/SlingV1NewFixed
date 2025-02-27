@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -76,16 +77,16 @@ public class SampNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.retract();
                     moveLift(0);
-                    moveExtendo(0.15);
-                    intake.activeIntake.flipDownFull();
+                    moveExtendo(.1);
+                    //intake.activeIntake.flipDownFull();
                 })
 
                 //pickUp1
 //                .turn(Math.toRadians(pick1Angle))
                 .lineToLinearHeading(new Pose2d(-46,-54, Math.toRadians(90)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
+                    intake.activeIntake.flipDownFull();
                 })
                 .forward(15)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
@@ -120,8 +121,7 @@ public class SampNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.retract();
                     moveLift(0);
-                    moveExtendo(0.15);
-                    intake.activeIntake.flipDownFull();
+                    moveExtendo(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
                 })
 
                 //pickUp2
@@ -131,7 +131,7 @@ public class SampNewAuto extends LinearOpMode {
                     intake.activeIntake.motorRollerOnToIntake();
                 })
                 .forward(15)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     moveExtendo(0.1);
                     intake.activeIntake.flipToTransfer();
                 })
@@ -161,8 +161,7 @@ public class SampNewAuto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.retract();
                     moveLift(0);
-                    moveExtendo(0.15);
-                    intake.activeIntake.flipDownFull();
+                    moveExtendo(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
                 })
 
                 //pickUp3
@@ -173,7 +172,7 @@ public class SampNewAuto extends LinearOpMode {
                     intake.extendoFullExtend();
                 })
                 .waitSeconds(0.7)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     moveExtendo(0.1);
                     intake.activeIntake.flipToTransfer();
                 })

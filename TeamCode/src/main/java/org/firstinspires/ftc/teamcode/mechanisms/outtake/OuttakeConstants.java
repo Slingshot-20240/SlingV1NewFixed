@@ -53,10 +53,12 @@ public class OuttakeConstants {
         }
     }
 
+    // TODO: ADD SAFE MODE BUTTON
+
     // Transfer, going up, deposit, grab spec
     private static double[] armPositions = {.24, .15, .85, .33}; // TODO: tune these values
     // Transfer, deposit
-    private static double[] wristPositions = {.74, 0}; // TODO: tune these values
+    private static double[] wristPositions = {.5, 0}; // TODO: tune these values
     // open, closed
     private static double[] clawPositions = {0, .24}; // TODO: tune these values
 
