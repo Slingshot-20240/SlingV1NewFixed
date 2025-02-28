@@ -4,18 +4,18 @@ public class IntakeConstants {
 
     // pivoted up, pivoted down, transfer pos, clearing samples, spec mode
     // axon programmed for 0-255, 66 PMW (inverted)
-    private static final double[] pivotPositions = {.27, .89, .3, .5, .35};
+    private static final double[] pivotPositions = {.27, .89, .22, .5, .35};
 
     // neutral pos, back roller push out sample (extendo), back roller transfer
     private static final double[] backRollerPositions = {0.5, 1, -1};
 
     // right linkage in, right linkage extended, outtaking
     // axon programmed for 0-255, 66 PMW
-    private static final double[] rightLinkagePositions = {.33, .035, .25};
+    private static final double[] rightLinkagePositions = {.33, .035, .24};
 
     // left linkage in, left linkage extended
     // axon programmed for 0-255, 66 PMW
-    private static final double[] leftLinkagePositions = {.33, .035, .25};
+    private static final double[] leftLinkagePositions = {.33, .035, .24};
 
     // pivot positions for the v4b for active claw
     // transfer pos, hovering, intaking

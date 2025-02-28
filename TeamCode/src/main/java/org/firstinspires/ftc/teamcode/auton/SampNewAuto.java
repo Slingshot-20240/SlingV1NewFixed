@@ -63,11 +63,11 @@ public class SampNewAuto extends LinearOpMode {
                     moveLift(2000);
                     arm.toScoreSample();
                 })
-                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX-3, scorePosY, Math.toRadians(60)))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.openClaw();
                 })
-                .waitSeconds(0.05)
+                .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(0);
@@ -77,7 +77,7 @@ public class SampNewAuto extends LinearOpMode {
 
                 //pickUp1
 //                .turn(Math.toRadians(pick1Angle))
-                .lineToLinearHeading(new Pose2d(-46,-54, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-48,-54, Math.toRadians(90)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     intake.activeIntake.motorRollerOnToIntake();
                     intake.activeIntake.flipDownFull();
@@ -93,25 +93,24 @@ public class SampNewAuto extends LinearOpMode {
 
 
                 //score
-                .UNSTABLE_addTemporalMarkerOffset(1.0, () -> {
-                    intake.activeIntake.rollerMotor.setPower(0.35);
+                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
+                    intake.activeIntake.rollerMotor.setPower(0.45);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.closeClaw();
 
                 })
-                .turn(Math.toRadians(-45))
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
                     moveLift(2000);
                     intake.activeIntake.transferOff();
                     arm.toScoreSample();
                 })
-                .waitSeconds(0.2)
+                .waitSeconds(1.2)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.openClaw();
                 })
-                .waitSeconds(0.1)
+                .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(0);
@@ -120,7 +119,7 @@ public class SampNewAuto extends LinearOpMode {
                 })
 
                 //pickUp2
-                .lineToLinearHeading(new Pose2d(-55, -54, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-57, -54, Math.toRadians(90)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
@@ -135,24 +134,23 @@ public class SampNewAuto extends LinearOpMode {
                 })
 
                 //score
-                .UNSTABLE_addTemporalMarkerOffset(1.0, () -> {
-                    intake.activeIntake.rollerMotor.setPower(0.35);
+                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
+                    intake.activeIntake.rollerMotor.setPower(0.45);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.closeClaw();
                 })
-                .turn(Math.toRadians(-45))
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
                     intake.activeIntake.transferOff();
                     moveLift(2000);
                     arm.toScoreSample();
                 })
-                .waitSeconds(0.4)
+                .waitSeconds(1.2)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.openClaw();
                 })
-                .waitSeconds(0.1)
+                .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(0);
@@ -160,15 +158,14 @@ public class SampNewAuto extends LinearOpMode {
                 })
 
                 //pickUp3
-
-
-                .lineToLinearHeading(new Pose2d(-42, -43, Math.toRadians(170)))
+                .lineToLinearHeading(new Pose2d(-30, -43, Math.toRadians(170)))
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
                     moveExtendo(0.1);
                 })
-                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(-42, -34, Math.toRadians(170)))
+                .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipToTransfer();
                 })
@@ -181,25 +178,25 @@ public class SampNewAuto extends LinearOpMode {
 
 
                 //score
-                .UNSTABLE_addTemporalMarkerOffset(1.0, () -> {
-                    intake.activeIntake.rollerMotor.setPower(0.35);
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    intake.activeIntake.rollerMotor.setPower(0.45);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
                     arm.closeClaw();
                 })
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
+//                .turn(Math.toRadians(-125))
+                .UNSTABLE_addTemporalMarkerOffset(1.4, () -> {
                     intake.activeIntake.transferOff();
                     moveLift(2000);
                     arm.toScoreSample();
                 })
-                .waitSeconds(0.3)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .waitSeconds(1.2)
                 .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     arm.openClaw();
                 })
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                .waitSeconds(.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.readyForTransfer();
                     moveLift(0);
                 })
