@@ -56,9 +56,9 @@ public class OuttakeConstants {
     // TODO: ADD SAFE MODE BUTTON
 
     // Transfer, going up, deposit, grab spec, safe deposit
-    private static double[] armPositions = {.34, .15, .85, .33, .9}; // TODO: tune these values
+    private static double[] armPositions = {.32, .15, .85, .33, .9}; // TODO: tune these values
     // Transfer, deposit
-    private static double[] wristPositions = {.86, 0}; // TODO: tune these values
+    private static double[] wristPositions = {.9, 0, .8}; // TODO: tune these values
     // open, closed
     private static double[] clawPositions = {0, .5}; // TODO: tune these values
 
@@ -67,7 +67,7 @@ public class OuttakeConstants {
         BASKET(armPositions[2], wristPositions[1], clawPositions[1]),
         SPECIMEN_HIGH_RACK(armPositions[2], wristPositions[1], clawPositions[1]),
         TRANSFERING(armPositions[1], wristPositions[0], clawPositions[0]),
-        GRABBING_SPEC(armPositions[3], wristPositions[0], clawPositions[0]),
+        GRABBING_SPEC(armPositions[3], wristPositions[2], clawPositions[0]),
         SAFE_SAMP(armPositions[3], wristPositions[1], clawPositions[1]);
 
         private final double armPos;

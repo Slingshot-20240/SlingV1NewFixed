@@ -95,7 +95,7 @@ public class ActiveIntake {
     }
 
     public void pivotUpForOuttake() {
-        pivotAxon.setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.pivotPos());
+        pivotAxon.setPosition(IntakeConstants.ActiveIntakeStates.TRANSFER.pivotPos());
     }
 
     public void updateTelemetry() {

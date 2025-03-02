@@ -99,7 +99,7 @@ public class ActiveCycle {
                 outtake.returnToRetracted();
                 intake.extendoFullExtend();
                 if (!controls.extend.value() && !controls.specMode.value()) {
-                    intake.extendForOuttake();
+                    intake.extendToTransfer();
                     intake.activeIntake.flipToTransfer();
                     controls.transfer.set(false);
                     controls.resetOuttakeControls();
@@ -192,7 +192,7 @@ public class ActiveCycle {
 //                }
 //                break;
             case HIGH_BASKET:
-                intake.extendForOuttake();
+                intake.extendToTransfer();
                 outtake.extendToHighBasket();
                 intake.activeIntake.transferOff();
                 if (loopTime.milliseconds() - startTime >= 300) {
@@ -217,7 +217,7 @@ public class ActiveCycle {
                 }
                 break;
             case LOW_BASKET:
-                intake.extendForOuttake();
+                intake.extendToTransfer();
                 outtake.extendToLowBasket();
                 intake.activeIntake.transferOff();
                 if (loopTime.milliseconds() - startTime >= 300) {

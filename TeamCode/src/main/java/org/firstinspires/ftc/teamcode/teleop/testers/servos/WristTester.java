@@ -18,7 +18,7 @@ public class WristTester extends OpMode {
     public static double wristTarget = 0.0;
     public static double armTarget = 0.0;
     public static double pivotPos = IntakeConstants.ActiveIntakeStates.TRANSFER.pivotPos();
-    public static double linkagePos = IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos();
+    public static double linkagePos = IntakeConstants.ActiveIntakeStates.TRANSFER.rLinkagePos();
     public static boolean runRollers = false;
 
     @Override
@@ -26,7 +26,7 @@ public class WristTester extends OpMode {
         controls = new GamepadMapping(gamepad1, gamepad2);
         robot = new Robot(hardwareMap, telemetry, controls);
         this.arm = new Arm(hardwareMap);
-        robot.intake.extendForOuttake();
+        robot.intake.extendToTransfer();
         robot.intake.activeIntake.flipToTransfer();
     }
 

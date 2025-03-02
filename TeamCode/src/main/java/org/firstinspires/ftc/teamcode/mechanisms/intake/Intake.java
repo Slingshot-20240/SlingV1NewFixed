@@ -54,9 +54,9 @@ public class Intake {
     }
 
     // extendo to trasnfer
-    public void extendForOuttake() {
-        rightExtendo.setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
-        leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.lLinkagePos());
+    public void extendToTransfer() {
+        rightExtendo.setPosition(IntakeConstants.ActiveIntakeStates.TRANSFER.rLinkagePos());
+        leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.TRANSFER.lLinkagePos());
     }
 
     public void extendForSpecMode() {
