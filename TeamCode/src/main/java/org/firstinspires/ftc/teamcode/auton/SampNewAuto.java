@@ -28,14 +28,6 @@ public class SampNewAuto extends LinearOpMode {
     public double scorePosX = -55.5; // TODO: tune
     public double scorePosY = -55.5;
 
-    public double pick1Angle = 40;
-    public double pick2Angle = 55;
-
-    //TODO: when implementing extendo positions, use these to make it configurable
-    public double pick1Ext = 0;
-    public double pick2Ext = 0;
-    public double pick3Ext = 0.1;
-
     @Override
     public void runOpMode() throws InterruptedException {
         controls = new GamepadMapping(gamepad1, gamepad2);
