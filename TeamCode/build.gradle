@@ -56,7 +56,6 @@ tasks.withType(Test) {
 
 dependencies {
     implementation project(':FtcRobotController')
-    annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 
     implementation 'org.team11260:fast-load:0.1.1'
 
