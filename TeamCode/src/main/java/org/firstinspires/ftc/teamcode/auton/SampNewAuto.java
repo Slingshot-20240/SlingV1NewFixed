@@ -67,9 +67,6 @@ public class SampNewAuto extends LinearOpMode {
                     moveLift(0);
                     moveExtendo(.1);
                     //intake.activeIntake.flipDownFull();
-                    if (robot.outtake.touchSensor.isPressed()) {
-                        robot.outtake.resetEncoders();
-                    }
                 })
 
                 //pickUp1
