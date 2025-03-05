@@ -13,7 +13,6 @@ public class ColorSensorModule {
     ColorSensor sensor;
     public boolean isBlue;
     double blockDistance;
-    // TODO:I'm too lazy to actually put this into intake, so I'm making a class for it HOORAY!!
     public ColorSensorModule(Telemetry t, HardwareMap hm, boolean isBlue){
         this.telemetry = t;
         this.sensor = hm.get(ColorSensor.class, "colorSensor");

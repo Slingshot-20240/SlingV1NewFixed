@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 
+import org.firstinspires.ftc.teamcode.mechanisms.intake.ColorSensor;
+
 public class Robot{
     // TODO stuff souren wants to remember:
     // - 435 motors
@@ -60,6 +62,8 @@ public class Robot{
     public SpecimenClaw specimenClaw;
     public Arm arm;
 
+    public ColorSensor colorSensor;
+
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, GamepadMapping controls) {
         imu = hardwareMap.get(IMU.class, "imu");
         // params for slingshot robot
@@ -82,6 +86,9 @@ public class Robot{
         //ultraSonics = new ReLocalizer(hardwareMap, imu);
         //specimenClaw = new SpecimenClaw(hardwareMap);
         arm = new Arm(hardwareMap);
+
+        //vision-y stuff
+        colorSensor = new ColorSensor(hardwareMap);
     }
 
     // this is for junit testing only
