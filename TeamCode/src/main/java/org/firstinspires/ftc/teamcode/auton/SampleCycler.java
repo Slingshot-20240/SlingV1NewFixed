@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.auton;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -14,14 +15,21 @@ import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Config
 @Autonomous
-public class SampNewAuto extends LinearOpMode {
+public class SampleCycler extends LinearOpMode {
+    ElapsedTime limeLightTimer = new ElapsedTime();
+    Pose2d poseEstimate;
+    State currentState = State.IDLE;
+    Pose2d startPose = new Pose2d(-37.5, -63.5, Math.toRadians(0));
+    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+    //mechanisms
     private GamepadMapping controls;
     private Robot robot;
     private Intake intake;
     private Arm arm;
 
+    //tunable pos
     public double scorePosX = -55.5; // TODO: tune
     public double scorePosY = -55.5;
 
@@ -39,16 +47,11 @@ public class SampNewAuto extends LinearOpMode {
         intake.activeIntake.flipUp();
         arm.closeClaw();
 
-        //robot.hardwareHardReset();
+        waitForStart();
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        if (isStopRequested()) return;
 
-
-        Pose2d startPose = new Pose2d(-37.5, -63.5, Math.toRadians(0));
-
-        drive.setPoseEstimate(startPose);
-
-        TrajectorySequence samplePath = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence initialSamples = drive.trajectorySequenceBuilder(startPose)
                 //preload
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(2000);
@@ -183,22 +186,125 @@ public class SampNewAuto extends LinearOpMode {
                 })
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
                 .waitSeconds(1.2)
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
-                    arm.openClaw();
-                })
-                .waitSeconds(.1)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    arm.readyForTransfer();
-                    moveLift(0);
-                })
-                .forward(10)
                 .build();
 
-        waitForStart();
-        if (!isStopRequested())
-            drive.followTrajectorySequence(samplePath);
-        moveLift(0);
 
+        currentState = State.initialSamplesState;
+        drive.followTrajectorySequenceAsync(initialSamples);
+
+        while (opModeIsActive() && !isStopRequested()) {
+
+
+            // We essentially define the flow of the state machine through this switch statement
+            switch (currentState) {
+                case initialSamplesState:
+                case scoreState:
+                    if (!drive.isBusy()) {
+                        arm.openClaw();
+                        arm.readyForTransfer();
+                        moveLift(0);
+
+                        currentState = State.pickupState;
+                        pickUpPath(poseEstimate);
+                    }
+                    break;
+                case pickupState:
+                case spitState:
+                    if (!drive.isBusy()) {
+                        currentState = State.limelightState;
+                        //TODO: start running limelight and start new elapsed timer for limelight
+                        limeLightTimer.reset();
+                    }
+                    break;
+                case limelightState:
+                    //TODO: end limelight and get limelightOffsets save them to a variable
+                    if (limeLightTimer.milliseconds() > 100) {
+                        currentState = State.intakeState;
+                        intakePath(poseEstimate, 0 ,0);
+                    }
+                    break;
+                case intakeState:
+                    if (!drive.isBusy()) {
+                        if (true){ //TODO: replace with conditional for color sensor
+                            currentState = State.scoreState;
+                            scorePath(poseEstimate);
+                        }else{
+                            currentState = State.spitState;
+                            spitPath(poseEstimate);
+                        }
+                    }
+                    break;
+                case IDLE:
+                    break;
+            }
+
+            drive.update();
+
+            poseEstimate = drive.getPoseEstimate();
+
+            // Print pose to telemetry
+            telemetry.addData("x", poseEstimate.getX());
+            telemetry.addData("y", poseEstimate.getY());
+            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.update();
+        }
+    }
+
+    enum State {
+        initialSamplesState,
+        pickupState,
+        limelightState,
+        intakeState,
+        spitState,
+        scoreState,
+        IDLE            // Our bot will enter the IDLE state when done
+    }
+
+    public void pickUpPath(Pose2d robotPose){
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .splineTo(new Vector2d(-35,-10), Math.toRadians(0))
+                .build();
+        drive.followTrajectorySequenceAsync(trajSeq);
+    }
+
+    public void intakePath(Pose2d robotPose, int xOffset, int yOffset){
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //extendo correct amount, ask bee for how to get the perfect extension things for the axons.
+                })
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                    //flip down pivot, run intake
+                })
+                .lineToConstantHeading(new Vector2d(-30 + xOffset,-10 + yOffset)) // plus is for vision offsets
+                .build();
+        drive.followTrajectorySequenceAsync(trajSeq);
+    }
+
+    public void scorePath(Pose2d robotPose){
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //flip up pivot, stop intake, extendo in
+                })
+                .setReversed(true)
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
+                    //transfer jawn
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
+                    //slides up
+                })
+                .lineToLinearHeading(new Pose2d(-40, robotPose.getY(),Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .waitSeconds(0.15)
+                .build();
+        drive.followTrajectorySequenceAsync(trajSeq);
+    }
+
+    public void spitPath(Pose2d robotPose){
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .lineToConstantHeading(new Vector2d(-35,-10))
+                .build();
+        drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void moveLift(int ticks){
@@ -213,5 +319,4 @@ public class SampNewAuto extends LinearOpMode {
         robot.intake.leftExtendo.setPosition(pos);
         robot.intake.rightExtendo.setPosition(pos);
     }
-
 }
