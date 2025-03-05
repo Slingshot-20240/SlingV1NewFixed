@@ -82,7 +82,7 @@ public class SampleCycler extends LinearOpMode {
                     intake.activeIntake.flipToTransfer();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    intake.extendForOuttake();
+                    intake.extendToTransfer();
                 })
 
 
@@ -124,7 +124,7 @@ public class SampleCycler extends LinearOpMode {
                     intake.activeIntake.flipToTransfer();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    intake.extendForOuttake();
+                    intake.extendToTransfer();
                 })
 
                 //score
@@ -148,7 +148,7 @@ public class SampleCycler extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(0);
-                    moveExtendo(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
+                    moveExtendo(IntakeConstants.ActiveIntakeStates.TRANSFER.rLinkagePos());
                 })
 
                 //pickUp3
@@ -164,7 +164,7 @@ public class SampleCycler extends LinearOpMode {
                     intake.activeIntake.flipToTransfer();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    intake.extendForOuttake();
+                    intake.extendToTransfer();
                 })
 
 

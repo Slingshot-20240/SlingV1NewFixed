@@ -11,11 +11,11 @@ public class IntakeConstants {
 
     // right linkage in, right linkage extended, outtaking
     // axon programmed for 0-255, 66 PMW
-    private static final double[] rightLinkagePositions = {.33, .035, .24};
+    private static final double[] rightLinkagePositions = {.33, .035, .23};
 
     // left linkage in, left linkage extended
     // axon programmed for 0-255, 66 PMW
-    private static final double[] leftLinkagePositions = {.33, .035, .24};
+    private static final double[] leftLinkagePositions = {.33, .035, .23};
 
     // pivot positions for the v4b for active claw
     // transfer pos, hovering, intaking
@@ -27,8 +27,7 @@ public class IntakeConstants {
         WRONG_ALLIANCE_COLOR_SAMPLE(pivotPositions[1], backRollerPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]), // pivoted down, pushing out sample, extended
         FULLY_EXTENDED(pivotPositions[1], backRollerPositions[0], rightLinkagePositions[1], leftLinkagePositions[1]), // pivoted down, idle back roller, extended
         TRANSFER(pivotPositions[2], backRollerPositions[2], rightLinkagePositions[2], leftLinkagePositions[2]), // pivoted up, back roller push, retracted
-        FAILSAFE_CLEARING(pivotPositions[4], backRollerPositions[0], rightLinkagePositions[1], leftLinkagePositions[1]),
-        OUTTAKING(pivotPositions[2], backRollerPositions[0], rightLinkagePositions[2], leftLinkagePositions[2]);
+        FAILSAFE_CLEARING(pivotPositions[4], backRollerPositions[0], rightLinkagePositions[1], leftLinkagePositions[1]);
 
         private final double pivotPos;
         private final double rLinkagePos;

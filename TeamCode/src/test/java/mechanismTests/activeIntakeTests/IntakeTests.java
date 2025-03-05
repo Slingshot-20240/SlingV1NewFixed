@@ -54,7 +54,7 @@ public class IntakeTests {
 
     @Test
     public void testLinkagesDoExtendForOuttaking() {
-        intake.extendForOuttake();
+        intake.extendToTransfer();
         // do it both ways to ensure same number being referenced
         verify(rightLinkage).setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
         verify(leftLinkage).setPosition(.3);
