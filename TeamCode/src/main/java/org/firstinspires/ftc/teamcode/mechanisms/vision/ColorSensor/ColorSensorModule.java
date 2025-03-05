@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.mechanisms.intake.archived;
+package org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor;
 
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;

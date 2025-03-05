@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision.aprilTag;
+package org.firstinspires.ftc.teamcode.mechanisms.vision.aprilTag;
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;

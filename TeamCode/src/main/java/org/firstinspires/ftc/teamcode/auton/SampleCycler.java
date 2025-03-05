@@ -14,7 +14,8 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-
+//TODO: merge and uncomment below
+//import org.firstinspires.ftc.teamcode.mechanisms.vision.Limelight;
 @Autonomous
 public class SampleCycler extends LinearOpMode {
     ElapsedTime limeLightTimer = new ElapsedTime();
@@ -33,6 +34,10 @@ public class SampleCycler extends LinearOpMode {
     public double scorePosX = -55.5; // TODO: tune
     public double scorePosY = -55.5;
 
+    //limelight
+    //ColorSensor colorSensor;//TODO: mere and uncoment
+    //Limelight limelight; //TODO: merge and uncomment
+
     @Override
     public void runOpMode() throws InterruptedException {
         controls = new GamepadMapping(gamepad1, gamepad2);
@@ -47,6 +52,8 @@ public class SampleCycler extends LinearOpMode {
         intake.activeIntake.flipUp();
         arm.closeClaw();
 
+//        limelight = new Limelight(hardwareMap, idk, idk, idk); //TODO: merge and uncomment
+        //colorSensor = robot.colorSensor
         waitForStart();
 
         if (isStopRequested()) return;
@@ -217,15 +224,18 @@ public class SampleCycler extends LinearOpMode {
                     }
                     break;
                 case limelightState:
-                    //TODO: end limelight and get limelightOffsets save them to a variable
+                    //TODO: end limelight and get limelightOffsets save them to a variable see below
                     if (limeLightTimer.milliseconds() > 100) {
                         currentState = State.intakeState;
                         intakePath(poseEstimate, 0 ,0);
+                        // intakePath(poseEstimate, limelight.location()[0], limelight.location()[1])
                     }
                     break;
                 case intakeState:
                     if (!drive.isBusy()) {
-                        if (true){ //TODO: replace with conditional for color sensor
+                        //if(ColorSensor.getHue()>specified range
+                        //      ColorSensor.getHue()<specified range )//TODO merge
+                        if (true){ 
                             currentState = State.scoreState;
                             scorePath(poseEstimate);
                         }else{
