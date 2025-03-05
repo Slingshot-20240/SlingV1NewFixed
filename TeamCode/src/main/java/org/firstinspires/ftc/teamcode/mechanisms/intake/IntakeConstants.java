@@ -48,18 +48,6 @@ public class IntakeConstants {
         public double lLinkagePos() { return lLinkagePos; }
 
     }
-    public enum SampleTypes{
-        NONE(new double[]{57,95,114}, "NONE"),
-        YELLOW(new double[]{215,287,110}, "YELLOW"),
-        BLUE(new double[]{55,99,156}, "BLUE"),
-        RED(new double[]{173,126,85}, "RED");
-        public double[] color;
-        public String name;
-        SampleTypes(double[] color, String name){
-            this.color = color;
-            this.name = name;
-        }
-    }
 
     public enum v4bActiveStates {
         FULLY_RETRACTED(v4bPositions[0], rightLinkagePositions[0], leftLinkagePositions[0]),

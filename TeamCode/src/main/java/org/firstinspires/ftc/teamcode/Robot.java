@@ -9,11 +9,12 @@ import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.misc.ReLocalizer;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 
-import org.firstinspires.ftc.teamcode.mechanisms.intake.ColorSensor;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorAnalog;
 
 public class Robot{
     // TODO stuff souren wants to remember:
@@ -62,7 +63,8 @@ public class Robot{
     public SpecimenClaw specimenClaw;
     public Arm arm;
 
-    public ColorSensor colorSensor;
+    public ColorSensorAnalog colorSensorAnalog;
+    public ColorSensorI2C colorSensorI2C;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, GamepadMapping controls) {
         imu = hardwareMap.get(IMU.class, "imu");
@@ -88,7 +90,8 @@ public class Robot{
         arm = new Arm(hardwareMap);
 
         //vision-y stuff
-        colorSensor = new ColorSensor(hardwareMap);
+        colorSensorAnalog = new ColorSensorAnalog(hardwareMap);
+        colorSensorI2C = new ColorSensorI2C(telemetry, hardwareMap);
     }
 
     // this is for junit testing only

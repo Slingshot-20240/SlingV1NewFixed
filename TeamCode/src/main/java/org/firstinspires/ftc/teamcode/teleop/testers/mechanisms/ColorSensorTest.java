@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
@@ -41,18 +42,11 @@ public class ColorSensorTest extends OpMode {
         outtake.resetEncoders();
         outtake.returnToRetracted();
         startTime = loopTime.milliseconds();
+
     }
 
     @Override
     public void init_loop() {
-        controls.isBlue.update(gamepad1.x);
-        if (controls.isBlue.value()) {
-            intake.activeIntake.colorSensor.setIsBlue(true);
-        } else {
-            intake.activeIntake.colorSensor.setIsBlue(false);
-        }
-        telemetry.addData("Color Sensor Is Blue", intake.activeIntake.colorSensor.getIsBlue());
-        telemetry.addData("Is Blue", controls.isBlue.value());
     }
 
     @Override
@@ -63,21 +57,8 @@ public class ColorSensorTest extends OpMode {
         } else {
             intake.activeIntake.motorRollerOff();
         }
-        if (intake.activeIntake.colorSensor.checkSample().equals(IntakeConstants.SampleTypes.BLUE) && !intake.activeIntake.colorSensor.isBlue) {
-            // add motor to pushOutSample to make it faster
-            intake.activeIntake.backRollerServo.setPosition(1);
-            intake.activeIntake.motorRollerOnToIntake();
-        } else if (intake.activeIntake.colorSensor.checkSample().equals(IntakeConstants.SampleTypes.RED) && intake.activeIntake.colorSensor.isBlue) {
-            intake.activeIntake.backRollerServo.setPosition(1);
-            intake.activeIntake.motorRollerOnToIntake();
-        } else if (intake.activeIntake.colorSensor.checkSample().equals(IntakeConstants.SampleTypes.BLUE) && intake.activeIntake.colorSensor.isBlue
-                || intake.activeIntake.colorSensor.checkSample().equals(IntakeConstants.SampleTypes.RED) && !intake.activeIntake.colorSensor.isBlue) {
-            pushOut = false;
-        }
 
         telemetry.addData("Sample: ", intake.activeIntake.colorSensor.checkSample());
-        telemetry.addData("Color Sensor Is Blue", intake.activeIntake.colorSensor.getIsBlue());
-        telemetry.addData("Is Blue", controls.isBlue.value());
         telemetry.addData("loop time", loopTime.milliseconds());
         telemetry.addData("start time", startTime);
 
