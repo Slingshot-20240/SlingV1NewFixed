@@ -10,8 +10,8 @@ public class OuttakeConstants {
     private static double[] leftBucketPositions = {.982, .8, .58};
     private static double[] rightBucketPositions = {1, .773, .603};
 
-    // Retracted, low basket, high basket, below spec high rack, score spec low, score spec high
-    private static double[] slidePositions = {0, 700, 2000, 0, 700, 700, 500}; // mini extend
+    // Retracted, low basket, high basket, below spec high rack, score spec low, score spec high, hang high, hang low
+    private static double[] slidePositions = {0, 700, 2000, 0, 700, 2300, 1600}; // mini extend
     public enum SlidePositions {
         RETRACTED(slidePositions[0]),
         LOW_BASKET(slidePositions[1]), // probably could work for hang
@@ -21,8 +21,8 @@ public class OuttakeConstants {
         HUMAN_PLAYER(slidePositions[0]),
         BASE_STATE(slidePositions[0]),
         //GRABBING_SPEC(slidePositions[5]),
-        HANGING_HIGH(slidePositions[4]),
-        HANGING_LOW(slidePositions[5]);
+        HANGING_HIGH(slidePositions[5]),
+        HANGING_LOW(slidePositions[6]);
 
         private final double slidePos;
 
@@ -56,7 +56,7 @@ public class OuttakeConstants {
     // TODO: ADD SAFE MODE BUTTON
 
     // Transfer, going up, deposit, grab spec, safe deposit
-    private static double[] armPositions = {.35, .13, .85, .33, .9}; // TODO: tune these values
+    private static double[] armPositions = {.31, .13, .85, .33, .9}; // TODO: tune these values
     // Transfer, deposit
     private static double[] wristPositions = {.9, 0, .8}; // TODO: tune these values
     // open, closed

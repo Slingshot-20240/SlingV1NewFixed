@@ -90,9 +90,10 @@ public class ActiveCycle {
                     transferState = TransferState.SPEC_MODE;
                     startTime = loopTime.milliseconds();
                 }
-//                if (controls.hang.value()) {
-//                    transferState = TransferState.HANGING;
-//                }
+                if (controls.hang.value()) {
+                    transferState = TransferState.HANGING;
+                    outtake.hang();
+                }
                 break;
             case EXTENDO_FULLY_EXTENDED:
                 controls.resetSpecControls();
@@ -181,6 +182,11 @@ public class ActiveCycle {
                     transferState = TransferState.EXTENDO_FULLY_EXTENDED;
                     controls.resetMultipleControls(controls.openClaw, controls.lowBasket, controls.highBasket, controls.transfer);
                 }
+                if (controls.intakeOnToIntake.locked() && !controls.transfer.locked()) {
+                    intake.activeIntake.motorRollerOnToIntake();
+                } else if (controls.intakeOnToIntake.locked() && !controls.transfer.locked()){
+                    intake.activeIntake.motorRollerOff();
+                }
 
                 break;
 //            case TRANSFER_CLOSE:
@@ -253,7 +259,6 @@ public class ActiveCycle {
                 break;
             case HANGING:
                 // high pos
-                outtake.hang();
                 if (!controls.hang.value()) {
                     outtake.moveTicks(OuttakeConstants.SlidePositions.HANGING_LOW.getSlidePos());
                     //transferState = ActiveCycle.TransferState.SLIDES_RETRACTED;

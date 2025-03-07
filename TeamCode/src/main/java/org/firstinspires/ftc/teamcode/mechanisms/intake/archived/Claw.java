@@ -53,7 +53,7 @@ public class Claw {
     }
 
     public void controlWristPos() {
-        wristYaw += controls.wristYaw * .01; // * wristSpeed;
+        //wristYaw += controls.wristYaw * .01; // * wristSpeed;
         //wristYaw = Range.clip(wristYaw, .1, .6);
         wrist.setPosition(wristYaw);
     }

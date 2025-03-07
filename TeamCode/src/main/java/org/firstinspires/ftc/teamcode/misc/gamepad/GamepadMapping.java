@@ -37,10 +37,6 @@ public class GamepadMapping {
     public static Toggle clear;
     public static Toggle clearSpec;
 
-
-    // INTAKE (CLAW)
-    public static double wristYaw = 0.0;
-
     // INTAKE (v4b ACTIVE)
     // --------------
     // this might be where we go between intaking and hovering, and then transfer pos is automatic reset when we extendo back in? (and transfer button moves it back too)
@@ -49,7 +45,7 @@ public class GamepadMapping {
     public static Toggle pivot;
     // transfer sample should be automatic here
     // button, driver 1
-    public static Toggle transferHover;
+    //public static Toggle transferHover;
     // public static Toggle openClaw;
 
 
@@ -100,12 +96,12 @@ public class GamepadMapping {
         clear = new Toggle(false);
 
         pivot = new Toggle(false);
-        transferHover = new Toggle(false);
+        //transferHover = new Toggle(false);
         clearSpec = new Toggle(false);
         // openClaw = new Toggle(false);
 
         // OUTTAKE
-        flipBucket = new Toggle(false);
+        //flipBucket = new Toggle(false);
         highBasket = new Toggle(false);
         lowBasket = new Toggle(false);
         hang = new Toggle(false);
@@ -117,7 +113,7 @@ public class GamepadMapping {
         // OTHER
         botToBaseState = new Toggle(false);
         isBlue = new Toggle(false);
-        slowMode = new Toggle(false);
+        //slowMode = new Toggle(false);
         specMode = new Toggle(false);
         safeDeposit = new Toggle(false);
     }
@@ -133,35 +129,27 @@ public class GamepadMapping {
     public void update() {
         joystickUpdate();
 
-        activeIntakeUpdate();
-
-        botToBaseState.update(gamepad1.dpad_right);
+        // TODO: FIGURE THESE OUT
         safeDeposit.update(gamepad2.dpad_right);
-
-        lockedMode.update(gamepad2.x);
-
         hang.update(gamepad2.dpad_down);
+        botToBaseState.update(gamepad1.dpad_right);
 
+        // intake
+        activeIntakeUpdate();
         extend.update(gamepad1.right_bumper);
-        // This is only when Souren drives
-        // retract.update(gamepad2.a);
         clear.update(gamepad1.x); // square
 
-        // Outtake (All Gamepad2)
+        // outtake
         lowBasket.update(gamepad2.left_trigger > 0.3);
         highBasket.update(gamepad2.left_bumper);
-        flipBucket.update(gamepad2.a);
-
-        //L1hang.update(gamepad2.dpad_down); // TODO Ask Drivers
 
         // spec
         openClaw.update(gamepad2.right_trigger > 0.3);
         scoreSpec.update(gamepad2.right_bumper);
         specMode.update(gamepad2.dpad_right);
 
-        // Reset/Fail Safes (Both controllers should have these)
-//        botToBaseState.update(gamepad1.dpad_down);
-//        botToBaseState.update(gamepad2.dpad_down);
+        // other
+        lockedMode.update(gamepad2.options);
     }
 
     public void activeIntakeUpdate() {
@@ -169,8 +157,6 @@ public class GamepadMapping {
         toClear.update(gamepad1.left_trigger > 0.5);
         transfer.update(gamepad2.dpad_up);
         clearSpec.update(gamepad1.left_bumper);
-
-        //clearFailsafe.update(gamepad1.x);
     }
 
     public void presModeUpdate() {
