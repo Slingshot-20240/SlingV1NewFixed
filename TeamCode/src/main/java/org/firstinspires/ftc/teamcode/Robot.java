@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.misc.ReLocalizer;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorModule;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
@@ -59,6 +61,7 @@ public class Robot{
     public GamepadMapping controls;
     public SpecimenClaw specimenClaw;
     public Arm arm;
+    public ColorSensorModule colorSensor;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, GamepadMapping controls) {
         imu = hardwareMap.get(IMU.class, "imu");
@@ -82,6 +85,8 @@ public class Robot{
         //ultraSonics = new ReLocalizer(hardwareMap, imu);
         //specimenClaw = new SpecimenClaw(hardwareMap);
         arm = new Arm(hardwareMap);
+
+        colorSensor = new ColorSensorModule(telemetry, hardwareMap, false);
     }
 
     // this is for junit testing only

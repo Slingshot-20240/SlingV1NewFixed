@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorModule;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 public class ActiveCycle {
@@ -22,6 +23,7 @@ public class ActiveCycle {
     private final ElapsedTime loopTime;
     private double startTime;
     private final Arm arm;
+    private final ColorSensorModule colorSensor;
 
     private boolean safeDeposit = false;
 
@@ -38,6 +40,7 @@ public class ActiveCycle {
 
         loopTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         startTime = loopTime.milliseconds();
+        this.colorSensor = robot.colorSensor;
     }
     public void activeIntakeUpdate() {
 
@@ -148,6 +151,21 @@ public class ActiveCycle {
                 } else if (!controls.clearSpec.locked()) {
                     intake.activeIntake.flipUp();
                     intake.activeIntake.transferOff();
+                }
+
+                if (colorSensor.opposingColor()) {
+                    intake.activeIntake.clearIntake();
+                    transferState = TransferState.WRONG_COLOR;
+                    //startTime = loopTime.milliseconds();
+                }
+                break;
+            case WRONG_COLOR:
+                if (!colorSensor.opposingColor()) {
+                    //if (startTime - loopTime.milliseconds() >= 200) {
+                        intake.activeIntake.motorRollerOff();
+                        transferState = TransferState.INTAKING;
+                        //break;
+                    //}
                 }
                 break;
             case TRANSFERING:
@@ -373,6 +391,7 @@ public class ActiveCycle {
         SPEC_MODE("SPEC_MODE"),
         RETURN_TO_SAMPLE_MODE("RETURN_TO_SAMPLE_MODE"),
         SPEC_IDLE("SPEC_IDLE"),
+        WRONG_COLOR("WRONG_COLOR"),
         HANGING("HANGING");
 
         private String state;

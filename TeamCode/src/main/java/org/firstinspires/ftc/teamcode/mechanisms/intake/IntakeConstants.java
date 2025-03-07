@@ -17,10 +17,6 @@ public class IntakeConstants {
     // axon programmed for 0-255, 66 PMW
     private static final double[] leftLinkagePositions = {.33, .035, .23};
 
-    // pivot positions for the v4b for active claw
-    // transfer pos, hovering, intaking
-    private static final double[] v4bPositions = {0, 0.5, 1};
-
     public enum ActiveIntakeStates {
         FULLY_RETRACTED(pivotPositions[0], backRollerPositions[0], rightLinkagePositions[0], leftLinkagePositions[0]), // pivoted up, idle back roller, retracted
         CLEARING(pivotPositions[3], backRollerPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]),
@@ -58,26 +54,5 @@ public class IntakeConstants {
             this.color = color;
             this.name = name;
         }
-    }
-
-    public enum v4bActiveStates {
-        FULLY_RETRACTED(v4bPositions[0], rightLinkagePositions[0], leftLinkagePositions[0]),
-        CLEARING(v4bPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]),
-        FULLY_EXTENDED(v4bPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]), // pivoted down, idle back roller, extended
-        TRANSFER(v4bPositions[1], rightLinkagePositions[0], leftLinkagePositions[0]), // pivoted up, back roller push, retracted
-        OUTTAKING(v4bPositions[0], rightLinkagePositions[2], leftLinkagePositions[2]),
-        HOVERING(v4bPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]);
-        private double v4bPos;
-        private final double rLinkagePos;
-        private final double lLinkagePos;
-        v4bActiveStates (double v4bPos, double rightLinkagePos, double leftLinkagePos) {
-            this.v4bPos = v4bPos;
-            this.rLinkagePos = rightLinkagePos;
-            this.lLinkagePos = leftLinkagePos;
-        }
-
-        public double v4bPos() { return v4bPos; }
-        public double rLinkagePos() { return rLinkagePos; }
-        public double lLinkagePos() { return lLinkagePos; }
     }
 }

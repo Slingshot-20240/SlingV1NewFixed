@@ -1,14 +1,16 @@
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.teleop.testers.fsm;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.fsm.ActiveCycle;
+import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @TeleOp
-public class ASlingshotTeleop extends OpMode {
+public class FSMTestBlue extends OpMode {
     private GamepadMapping controls;
     private ActiveCycle cycle;
     private Robot robot;
@@ -21,27 +23,16 @@ public class ASlingshotTeleop extends OpMode {
         cycle = new ActiveCycle(telemetry, controls, robot);
 
         robot.outtake.setMotorsToTeleOpMode();
+        robot.outtake.resetEncoders();
+
+        robot.intake.resetHardware();
+        robot.outtake.resetHardware();
+
+        robot.colorSensor.setIsBlue(true);
     }
 
-// Only needed for active intake
-//    @Override
-//    public void init_loop() {
-//        telemetry.addLine("If our alliance is blue, press gamepad1's x, BEFORE you start");
-//        telemetry.addLine("The alliance color defaults to blue");
-//        telemetry.addData("Color Sensor Is Blue", robot.intake.colorSensor.getIsBlue());
-//        controls.isBlue.update(gamepad1.x);
-//        if (controls.isBlue.value()) {
-//            robot.intake.colorSensor.setIsBlue(true);
-//        } else {
-//            robot.intake.colorSensor.setIsBlue(false);
-//        }
-//    }
     @Override
     public void start() {
-        // run once when we start
-        robot.hardwareSoftReset();
-        robot.intake.extendoFullRetract();
-
         previousTime = System.currentTimeMillis();
     }
 
@@ -50,6 +41,8 @@ public class ASlingshotTeleop extends OpMode {
         cycle.activeIntakeUpdate();
         controls.update();
         robot.drivetrain.update();
+
+        telemetry.addData("transferState", cycle.getState().stateName());
 
         long currentTime = System.currentTimeMillis();
         long loopTime = currentTime - previousTime;
