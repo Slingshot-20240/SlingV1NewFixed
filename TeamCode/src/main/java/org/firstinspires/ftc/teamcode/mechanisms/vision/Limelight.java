@@ -21,4 +21,10 @@ public class Limelight {
         return result.getPythonOutput();
 
     }
+    public void setColors(boolean getRed, boolean getBlue, boolean getYellow){
+        limelight.updatePythonInputs(new double[]{getRed?1.0:0.0, getBlue?1.0:0.0, getYellow?1.0:0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+    }
+    public void setColors(boolean[] colors){
+        limelight.updatePythonInputs(new double[]{colors[0]?1.0:0.0, colors[1]?1.0:0.0, colors[2]?1.0:0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+    }
 }

@@ -8,10 +8,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.misc.ReLocalizer;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
-import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorModule;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
+
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorAnalog;
 
 public class Robot{
     // odo:
@@ -44,9 +46,11 @@ public class Robot{
     public Intake intake;
     public GamepadMapping controls;
     public Arm arm;
-    public ColorSensorModule colorSensor;
 
     public ReLocalizer ultraSonics;
+
+    public ColorSensorAnalog colorSensorAnalog;
+    public ColorSensorI2C colorSensorI2C;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, GamepadMapping controls) {
         imu = hardwareMap.get(IMU.class, "imu");
@@ -67,9 +71,11 @@ public class Robot{
         intake = new Intake(hardwareMap);
         outtake = new Outtake(hardwareMap, 0, 0.012, 0, 0.0001, 0.03, telemetry, controls); // tune PID values
         arm = new Arm(hardwareMap);
-        colorSensor = new ColorSensorModule(telemetry, hardwareMap, false);
 
-        //ultraSonics = new ReLocalizer(hardwareMap, imu);
+
+        //vision-y stuff
+        colorSensorAnalog = new ColorSensorAnalog(hardwareMap);
+        colorSensorI2C = new ColorSensorI2C(hardwareMap);
     }
 
     // this is for junit testing only

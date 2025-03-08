@@ -14,6 +14,7 @@ public class IntakeConstants {
     // axon programmed for 0-255, 75 PMW
     private static final double[] leftLinkagePositions = {.33, .035, .23, .2};
 
+    private static final double[] v4bPositions = {0,0}; //TODO: you need to fix this there was nothing there and it brok
     public enum ActiveIntakeStates {
         FULLY_RETRACTED(pivotPositions[0], rightLinkagePositions[0], leftLinkagePositions[0]), // pivoted up, idle back roller, retracted
         CLEARING(pivotPositions[3], rightLinkagePositions[1], leftLinkagePositions[1]),
@@ -36,19 +37,26 @@ public class IntakeConstants {
         public double lLinkagePos() { return lLinkagePos; }
 
     }
+    //TODO: there is no such thing as v4b positions
 
-    public enum SampleTypes{
-        NONE(new double[]{57,95,114}, "NONE"),
-        YELLOW(new double[]{215,287,110}, "YELLOW"),
-        BLUE(new double[]{55,99,156}, "BLUE"),
-        RED(new double[]{173,126,85}, "RED");
-
-        public final double[] color;
-        public final String name;
-
-        SampleTypes(double[] color, String name){
-            this.color = color;
-            this.name = name;
+    public enum v4bActiveStates {
+        FULLY_RETRACTED(v4bPositions[0], rightLinkagePositions[0], leftLinkagePositions[0]),
+        CLEARING(v4bPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]),
+        FULLY_EXTENDED(v4bPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]), // pivoted down, idle back roller, extended
+        TRANSFER(v4bPositions[1], rightLinkagePositions[0], leftLinkagePositions[0]), // pivoted up, back roller push, retracted
+        OUTTAKING(v4bPositions[0], rightLinkagePositions[2], leftLinkagePositions[2]),
+        HOVERING(v4bPositions[1], rightLinkagePositions[1], leftLinkagePositions[1]);
+        private double v4bPos;
+        private final double rLinkagePos;
+        private final double lLinkagePos;
+        v4bActiveStates (double v4bPos, double rightLinkagePos, double leftLinkagePos) {
+            this.v4bPos = v4bPos;
+            this.rLinkagePos = rightLinkagePos;
+            this.lLinkagePos = leftLinkagePos;
         }
+
+        public double v4bPos() { return v4bPos; }
+        public double rLinkagePos() { return rLinkagePos; }
+        public double lLinkagePos() { return lLinkagePos; }
     }
 }
