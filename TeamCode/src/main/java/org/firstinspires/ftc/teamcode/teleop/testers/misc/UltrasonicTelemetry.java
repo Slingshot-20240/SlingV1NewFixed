@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop.testers.misc;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @TeleOp
 @Config
+@Disabled
 public class UltrasonicTelemetry extends OpMode {
     private Robot robot;
     private GamepadMapping controls;

@@ -1,14 +1,6 @@
 package org.firstinspires.ftc.teamcode.mechanisms.outtake;
 
 public class OuttakeConstants {
-    // deposit: 0
-    // tilt: .5477610423136522
-    // transfer ready: .7231126346979301
-
-    // transfer ready, tilt, deposit
-    //.95 for transfer previously
-    private static double[] leftBucketPositions = {.982, .8, .58};
-    private static double[] rightBucketPositions = {1, .773, .603};
 
     // Retracted, low basket, high basket, below spec high rack, score spec low, score spec high, hang high, hang low
     private static double[] slidePositions = {0, 700, 2000, 0, 700, 2300, 1600}; // mini extend
@@ -18,9 +10,7 @@ public class OuttakeConstants {
         HIGH_BASKET(slidePositions[2]),
         SPECIMEN_HIGH_RACK_LOW(slidePositions[3]),
         SPECIMEN_HIGH_RACK_HIGH(slidePositions[4]),
-        HUMAN_PLAYER(slidePositions[0]),
         BASE_STATE(slidePositions[0]),
-        //GRABBING_SPEC(slidePositions[5]),
         HANGING_HIGH(slidePositions[5]),
         HANGING_LOW(slidePositions[6]);
 
@@ -32,35 +22,12 @@ public class OuttakeConstants {
         public double getSlidePos() { return slidePos; }
     }
 
-    public enum BucketPositions {
-        TRANSFER_READY(leftBucketPositions[0], rightBucketPositions[0]),
-        TILT(leftBucketPositions[1], rightBucketPositions[1]),
-        DEPOSIT(leftBucketPositions[2], rightBucketPositions[2]);
-
-        private final double leftBucketPos;
-        private final double rightBucketPos;
-
-        BucketPositions(double lBucketPos, double rBucketPos) {
-            this.leftBucketPos = lBucketPos;
-            this.rightBucketPos = rBucketPos;
-        }
-
-        public double getRightBucketPos() {
-            return rightBucketPos;
-        }
-        public double getLeftBucketPos() {
-            return leftBucketPos;
-        }
-    }
-
-    // TODO: ADD SAFE MODE BUTTON
-
     // Transfer, going up, deposit, grab spec, safe deposit
-    private static double[] armPositions = {.31, .13, .85, .33, .9}; // TODO: tune these values
+    private static double[] armPositions = {.31, .13, .82, .33, .87};
     // Transfer, deposit
-    private static double[] wristPositions = {.9, 0, .8}; // TODO: tune these values
+    private static double[] wristPositions = {.9, 0, .8};
     // open, closed
-    private static double[] clawPositions = {0, .5}; // TODO: tune these values
+    private static double[] clawPositions = {0, .5};
 
     public enum ArmPositions {
         RETRACTED(armPositions[0], wristPositions[0], clawPositions[0]),

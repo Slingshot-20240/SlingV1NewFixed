@@ -4,37 +4,18 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.mechanisms.intake.archived.Claw;
-//+import org.firstinspires.ftc.teamcode.mechanisms.intake.archived.v4bActive;
-import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
-
 public class Intake {
     // HARDWARE
     // -----------
     public ActiveIntake activeIntake;
-    //public v4bActive v4bActiveIntake;
-    public Claw claw;
-
     public Servo leftExtendo; // axon
     public Servo rightExtendo; // axon
 
-    // OTHER
-    // ----------
-    private GamepadMapping controls;
-    private Telemetry telemetry;
-
-    public Intake(HardwareMap hwMap, Telemetry telemetry, GamepadMapping controls) {
-        activeIntake = new ActiveIntake(hwMap, telemetry, controls);
-        // v4bActiveIntake = new v4bActive(hwMap, telemetry, controls);
-        // claw = new Claw(hwMap, telemetry, controls);
+    public Intake(HardwareMap hwMap) {
+        activeIntake = new ActiveIntake(hwMap);
 
         rightExtendo = hwMap.get(Servo.class, "rightLinkage");
         leftExtendo = hwMap.get(Servo.class, "leftLinkage");
-
-        this.telemetry = telemetry;
-        this.controls = controls;
-
     }
 
     // This is for testing only :)
@@ -54,24 +35,21 @@ public class Intake {
         leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.FULLY_RETRACTED.lLinkagePos());
     }
 
-    // extendo to trasnfer
     public void extendToTransfer() {
         rightExtendo.setPosition(IntakeConstants.ActiveIntakeStates.TRANSFER.rLinkagePos());
         leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.TRANSFER.lLinkagePos());
     }
 
     public void extendForSpecMode() {
-        rightExtendo.setPosition(.2);
-        leftExtendo.setPosition(.2);
+        rightExtendo.setPosition(IntakeConstants.ActiveIntakeStates.SPEC_MODE.rLinkagePos());
+        leftExtendo.setPosition(IntakeConstants.ActiveIntakeStates.SPEC_MODE.lLinkagePos());
     }
 
     public void resetHardware() {
-        // claw.resetClaw();
         activeIntake.motorRollerOff();
         activeIntake.rollerMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         activeIntake.flipUp();
-//        activeIntake.backRollerIdle();
 
         extendoFullRetract();
     }

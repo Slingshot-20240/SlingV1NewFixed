@@ -8,16 +8,13 @@ import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @Config
-@TeleOp
+@TeleOp (group = "servo tests")
 public class ClawTester extends OpMode {
-    //private Robot robot;
     private Arm arm;
-    private GamepadMapping controls;
     public static double target = 0.0;
 
     @Override
     public void init() {
-        controls = new GamepadMapping(gamepad1, gamepad2);
         this.arm = new Arm(hardwareMap);
     }
 

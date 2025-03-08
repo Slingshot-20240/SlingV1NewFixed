@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
-@TeleOp
+@TeleOp (group = "testing")
 public class IntakeMotorTester extends OpMode {
     private Robot robot;
     private GamepadMapping controls;

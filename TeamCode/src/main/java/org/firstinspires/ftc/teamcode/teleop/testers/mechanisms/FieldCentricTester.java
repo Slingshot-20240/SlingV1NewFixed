@@ -7,8 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
-@TeleOp
-@Disabled
+@TeleOp (group = "testing")
 public class FieldCentricTester extends OpMode {
     // ftc dashboard: 192.168.43.1:8080/dash
     private double drive;

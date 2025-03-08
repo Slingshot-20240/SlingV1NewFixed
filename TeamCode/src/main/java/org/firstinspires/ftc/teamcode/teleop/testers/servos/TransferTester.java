@@ -9,9 +9,9 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
-@TeleOp
+@TeleOp (group = "servo tests")
 @Config
-public class WristTester extends OpMode {
+public class TransferTester extends OpMode {
     private Robot robot;
     private Arm arm;
     private GamepadMapping controls;

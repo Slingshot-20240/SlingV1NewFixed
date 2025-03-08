@@ -114,7 +114,7 @@ public class SampleCycler extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
                     arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
-                    intake.activeIntake.transferOff();
+                    intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
                 .waitSeconds(1.7)
@@ -160,7 +160,7 @@ public class SampleCycler extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1.4, () -> {
                     arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
-                    intake.activeIntake.transferOff();
+                    intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
                 .waitSeconds(1.6)
@@ -210,7 +210,7 @@ public class SampleCycler extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1.6, () -> {
                     arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
-                    intake.activeIntake.transferOff();
+                    intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
                 .waitSeconds(0.3)
@@ -346,7 +346,7 @@ public class SampleCycler extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
                     arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
-                    intake.activeIntake.transferOff();
+                    intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
                 .setReversed(true)

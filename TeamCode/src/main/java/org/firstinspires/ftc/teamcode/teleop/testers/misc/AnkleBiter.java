@@ -7,9 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
-import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
-import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
-import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @TeleOp

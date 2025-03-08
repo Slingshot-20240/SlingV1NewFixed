@@ -10,7 +10,6 @@ public class Arm {
 
     public Arm(HardwareMap hardwareMap) {
         armPivot = hardwareMap.get(Servo.class, "armPivot");
-        // reverse direction of one of them (i forgor documentation)
         wrist = hardwareMap.get(Servo.class, "wrist");
         wrist.setDirection(Servo.Direction.FORWARD);
         claw = hardwareMap.get(Servo.class, "claw");
@@ -28,7 +27,6 @@ public class Arm {
         armPivot.setPosition(armPos);
         wrist.setPosition(wristPos);
     }
-
 
     public void toScoreSample() {
         moveArm(OuttakeConstants.ArmPositions.BASKET.getArmPos(), OuttakeConstants.ArmPositions.BASKET.getWristPos());

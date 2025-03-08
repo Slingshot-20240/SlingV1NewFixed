@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
-@TeleOp
+@TeleOp (group = "testing")
 @Config
 public class MechPIDTuning extends OpMode {
 
@@ -39,7 +39,7 @@ public class MechPIDTuning extends OpMode {
         // arm = new BasicArm(hardwareMap, configName, 0, p,i,d,f, ticksPerDegree);
         outtake = new Outtake(hardwareMap, 0, 0.012, 0, 0.0001, 0.03, this.telemetry, controls);
         // intake = new Intake(hardwareMap, telemetry, controls);
-        intake = new Intake(hardwareMap, telemetry, controls);
+        intake = new Intake(hardwareMap);
         dashboardTelemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         outtake.setMotorsToTeleOpMode();
         outtake.resetEncoders();

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @Config
-@TeleOp
+@TeleOp (group = "servo tests")
 public class PivotAxonTester extends OpMode {
 
     private Robot robot;

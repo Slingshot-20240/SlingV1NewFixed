@@ -9,13 +9,12 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @Config
-@TeleOp
+@TeleOp (group = "servo tests")
 public class LinkageAxonTester extends OpMode {
     private Robot robot;
     private GamepadMapping controls;
     private Intake intake;
 
-    public static boolean smallAdjust = false;
     public static double rservoPos = .5;
     public static double pivotServoPos = .5;
 
@@ -36,7 +35,5 @@ public class LinkageAxonTester extends OpMode {
             intake.leftExtendo.setPosition(rservoPos);
 
             intake.activeIntake.pivotAxon.setPosition(pivotServoPos);
-
-
     }
 }
