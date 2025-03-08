@@ -28,7 +28,7 @@ public class FSMTestBlue extends OpMode {
         robot.intake.resetHardware();
         robot.outtake.resetHardware();
 
-        robot.colorSensor.setIsBlue(true);
+        robot.colorSensorI2C.setIsBlue(true);
     }
 
     @Override

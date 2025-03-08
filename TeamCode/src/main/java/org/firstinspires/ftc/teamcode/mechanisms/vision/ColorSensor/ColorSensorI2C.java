@@ -9,17 +9,24 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorSensorI2C {
-    Telemetry telemetry;
     RevColorSensorV3 sensor;
-    double blockDistance;
-
-    public ColorSensorI2C(Telemetry t, HardwareMap hm){
-        this.telemetry = t;
+    double blockDistance = 3.81;
+    boolean isBlue;
+    public ColorSensorI2C(HardwareMap hm){
         this.sensor = hm.get(RevColorSensorV3.class, "colorSensor");
     }
-    public ColorSensorI2C(Telemetry t, HardwareMap hm, boolean isBlue){
-        this.telemetry = t;
+    public ColorSensorI2C( HardwareMap hm, boolean isBlue){
         this.sensor = hm.get(RevColorSensorV3.class, "colorSensor");
+        this.isBlue = isBlue;
+    }
+    public void setIsBlue(boolean b){
+        this.isBlue = b;
+    }
+    public boolean opposingColor(){
+        return (isBlue?SampleTypes.RED:SampleTypes.BLUE).equals(checkSample());
+    }
+    public boolean teamColor(){
+        return (!isBlue?SampleTypes.RED:SampleTypes.BLUE).equals(checkSample());
     }
     public SampleTypes checkSample(){
         double[] sensorVals = new double[3];
@@ -40,19 +47,12 @@ public class ColorSensorI2C {
         return new double[]{sensor.red(), sensor.green(), sensor.blue(), sensor.getDistance(DistanceUnit.CM)};
     }
     //TODO: implement HSV based if this isn't consistent
-    public boolean hasPixel(){
-        if(blockDistance*0.95 > sensor.getDistance(DistanceUnit.CM)) {
-            //this code runs if the block is closer
-            return true;
-        } else if (blockDistance*1.05 > sensor.getDistance(DistanceUnit.CM)) {
-            //this code runs if the closest thing is further than the percieved block.
-            telemetry.addData("sensor greater diff", sensor.getDistance(DistanceUnit.CM)-blockDistance);
-        }
-        return false;
+    public boolean hasSample(){
+        //this code runs if the block is closer
+        return blockDistance * 0.95 > sensor.getDistance(DistanceUnit.CM);
     }
 
     public enum SampleTypes{
-        NONE(new double[]{57,95,114}, "NONE"),
         YELLOW(new double[]{215,287,110}, "YELLOW"),
         BLUE(new double[]{55,99,156}, "BLUE"),
         RED(new double[]{173,126,85}, "RED");

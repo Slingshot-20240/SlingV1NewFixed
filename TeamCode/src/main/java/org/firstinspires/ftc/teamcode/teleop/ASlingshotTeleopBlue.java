@@ -22,7 +22,7 @@ public class ASlingshotTeleopBlue extends OpMode {
 
         robot.outtake.setMotorsToTeleOpMode();
 
-        robot.colorSensor.setIsBlue(true);
+        robot.colorSensorI2C.setIsBlue(true);
     }
 
     @Override

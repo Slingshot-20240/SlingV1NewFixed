@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
-import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorModule;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 public class ActiveCycle {
@@ -23,7 +23,7 @@ public class ActiveCycle {
     private final Intake intake;
     private final Outtake outtake;
     private final Arm arm;
-    private final ColorSensorModule colorSensor;
+    private final ColorSensorI2C colorSensor;
 
     // OTHER
     // ---------
@@ -37,7 +37,7 @@ public class ActiveCycle {
         this.intake = robot.intake;
         this.outtake = robot.outtake;
         this.arm = robot.arm;
-        this.colorSensor = robot.colorSensor;
+        this.colorSensor = robot.colorSensorI2C;
 
         this.telemetry = telemetry;
         this.controls = controls;

@@ -3,7 +3,7 @@ import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchSimple;
-
+//TODO: NOT USED
 public class ColorSensorAnalog {
     public final RevColorSensorV3 emulator;
     private final I2cDeviceSynchSimple i2c;
@@ -19,6 +19,7 @@ public class ColorSensorAnalog {
     }
 
     //i think this will work. i'm not sure
+
     public double getHue(){
         return pin0.getVoltage() / 3.3 * 360;
     }
