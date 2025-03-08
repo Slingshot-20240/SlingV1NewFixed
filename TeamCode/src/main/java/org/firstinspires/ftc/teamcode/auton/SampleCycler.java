@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 //TODO: merge and uncomment below
@@ -21,8 +22,7 @@ public class SampleCycler extends LinearOpMode {
     ElapsedTime limeLightTimer = new ElapsedTime();
     Pose2d poseEstimate;
     State currentState = State.IDLE;
-    Pose2d startPose = new Pose2d(-37.5, -63.5, Math.toRadians(0));
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    SampleMecanumDrive drive;
 
     //mechanisms
     private GamepadMapping controls;
@@ -31,8 +31,8 @@ public class SampleCycler extends LinearOpMode {
     private Arm arm;
 
     //tunable pos
-    public double scorePosX = -55.5; // TODO: tune
-    public double scorePosY = -55.5;
+    public double scorePosX = -55;
+    public double scorePosY = -55;
 
     //limelight
     //ColorSensor colorSensor;//TODO: mere and uncoment
@@ -52,19 +52,26 @@ public class SampleCycler extends LinearOpMode {
         intake.activeIntake.flipUp();
         arm.closeClaw();
 
+        //robot.hardwareHardReset();
+
+        drive = new SampleMecanumDrive(hardwareMap);
+
+
+        Pose2d startPose = new Pose2d(-38.5, -63.5, Math.toRadians(0));
+
+
+        drive.setPoseEstimate(startPose);
 //        limelight = new Limelight(hardwareMap, idk, idk, idk); //TODO: merge and uncomment
         //colorSensor = robot.colorSensor
-        waitForStart();
 
-        if (isStopRequested()) return;
-
-        TrajectorySequence initialSamples = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                 //preload
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     moveLift(2000);
                     arm.toScoreSample();
                 })
-                .lineToLinearHeading(new Pose2d(scorePosX-3, scorePosY, Math.toRadians(60)))
+                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(60)))
+                .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.openClaw();
                 })
@@ -78,7 +85,7 @@ public class SampleCycler extends LinearOpMode {
 
                 //pickUp1
 //                .turn(Math.toRadians(pick1Angle))
-                .lineToLinearHeading(new Pose2d(-48,-54, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-46.5,-57, Math.toRadians(90)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     intake.activeIntake.motorRollerOnToIntake();
                     intake.activeIntake.flipDownFull();
@@ -95,23 +102,27 @@ public class SampleCycler extends LinearOpMode {
 
                 //score
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
-                    intake.activeIntake.rollerMotor.setPower(0.45);
+                    intake.activeIntake.rollerMotor.setPower(0.75);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.closeClaw();
 
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
+                    arm.pullBackToGoUp();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+                    arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
                     intake.activeIntake.transferOff();
                     arm.toScoreSample();
                 })
-                .waitSeconds(1.2)
+                .waitSeconds(1.7)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                 })
-                .waitSeconds(0.15)
+                .waitSeconds(0.3)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(0);
@@ -120,7 +131,7 @@ public class SampleCycler extends LinearOpMode {
                 })
 
                 //pickUp2
-                .lineToLinearHeading(new Pose2d(-57, -54, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(90)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
@@ -133,22 +144,28 @@ public class SampleCycler extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.extendToTransfer();
                 })
+                .waitSeconds(.4)
 
                 //score
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
-                    intake.activeIntake.rollerMotor.setPower(0.45);
+                    intake.activeIntake.rollerMotor.setPower(0.75);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.closeClaw();
+
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
-                    intake.activeIntake.transferOff();
+                .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
+                    arm.pullBackToGoUp();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.4, () -> {
+                    arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
+                    intake.activeIntake.transferOff();
                     arm.toScoreSample();
                 })
-                .waitSeconds(1.2)
+                .waitSeconds(1.6)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                 })
                 .waitSeconds(0.15)
@@ -159,45 +176,57 @@ public class SampleCycler extends LinearOpMode {
                 })
 
                 //pickUp3
-                .lineToLinearHeading(new Pose2d(-30, -43, Math.toRadians(170)))
+                .lineToLinearHeading(new Pose2d(-29.5, -43.25, Math.toRadians(170)))
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
                     moveExtendo(0.1);
                 })
-                .lineToLinearHeading(new Pose2d(-42, -34, Math.toRadians(170)))
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                .lineToLinearHeading(new Pose2d(-42.5, -31, Math.toRadians(170)))
+                .waitSeconds(0.2)
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     intake.activeIntake.flipToTransfer();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.extendToTransfer();
                 })
+                .waitSeconds(0.3)
 
 
 
 
 
                 //score
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    intake.activeIntake.rollerMotor.setPower(0.45);
+                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
+                    intake.activeIntake.rollerMotor.setPower(0.75);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.closeClaw();
+
                 })
-//                .turn(Math.toRadians(-125))
-                .UNSTABLE_addTemporalMarkerOffset(1.4, () -> {
-                    intake.activeIntake.transferOff();
+                .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
+                    arm.pullBackToGoUp();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.6, () -> {
+                    arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
+                    intake.activeIntake.transferOff();
                     arm.toScoreSample();
                 })
+                .waitSeconds(0.3)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
-                .waitSeconds(1.2)
+                .waitSeconds(1.5)
                 .build();
+
+        waitForStart();
+
+        if (isStopRequested()) return;
+
+
 
 
         currentState = State.initialSamplesState;
-        drive.followTrajectorySequenceAsync(initialSamples);
+        drive.followTrajectorySequenceAsync(trajSeq);
 
         while (opModeIsActive() && !isStopRequested()) {
 
@@ -208,8 +237,6 @@ public class SampleCycler extends LinearOpMode {
                 case scoreState:
                     if (!drive.isBusy()) {
                         arm.openClaw();
-                        arm.readyForTransfer();
-                        moveLift(0);
 
                         currentState = State.pickupState;
                         pickUpPath(poseEstimate);
@@ -224,10 +251,13 @@ public class SampleCycler extends LinearOpMode {
                     }
                     break;
                 case limelightState:
+                    moveExtendo(0.13);
+                    intake.activeIntake.flipDownToClear();
+                    intake.activeIntake.rollerMotor.setPower(0.75);
                     //TODO: end limelight and get limelightOffsets save them to a variable see below
                     if (limeLightTimer.milliseconds() > 100) {
                         currentState = State.intakeState;
-                        intakePath(poseEstimate, 0 ,0);
+                        intakePath(poseEstimate, 1 ,10);
                         // intakePath(poseEstimate, limelight.location()[0], limelight.location()[1])
                     }
                     break;
@@ -235,11 +265,14 @@ public class SampleCycler extends LinearOpMode {
                     if (!drive.isBusy()) {
                         //if(ColorSensor.getHue()>specified range
                         //      ColorSensor.getHue()<specified range )//TODO merge
-                        if (true){ 
+                        intake.activeIntake.flipToTransfer();
+                        intake.extendToTransfer();
+                        if (true){
                             currentState = State.scoreState;
                             scorePath(poseEstimate);
                         }else{
                             currentState = State.spitState;
+                            intake.activeIntake.rollerMotor.setPower(1);
                             spitPath(poseEstimate);
                         }
                     }
@@ -272,47 +305,62 @@ public class SampleCycler extends LinearOpMode {
 
     public void pickUpPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .splineTo(new Vector2d(-35,-10), Math.toRadians(0))
+                .waitSeconds(0.15)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    moveLift(0);
+                    arm.readyForTransfer();
+                })
+                .splineTo(new Vector2d(-19,-8), Math.toRadians(0))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
-    public void intakePath(Pose2d robotPose, int xOffset, int yOffset){
+    public void intakePath(Pose2d robotPose, double xOffset, double yOffset){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .lineToConstantHeading(new Vector2d(robotPose.getX() + xOffset, robotPose.getY() + yOffset)) // plus is for vision offsets
+                .back(2)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //extendo correct amount, ask bee for how to get the perfect extension things for the axons.
+                    intake.activeIntake.flipDownFull();
+                    intake.activeIntake.motorRollerOnToIntake();
                 })
-                .waitSeconds(0.1)
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
-                    //flip down pivot, run intake
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                    intake.extendoFullExtend();
                 })
-                .lineToConstantHeading(new Vector2d(-30 + xOffset,-10 + yOffset)) // plus is for vision offsets
+                .forward(8)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void scorePath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //flip up pivot, stop intake, extendo in
+                //transfer
+                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
+                    intake.activeIntake.rollerMotor.setPower(1);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
+                    arm.closeClaw();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
+                    arm.pullBackToGoUp();
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
+                    arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
+                    moveLift(2000);
+                    intake.activeIntake.transferOff();
+                    arm.toScoreSample();
                 })
                 .setReversed(true)
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
-                    //transfer jawn
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
-                    //slides up
-                })
                 .lineToLinearHeading(new Pose2d(-40, robotPose.getY(),Math.toRadians(0)))
+                .waitSeconds(0.3)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
-                .waitSeconds(0.15)
+                .waitSeconds(0.1)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void spitPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .lineToConstantHeading(new Vector2d(-35,-10))
+                .lineToConstantHeading(new Vector2d(-22,-8))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }

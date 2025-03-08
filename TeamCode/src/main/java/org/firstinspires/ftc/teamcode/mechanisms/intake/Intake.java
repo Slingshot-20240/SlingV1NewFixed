@@ -6,14 +6,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.archived.Claw;
-import org.firstinspires.ftc.teamcode.mechanisms.intake.archived.v4bActive;
+//+import org.firstinspires.ftc.teamcode.mechanisms.intake.archived.v4bActive;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 public class Intake {
     // HARDWARE
     // -----------
     public ActiveIntake activeIntake;
-    public v4bActive v4bActiveIntake;
+    //public v4bActive v4bActiveIntake;
     public Claw claw;
 
     public Servo leftExtendo; // axon
@@ -34,6 +34,7 @@ public class Intake {
 
         this.telemetry = telemetry;
         this.controls = controls;
+
     }
 
     // This is for testing only :)
