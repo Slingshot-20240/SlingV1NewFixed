@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.mechanisms.vision;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Robot;
@@ -9,6 +11,9 @@ import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 import java.util.HashMap;
+
+@TeleOp
+@Config
 
 public class VisionTestOpMode extends OpMode {
     Robot robot;
@@ -69,8 +74,12 @@ public class VisionTestOpMode extends OpMode {
             pressed.put("x", false);
         }
         telemetry.addData("limelight (x,y):", String.format("(%s, %s)",
-                                                    limelight.location()[0],
-                                                    limelight.location()[1]));
+                limelight.location()[0],
+                limelight.location()[1]));
+
+        telemetry.addData("limelight (extend, translate):", String.format("(%s, %s)",
+                limelight.getVals()[0],
+                limelight.getVals()[1]));
 
         telemetry.addData("ColorSensor Sample:", colorSensor.checkSample().toString());
 

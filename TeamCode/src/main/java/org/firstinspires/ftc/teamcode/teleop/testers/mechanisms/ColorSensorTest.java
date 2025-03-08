@@ -58,7 +58,6 @@ public class ColorSensorTest extends OpMode {
             intake.activeIntake.motorRollerOff();
         }
 
-        telemetry.addData("Sample: ", intake.activeIntake.colorSensor.checkSample());
         telemetry.addData("loop time", loopTime.milliseconds());
         telemetry.addData("start time", startTime);
 

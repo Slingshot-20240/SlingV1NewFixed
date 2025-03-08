@@ -13,10 +13,10 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.IntakeConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.Limelight;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-//TODO: merge and uncomment below
-//import org.firstinspires.ftc.teamcode.mechanisms.vision.Limelight;
 @Autonomous
 public class SampleCycler extends LinearOpMode {
     ElapsedTime limeLightTimer = new ElapsedTime();
@@ -35,8 +35,9 @@ public class SampleCycler extends LinearOpMode {
     public double scorePosY = -55;
 
     //limelight
-    //ColorSensor colorSensor;//TODO: mere and uncoment
-    //Limelight limelight; //TODO: merge and uncomment
+    boolean isBlue; //TODO: jihoon, idk how you want to implement 2 side based cycling, so..
+    ColorSensorI2C colorSensor;
+    Limelight limelight;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -61,7 +62,7 @@ public class SampleCycler extends LinearOpMode {
 
 
         drive.setPoseEstimate(startPose);
-//        limelight = new Limelight(hardwareMap, idk, idk, idk); //TODO: merge and uncomment
+        limelight = new Limelight(hardwareMap, !isBlue, isBlue, true);
         //colorSensor = robot.colorSensor
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
@@ -246,7 +247,6 @@ public class SampleCycler extends LinearOpMode {
                 case spitState:
                     if (!drive.isBusy()) {
                         currentState = State.limelightState;
-                        //TODO: start running limelight and start new elapsed timer for limelight
                         limeLightTimer.reset();
                     }
                     break;
@@ -258,7 +258,8 @@ public class SampleCycler extends LinearOpMode {
                     if (limeLightTimer.milliseconds() > 100) {
                         currentState = State.intakeState;
                         intakePath(poseEstimate, 1 ,10);
-                        // intakePath(poseEstimate, limelight.location()[0], limelight.location()[1])
+
+                        intakePath(poseEstimate, limelight.location()[0], limelight.location()[1]);
                     }
                     break;
                 case intakeState:
