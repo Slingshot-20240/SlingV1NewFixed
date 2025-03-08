@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.mechanisms.intake.ActiveIntake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.misc.ReLocalizer;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
-import org.firstinspires.ftc.teamcode.mechanisms.specimen.SpecimenClaw;
 import org.firstinspires.ftc.teamcode.misc.PIDFControllerEx;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,7 +72,6 @@ public class ActiveCycleTests {
     ActiveIntake activeIntake;
     Intake intake;
     Outtake outtake;
-    SpecimenClaw specClaw;
     DriveTrain drivetrain;
 
     // this may not work...
@@ -85,11 +83,11 @@ public class ActiveCycleTests {
     public void setUp() {
         activeIntake = new ActiveIntake(rollerMotor, pivotAxon);
         intake = new Intake(rightExtendo, leftExtendo, activeIntake);
-        outtake = new Outtake(slideLeft, slideRight, bucketServo, bucketServo, controller);
-        specClaw = new SpecimenClaw(clawServo);
+        outtake = new Outtake(slideLeft, slideRight, controller);
+        //specClaw = new SpecimenClaw(clawServo);
         drivetrain = new DriveTrain(leftFront, rightFront, leftBack, rightBack, imu);
 
-        robot = new Robot(controls, drivetrain, outtake, intake, specClaw);
+        robot = new Robot(controls, drivetrain, outtake, intake);
         cycle = new ActiveCycle(null, controls, robot);
     }
 

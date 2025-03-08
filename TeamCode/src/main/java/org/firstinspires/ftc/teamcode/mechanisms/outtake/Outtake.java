@@ -49,7 +49,7 @@ public class Outtake {
     }
 
     // this is for J-Unit testing only
-    public Outtake(DcMotorEx slidesMotorLeft, DcMotorEx slidesMotorRight, Servo rightBucketServo, Servo leftBucketServo, PIDController controller) {
+    public Outtake(DcMotorEx slidesMotorLeft, DcMotorEx slidesMotorRight, PIDController controller) {
         this.outtakeSlideLeft = slidesMotorLeft;
         this.outtakeSlideRight = slidesMotorRight;
         this.controller = controller;

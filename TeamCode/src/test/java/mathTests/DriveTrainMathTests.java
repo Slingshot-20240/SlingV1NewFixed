@@ -107,7 +107,7 @@ public class DriveTrainMathTests {
         // RobotAngle is 90
         // sensing distance = -15
         double robotAngle = 90;
-        ultrasonics = new ReLocalizer(backDS, sideDS, imu);
+        //ultrasonics = new ReLocalizer(backDS, sideDS, imu);
         // this calls getDistance on the sensor, so I need to implement that method
         when(backDS.getDistance(DistanceUnit.INCH)).thenReturn(-15.0);
         double targetDistance = ultrasonics.getBackDistance(robotAngle);
@@ -137,7 +137,7 @@ public class DriveTrainMathTests {
         // RobotAngle is 90
         // sensing distance = 15
         double robotAngle = 90;
-        ultrasonics = new ReLocalizer(backDS, sideDS, imu);
+        //ultrasonics = new ReLocalizer(backDS, sideDS, imu);
 
         // this calls getDistance on the sensor, so I need to implement that method
         when(sideDS.getDistance(DistanceUnit.INCH)).thenReturn(15.0);
@@ -155,7 +155,7 @@ public class DriveTrainMathTests {
         // RobotAngle is 45
         // sensing distance = 8.276472679
         double robotAngle = 45;
-        ultrasonics = new ReLocalizer(backDS, sideDS, imu);
+        //ultrasonics = new ReLocalizer(backDS, sideDS, imu);
 
         // this calls getDistance on the sensor, so I need to implement that method
         when(sideDS.getDistance(DistanceUnit.INCH)).thenReturn(8.276472679);

@@ -33,7 +33,7 @@ public class IntakeTests {
     @BeforeEach
     public void setup() {
        activeIntake = new ActiveIntake(rollerMotor, pivotServo);
-        intake = new Intake(rightLinkage, leftLinkage, activeIntake);
+       intake = new Intake(rightLinkage, leftLinkage, activeIntake);
     }
 
     @Test
@@ -50,14 +50,6 @@ public class IntakeTests {
         // do it both ways to ensure same number being referenced
         verify(rightLinkage).setPosition(IntakeConstants.ActiveIntakeStates.FULLY_RETRACTED.rLinkagePos());
         verify(leftLinkage).setPosition(.33);
-    }
-
-    @Test
-    public void testLinkagesDoExtendForOuttaking() {
-        intake.extendToTransfer();
-        // do it both ways to ensure same number being referenced
-        verify(rightLinkage).setPosition(IntakeConstants.ActiveIntakeStates.OUTTAKING.rLinkagePos());
-        verify(leftLinkage).setPosition(.3);
     }
 
     @Test
@@ -119,11 +111,4 @@ public class IntakeTests {
         activeIntake.motorRollerOnToIntake();
         verify(rollerMotor).setPower(-1);
     }
-
-    @Test
-    public void transferTurnsMotorOff() {
-        activeIntake.transferOff();
-        verify(rollerMotor).setPower(0);
-    }
-
 }
