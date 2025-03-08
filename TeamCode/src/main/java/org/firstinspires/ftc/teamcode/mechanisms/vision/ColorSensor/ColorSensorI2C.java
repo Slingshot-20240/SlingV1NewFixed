@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorSensorI2C {
-    RevColorSensorV3 sensor;
+    ColorRangeSensor sensor;
     double blockDistance = 3.81;
     boolean isBlue;
     public ColorSensorI2C(HardwareMap hm){
@@ -53,9 +57,10 @@ public class ColorSensorI2C {
     }
 
     public enum SampleTypes{
-        YELLOW(new double[]{215,287,110}, "YELLOW"),
-        BLUE(new double[]{55,99,156}, "BLUE"),
-        RED(new double[]{173,126,85}, "RED");
+        YELLOW(new double[]{306,409,113}, "YELLOW"),
+        BLUE(new double[]{55,110,274}, "BLUE"),
+        RED(new double[]{187,115,77}, "RED"),
+        NONE(new double[]{26,49,43}, "NONE");
         public final double[] color;
         public final String name;
         SampleTypes(double[] color, String name){
