@@ -197,7 +197,6 @@ public class ActiveCycle {
                 if (colorSensor.opposingColor()) {
                     intake.activeIntake.clearIntake();
                     transferState = TransferState.WRONG_COLOR;
-                    //startTime = loopTime.milliseconds();
                 }
 
                 break;
@@ -205,12 +204,9 @@ public class ActiveCycle {
             case WRONG_COLOR:
 
                 // if no longer detects
-                if (!colorSensor.opposingColor()) {
-                    //if (startTime - loopTime.milliseconds() >= 200) {
-                        intake.activeIntake.motorRollerOff();
-                        transferState = TransferState.INTAKING;
-                        //break;
-                    //}
+                if (colorSensor.checkSample().equals(ColorSensorI2C.SampleTypes.NONE)) {
+                    intake.activeIntake.motorRollerOff();
+                    transferState = TransferState.INTAKING;
                 }
 
                 break;

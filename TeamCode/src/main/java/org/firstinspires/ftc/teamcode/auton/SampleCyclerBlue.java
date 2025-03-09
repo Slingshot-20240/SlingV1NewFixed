@@ -17,8 +17,11 @@ import org.firstinspires.ftc.teamcode.mechanisms.vision.Limelight;
 import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+
+//TODO: merge and uncomment below
+//import org.firstinspires.ftc.teamcode.mechanisms.vision.Limelight;
 @Autonomous
-public class SampleCycler extends LinearOpMode {
+public class SampleCyclerBlue extends LinearOpMode {
     ElapsedTime limeLightTimer = new ElapsedTime();
     Pose2d poseEstimate;
     State currentState = State.IDLE;
@@ -29,13 +32,14 @@ public class SampleCycler extends LinearOpMode {
     private Robot robot;
     private Intake intake;
     private Arm arm;
+    private ColorSensorI2C colorSensor;
 
     //tunable pos
-    public double scorePosX = -55;
-    public double scorePosY = -55;
+    public double scorePosX = -55.5;
+    public double scorePosY = -55.5;
 
     //limelight
-    boolean isBlue; //TODO: jihoon, idk how you want to implement 2 side based cycling, so..
+    boolean isBlue;
     ColorSensorI2C colorSensor;
     Limelight limelight;
 
@@ -62,8 +66,9 @@ public class SampleCycler extends LinearOpMode {
 
 
         drive.setPoseEstimate(startPose);
+        colorSensor = robot.colorSensorI2C;
+        colorSensor.setIsBlue(true);
         limelight = new Limelight(hardwareMap, !isBlue, isBlue, true);
-        //colorSensor = robot.colorSensor
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                 //preload
@@ -119,7 +124,7 @@ public class SampleCycler extends LinearOpMode {
                     arm.toScoreSample();
                 })
                 .waitSeconds(1.7)
-                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX - .5, scorePosY - .5, Math.toRadians(45)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
                 })
@@ -193,10 +198,6 @@ public class SampleCycler extends LinearOpMode {
                 })
                 .waitSeconds(0.3)
 
-
-
-
-
                 //score
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
                     intake.activeIntake.rollerMotor.setPower(0.75);
@@ -216,21 +217,17 @@ public class SampleCycler extends LinearOpMode {
                 })
                 .waitSeconds(0.3)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
-                .waitSeconds(1.5)
+                .waitSeconds(1)
                 .build();
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-
-
-
         currentState = State.initialSamplesState;
         drive.followTrajectorySequenceAsync(trajSeq);
 
         while (opModeIsActive() && !isStopRequested()) {
-
 
             // We essentially define the flow of the state machine through this switch statement
             switch (currentState) {
@@ -268,7 +265,7 @@ public class SampleCycler extends LinearOpMode {
                         //      ColorSensor.getHue()<specified range )//TODO merge
                         intake.activeIntake.flipToTransfer();
                         intake.extendToTransfer();
-                        if (true){
+                        if (colorSensor.teamColor()){
                             currentState = State.scoreState;
                             scorePath(poseEstimate);
                         }else{

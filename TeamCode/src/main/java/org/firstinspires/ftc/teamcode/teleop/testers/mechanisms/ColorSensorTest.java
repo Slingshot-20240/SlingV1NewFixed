@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @Config
 @TeleOp
-@Disabled
 public class ColorSensorTest extends OpMode {
     // to extend, extend out slides a little bit then pivot down
     private Robot robot;
@@ -52,14 +51,26 @@ public class ColorSensorTest extends OpMode {
     @Override
     public void loop() {
         controls.update();
+        robot.drivetrain.update();
+        if (controls.extend.value()) {
+            intake.extendoFullExtend();
+        } else {
+            intake.extendoFullRetract();
+        }
         if (controls.intakeOnToIntake.locked()) {
             intake.activeIntake.motorRollerOnToIntake();
-        } else {
-            intake.activeIntake.motorRollerOff();
+            intake.activeIntake.flipDownFull();
+        } else if (robot.colorSensorI2C.opposingColor()) {
+            intake.activeIntake.clearIntake();
         }
 
+        telemetry.addData("Sample: ", robot.colorSensorI2C.checkSample());
         telemetry.addData("loop time", loopTime.milliseconds());
         telemetry.addData("start time", startTime);
+
+        if (robot.colorSensorI2C.opposingColor()) {
+            intake.activeIntake.clearIntake();
+        }
 
 //        if (loopTime.milliseconds() - startTime <= 2000) {
 //            intake.backRollerServo.setPosition(1);

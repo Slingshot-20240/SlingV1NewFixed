@@ -74,7 +74,7 @@ public class Robot{
 
 
         //vision-y stuff
-        colorSensorAnalog = new ColorSensorAnalog(hardwareMap);
+        //colorSensorAnalog = new ColorSensorAnalog(hardwareMap);
         colorSensorI2C = new ColorSensorI2C(hardwareMap);
     }
 
