@@ -40,7 +40,6 @@ public class SampleCyclerBlue extends LinearOpMode {
 
     //limelight
     boolean isBlue;
-    ColorSensorI2C colorSensor;
     Limelight limelight;
 
     @Override
@@ -220,6 +219,10 @@ public class SampleCyclerBlue extends LinearOpMode {
                 .waitSeconds(1)
                 .build();
 
+        while(opModeInInit() && !isStopRequested()){
+            //TODO: add controller inputs here for alliance color
+            //TODO: add stuff that changes what color we are  sensing for in our limelight
+        }
         waitForStart();
 
         if (isStopRequested()) return;
