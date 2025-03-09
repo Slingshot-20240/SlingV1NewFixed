@@ -188,6 +188,7 @@ public class ActiveCycle {
                 } else if (!controls.pivotToClear.locked()) {
                     intake.activeIntake.flipUp();
                     intake.activeIntake.motorRollerOff();
+                    controls.clearIntake.set(false);
                 } else if (!controls.pivotToClearSpec.locked()) {
                     intake.activeIntake.flipUp();
                     intake.activeIntake.motorRollerOff();
