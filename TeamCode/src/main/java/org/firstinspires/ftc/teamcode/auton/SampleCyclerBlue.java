@@ -33,6 +33,8 @@ public class SampleCyclerBlue extends LinearOpMode {
     private Intake intake;
     private Arm arm;
     private ColorSensorI2C colorSensor;
+    private Limelight limelight;
+
 
     //tunable pos
     public double scorePosX = -55.5;
@@ -40,7 +42,6 @@ public class SampleCyclerBlue extends LinearOpMode {
 
     //limelight
     boolean isBlue;
-    Limelight limelight;
 
     @Override
     public void runOpMode() throws InterruptedException {
