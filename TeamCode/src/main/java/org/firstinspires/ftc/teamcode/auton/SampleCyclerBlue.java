@@ -265,8 +265,6 @@ public class SampleCyclerBlue extends LinearOpMode {
                     break;
                 case intakeState:
                     if (!drive.isBusy()) {
-                        //if(ColorSensor.getHue()>specified range
-                        //      ColorSensor.getHue()<specified range )//TODO merge
                         intake.activeIntake.flipToTransfer();
                         intake.extendToTransfer();
                         if (colorSensor.teamColor()){
