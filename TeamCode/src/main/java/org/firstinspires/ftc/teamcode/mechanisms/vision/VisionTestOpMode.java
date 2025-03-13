@@ -32,8 +32,10 @@ public class VisionTestOpMode extends OpMode {
         colorSensor = robot.colorSensorI2C;
 
         limelight = new Limelight(hardwareMap, false, false, false);
+        pressed = new HashMap<>();
         pressed.put("a", false);
         pressed.put("b", false);
+        pressed.put("x", false);
     }
 
     @Override
