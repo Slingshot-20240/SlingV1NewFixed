@@ -21,7 +21,7 @@ public class VisionTestOpMode extends OpMode {
     Limelight limelight;
     GamepadMapping controls;
 
-    boolean[] colors;
+    boolean[] colors = new boolean[3];
 
     HashMap<String, Boolean> pressed;
     @Override
@@ -50,14 +50,14 @@ public class VisionTestOpMode extends OpMode {
          * x: toggle limelight yellow
          */
 
-        if(gamepad1.a && Boolean.TRUE.equals(pressed.get("a"))){
+        if(gamepad1.a && Boolean.FALSE.equals(pressed.get("a"))){
             colors[0] = !colors[0];
             limelight.setColors(colors);
             pressed.put("a", true);
         }else{
             pressed.put("a", false);
         }
-        if(gamepad1.b && Boolean.TRUE.equals(pressed.get("b"))){
+        if(gamepad1.b && Boolean.FALSE.equals(pressed.get("b"))){
             colors[1] = !colors[1];
             limelight.setColors(colors);
             limelight.setColors(colors);
@@ -66,7 +66,7 @@ public class VisionTestOpMode extends OpMode {
         }else{
             pressed.put("b", false);
         }
-        if(gamepad1.x && Boolean.TRUE.equals(pressed.get("x"))){
+        if(gamepad1.x && Boolean.FALSE.equals(pressed.get("x"))){
             colors[2] = !colors[2];
             limelight.setColors(colors);
             limelight.setColors(colors);
@@ -90,6 +90,12 @@ public class VisionTestOpMode extends OpMode {
                                     colorSensor.sensorVals()[0],
                                     colorSensor.sensorVals()[1],
                                     colorSensor.sensorVals()[2]));
+        telemetry.addData("Limelight check  (r,b,y):",
+                String.format("(%s, %s, %s)",
+                        colors[0],
+                        colors[1],
+                        colors[2]));
+
 
         telemetry.update();
     }
