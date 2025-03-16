@@ -26,12 +26,12 @@ public class Limelight {
         // form: [EXTEND BY, TRANSLATE BY]
 
         //EXTENDING
-        double nY = -(result[0]-240)/240*181.218240428; //get n
+        double nY = -(result[1]-240)/240*181.218240428; //get n
         nY = 65-Math.atan(nY/472.089656463);  //get the angle
         nY = 199.51371*Math.tan(nY); //get ll dist
 
         //TRANLATING
-        double nX = -(result[1]-320)/320*220.361624027;
+        double nX = -(result[0]-320)/320*220.361624027;
 
         return new double[]{nY-50.8, 107.95+nX};
     }
