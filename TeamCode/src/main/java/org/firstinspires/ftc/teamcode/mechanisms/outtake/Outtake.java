@@ -88,6 +88,10 @@ public class Outtake {
         moveTicks(OuttakeConstants.SlidePositions.SPECIMEN_HIGH_RACK_HIGH.getSlidePos()); // tune target obviously
     }
 
+    public void upToTransfer() {
+        moveTicks(OuttakeConstants.SlidePositions.TRANSFER.getSlidePos());
+    }
+
     public void hang() {
         moveTicks(OuttakeConstants.SlidePositions.HANGING_HIGH.getSlidePos());
     }

@@ -87,7 +87,7 @@ public class GamepadMapping {
         joystickUpdate();
 
         // TODO: FIGURE THESE OUT
-        safeDeposit.update(gamepad2.dpad_right);
+        //safeDeposit.update(gamepad2.dpad_right);
         hang.update(gamepad2.dpad_down);
         botToBaseState.update(gamepad1.dpad_right);
 

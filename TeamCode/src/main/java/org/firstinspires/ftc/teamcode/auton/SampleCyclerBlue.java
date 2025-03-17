@@ -43,6 +43,9 @@ public class SampleCyclerBlue extends LinearOpMode {
     //limelight
     boolean isBlue = true;
 
+    // outtake
+    public int slidePos = 300;
+
     @Override
     public void runOpMode() throws InterruptedException {
         controls = new GamepadMapping(gamepad1, gamepad2);
@@ -103,7 +106,9 @@ public class SampleCyclerBlue extends LinearOpMode {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.extendToTransfer();
+                    moveLift(slidePos);
                 })
+                .waitSeconds(.1)
 
 
                 //score
@@ -149,6 +154,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     intake.extendToTransfer();
+                    moveLift(slidePos);
                 })
                 .waitSeconds(.2)
 
@@ -189,11 +195,12 @@ public class SampleCyclerBlue extends LinearOpMode {
                     moveExtendo(0.1);
                 })
                 .lineToLinearHeading(new Pose2d(-42.5, -31, Math.toRadians(170)))
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipToTransfer();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.extendToTransfer();
+                    moveLift(slidePos);
                 })
                 .waitSeconds(0.6)
 
@@ -215,8 +222,8 @@ public class SampleCyclerBlue extends LinearOpMode {
                     arm.toScoreSample();
                 })
                 .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
-                .waitSeconds(0.1)
+                .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY+.5, Math.toRadians(45)))
+                .waitSeconds(0.15)
                 .build();
 
         while(opModeInInit() && !isStopRequested()){
@@ -265,6 +272,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 case intakeState:
                     if (!drive.isBusy()) {
                         intake.activeIntake.flipToTransfer();
+                        moveLift(slidePos);
                         intake.extendToTransfer();
                         if(!colorSensor.hasSample() || colorSensor.opposingColor()){
                             currentState = State.spitState;

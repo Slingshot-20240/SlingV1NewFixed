@@ -6,13 +6,13 @@ public class IntakeConstants {
     // axon programmed for 0-255, 66 PMW (inverted)
     private static final double[] pivotPositions = {.27, .89, .22, .5, .35};
 
-    // right linkage in, right linkage extended, outtaking, spec mode
+    // right linkage in, right linkage extended, transfer, spec mode
     // axon programmed for 0-255, 75 PMW
-    private static final double[] rightLinkagePositions = {.33, .035, .23, .2};
+    private static final double[] rightLinkagePositions = {.33, .035, .3, .2};
 
     // left linkage in, left linkage extended
     // axon programmed for 0-255, 75 PMW
-    private static final double[] leftLinkagePositions = {.33, .035, .23, .2};
+    private static final double[] leftLinkagePositions = {.33, .035, .3, .2};
 
     private static final double[] v4bPositions = {0,0}; //TODO: you need to fix this there was nothing there and it brok
     public enum ActiveIntakeStates {

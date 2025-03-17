@@ -78,7 +78,7 @@ public class ActiveCycle {
 
             case EXTENDO_FULLY_RETRACTED:
                 // constantly set motor power
-                outtake.returnToRetracted();
+                outtake.upToTransfer();
                 controls.openClaw.set(false);
 
                 // extend, transfer, high & low basket triggers
@@ -87,6 +87,7 @@ public class ActiveCycle {
                     controls.resetOuttakeControls();
                 } else if (controls.transfer.value()) {
                     transferState = TransferState.TRANSFERING;
+                    outtake.upToTransfer();
                 } else if (controls.highBasket.value()) {
                     transferState = ActiveCycle.TransferState.HIGH_BASKET;
                     robot.arm.pullBackToGoUp();
@@ -119,7 +120,7 @@ public class ActiveCycle {
                 break;
             case EXTENDO_FULLY_EXTENDED:
                 controls.resetSpecControls();
-                outtake.returnToRetracted();
+                outtake.upToTransfer();
 
                 // always fully extended
                 intake.extendoFullExtend();
@@ -128,6 +129,7 @@ public class ActiveCycle {
                 if (!controls.extend.value() && !controls.specMode.value()) {
                     controls.transfer.set(false);
                     controls.resetOuttakeControls();
+
 
                     // set up for transfer
                     intake.extendToTransfer();
@@ -148,7 +150,7 @@ public class ActiveCycle {
                 break;
 
             case INTAKING:
-                outtake.returnToRetracted();
+                outtake.upToTransfer();
 
                 // retract trigger -> sends to extended state to determine sample/spec mode
                 if (!controls.extend.value()) {
@@ -213,7 +215,7 @@ public class ActiveCycle {
                 break;
 
             case TRANSFERING:
-                outtake.returnToRetracted();
+                outtake.upToTransfer();
 
                 // transfer trigger
                 if(controls.transfer.value()) {
@@ -397,6 +399,7 @@ public class ActiveCycle {
                 if (!controls.specMode.value()) {
                     transferState = TransferState.RETURN_TO_SAMPLE_MODE;
                     startTime = loopTime.milliseconds();
+                    controls.transfer.set(false);
                 }
 
                 // extend so we can intake too (state accounts for different retract stuff and brings it back here)

@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.mechanisms.outtake;
 
 public class OuttakeConstants {
 
-    // Retracted, low basket, high basket, below spec high rack, score spec low, score spec high, hang high, hang low
-    private static double[] slidePositions = {0, 700, 2000, 0, 700, 2300, 1600}; // mini extend
+    // Retracted, low basket, high basket, below spec high rack, score spec low, score spec high, hang high, hang low, transfer
+    private static double[] slidePositions = {0, 700, 2000, 0, 700, 2300, 1600, 300}; // mini extend
     public enum SlidePositions {
         RETRACTED(slidePositions[0]),
         LOW_BASKET(slidePositions[1]), // probably could work for hang
@@ -11,6 +11,7 @@ public class OuttakeConstants {
         SPECIMEN_HIGH_RACK_LOW(slidePositions[3]),
         SPECIMEN_HIGH_RACK_HIGH(slidePositions[4]),
         BASE_STATE(slidePositions[0]),
+        TRANSFER(slidePositions[7]),
         HANGING_HIGH(slidePositions[5]),
         HANGING_LOW(slidePositions[6]);
 
@@ -23,9 +24,9 @@ public class OuttakeConstants {
     }
 
     // Transfer, going up, deposit, grab spec, safe deposit
-    private static double[] armPositions = {.34, .13, .84, .33, .9};
-    // Transfer, deposit
-    private static double[] wristPositions = {0.9, 0, 0.9};
+    private static double[] armPositions = {.2, .13, .84, .34, .9};
+    // Transfer, deposit, pick spec
+    private static double[] wristPositions = {.95, 0, 0.8};
     // open, closed
     private static double[] clawPositions = {0, .5};
 
@@ -35,7 +36,7 @@ public class OuttakeConstants {
         SPECIMEN_HIGH_RACK(armPositions[2], wristPositions[1], clawPositions[1]),
         TRANSFERING(armPositions[1], wristPositions[0], clawPositions[0]),
         GRABBING_SPEC(armPositions[3], wristPositions[2], clawPositions[0]),
-        SAFE_SAMP(armPositions[3], wristPositions[1], clawPositions[1]);
+        SAFE_SAMP(armPositions[4], wristPositions[1], clawPositions[1]);
 
         private final double armPos;
         private final double wristPos;

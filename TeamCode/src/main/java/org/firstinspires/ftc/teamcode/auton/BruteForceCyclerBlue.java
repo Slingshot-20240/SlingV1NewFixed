@@ -104,6 +104,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.extendToTransfer();
+                    moveLift(280);
                 })
 
 
@@ -150,6 +151,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     intake.extendToTransfer();
+                    moveLift(280);
                 })
                 .waitSeconds(.2)
 
@@ -195,6 +197,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.extendToTransfer();
+                    moveLift(280);
                 })
                 .waitSeconds(0.6)
 
@@ -261,6 +264,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                 case intakeState:
                     if (!drive.isBusy()) {
                         intake.activeIntake.flipToTransfer();
+                        moveLift(280);
                         intake.extendToTransfer();
                         if(!colorSensor.hasSample() || colorSensor.opposingColor()){
                             currentState = State.spitState;
