@@ -56,17 +56,17 @@ public class SpecNewAuto extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                 //preloaded spec
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    moveLift(100);
+                    moveLift(0);
                     arm.toScoreSpecimen();
                     //raise slides (small);
                     //flip arm to score
                 })
-                .lineToConstantHeading(new Vector2d(4,  scoreY-2))
+                .lineToConstantHeading(new Vector2d(4,  scoreY-4))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
-                .waitSeconds(.1)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .waitSeconds(.2)
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                     moveLift(0);
@@ -109,7 +109,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(1000);
                 })
                 .waitSeconds(0.1)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
@@ -132,7 +132,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(1000);
                 })
                 .waitSeconds(0.1)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
@@ -156,7 +156,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(1000);
                 })
                 .waitSeconds(0.1)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
@@ -179,7 +179,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(1000);
                 })
                 .waitSeconds(0.1)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                 })
