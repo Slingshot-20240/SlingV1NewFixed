@@ -119,16 +119,16 @@ public class SampleCyclerBlue extends LinearOpMode {
                     arm.closeClaw();
 
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
-                    arm.pullBackToGoUp();
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> {
-                    arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
+//                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
+//                    arm.pullBackToGoUp();
+//                })
+                .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
+                    //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
                     intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
-                .waitSeconds(1.4)
+                .waitSeconds(1.1)
                 .lineToLinearHeading(new Pose2d(scorePosX - .5, scorePosY - .5, Math.toRadians(45)))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.openClaw();
@@ -166,16 +166,13 @@ public class SampleCyclerBlue extends LinearOpMode {
                     arm.closeClaw();
 
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
-                    arm.pullBackToGoUp();
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.6, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                     arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
                     intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
-                .waitSeconds(1.7)
+                .waitSeconds(1.2)
                 .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     arm.openClaw();
@@ -188,7 +185,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 })
 
                 //pickUp3
-                .lineToLinearHeading(new Pose2d(-29.5, -43.25, Math.toRadians(170)))
+                .lineToLinearHeading(new Pose2d(-29.5, -42.75, Math.toRadians(170)))
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
@@ -215,7 +212,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.pullBackToGoUp();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.34, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                     arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
                     intake.activeIntake.motorRollerOff();
@@ -223,7 +220,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 })
                 .waitSeconds(1)
                 .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY+.5, Math.toRadians(45)))
-                .waitSeconds(0.15)
+                .waitSeconds(0.1)
                 .build();
 
         while(opModeInInit() && !isStopRequested()){
@@ -347,10 +344,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                     arm.closeClaw();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, () -> {
-                    arm.pullBackToGoUp();
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.7, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1.1, () -> {
                     arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
                     intake.activeIntake.motorRollerOff();
