@@ -26,7 +26,7 @@ public class SpecNewAuto extends LinearOpMode {
     private Intake intake;
     private Arm arm;
 
-    public double hpX = 44;
+    public double hpX = 36;
     public double hpY = -68;
     public double scoreY = -32;
 
@@ -61,7 +61,7 @@ public class SpecNewAuto extends LinearOpMode {
                     //raise slides (small);
                     //flip arm to score
                 })
-                .lineToConstantHeading(new Vector2d(4,  scoreY-4))
+                .lineToConstantHeading(new Vector2d(6,  scoreY-3.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -93,7 +93,7 @@ public class SpecNewAuto extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(59.5,-50))
 
                 //HP 1
-                .lineToConstantHeading(new Vector2d(hpX-10,hpY))
+                .lineToConstantHeading(new Vector2d(hpX-3,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
                 })
@@ -104,7 +104,7 @@ public class SpecNewAuto extends LinearOpMode {
                 })
 
                 //score 1
-                .lineToConstantHeading(new Vector2d(-3,  scoreY-5))
+                .lineToConstantHeading(new Vector2d(-1,  scoreY-5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -127,7 +127,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 2
-                .lineToConstantHeading(new Vector2d(2,  scoreY-7.5))
+                .lineToConstantHeading(new Vector2d(4,  scoreY-6.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -151,7 +151,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 3
-                .lineToConstantHeading(new Vector2d(-4,  scoreY-6.5))
+                .lineToConstantHeading(new Vector2d(-2,  scoreY-5.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -174,7 +174,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 4
-                .lineToConstantHeading(new Vector2d(-10,  scoreY-7.5))
+                .lineToConstantHeading(new Vector2d(-8,  scoreY-6.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
