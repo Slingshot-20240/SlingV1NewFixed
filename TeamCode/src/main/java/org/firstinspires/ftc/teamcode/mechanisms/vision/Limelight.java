@@ -14,7 +14,7 @@ public class Limelight {
         limelight.start();
     }
     public double[] location(){
-        //form: x-coord, y-coord, long edge length, short edge length, angle
+        //form: translaate by, extend by, x-coord, y-coord, long edge length, short edge length, angle
         LLResult result = limelight.getLatestResult();
         if(result.getPythonOutput().length<1)
             return null;
@@ -23,17 +23,7 @@ public class Limelight {
     }
     public double[] getVals(){
         double[] result = limelight.getLatestResult().getPythonOutput();
-        // form: [EXTEND BY, TRANSLATE BY]
-
-        //EXTENDING
-        double nY = -(result[1]-240)/240*181.218240428; //get n
-        nY = 65-Math.atan(nY/472.089656463);  //get the angle
-        nY = 199.51371*Math.tan(nY); //get ll dist
-
-        //TRANLATING
-        double nX = -(result[0]-320)/320*220.361624027;
-
-        return new double[]{nY-50.8, 107.95+nX};
+        return new double[]{result[1]/25.4, result[0]/25.4}; //extend by, translate by IN INCHES
     }
     public void setColors(boolean getRed, boolean getBlue, boolean getYellow){
         limelight.updatePythonInputs(new double[]{getRed?1.0:0.0, getBlue?1.0:0.0, getYellow?1.0:0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
