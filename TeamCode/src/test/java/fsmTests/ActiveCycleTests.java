@@ -344,6 +344,46 @@ public class ActiveCycleTests {
 
         assertEquals(ActiveCycle.TransferState.SPEC_SCORING, cycle.getState());
     }
+    @Test
+    public void testIdleToExtend() {
+        controls.specMode.set(true);
+        cycle.setState(ActiveCycle.TransferState.SPEC_IDLE);
+        controls.extend.set(true);
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_EXTENDED, cycle.getState());
+    }
+    @Test
+    public void testIdleReturnToSampleMode() {
+        cycle.setState(ActiveCycle.TransferState.SPEC_IDLE);
+        controls.specMode.set(false);
+        cycle.activeIntakeUpdate();
+
+        cycle.startTime = -600;
+
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED, cycle.getState());
+    }
+    @Test
+    public void testSpecScoringToSpecRetracting() {
+        cycle.setState(ActiveCycle.TransferState.SPEC_SCORING);
+        controls.scoreSpec.set(false);
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.SPEC_RETRACTING, cycle.getState());
+    }
+
+    @Test
+    public void testSpecRetractingToIdle() {
+        cycle.setState(ActiveCycle.TransferState.SPEC_RETRACTING);
+
+        cycle.startTime = -900;
+
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.SPEC_IDLE, cycle.getState());
+    }
 
 
 }
