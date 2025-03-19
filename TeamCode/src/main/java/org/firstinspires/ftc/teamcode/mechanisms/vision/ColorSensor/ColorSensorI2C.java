@@ -8,6 +8,7 @@ import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -21,6 +22,11 @@ public class ColorSensorI2C {
     }
     public ColorSensorI2C( HardwareMap hm, boolean isBlue){
         this.sensor = hm.get(RevColorSensorV3.class, "colorSensor");
+        this.isBlue = isBlue;
+    }
+    // this is for testing only
+    public ColorSensorI2C (ColorRangeSensor colorSensor, boolean isBlue) {
+        this.sensor = colorSensor;
         this.isBlue = isBlue;
     }
     public void setIsBlue(boolean b){

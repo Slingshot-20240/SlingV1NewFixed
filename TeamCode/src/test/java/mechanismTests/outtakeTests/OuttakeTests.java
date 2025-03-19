@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.OuttakeConstants;
@@ -26,10 +27,12 @@ public class OuttakeTests {
     DcMotorEx outtakeSlideRight;
     @Mock
     Servo bucketServo;
+    @Mock
+    TouchSensor touchSensor;
 
     @BeforeEach
     public void setUp() {
-        outtake = new Outtake(outtakeSlideLeft, outtakeSlideRight, controller);
+        outtake = new Outtake(outtakeSlideLeft, outtakeSlideRight, controller, touchSensor);
     }
 
     @Test
@@ -74,5 +77,12 @@ public class OuttakeTests {
         verify(outtakeSlideRight).setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         verify(outtakeSlideLeft).setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         verify(outtakeSlideRight).setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    @Test
+    public void canGoToTransfer() {
+        outtake.upToTransfer();
+        verify(outtakeSlideLeft).setPower(anyDouble());
+        verify(outtakeSlideRight).setPower(anyDouble());
     }
 }

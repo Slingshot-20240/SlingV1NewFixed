@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -17,7 +21,9 @@ import org.firstinspires.ftc.teamcode.mechanisms.drive.DriveTrain;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.ActiveIntake;
 import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
 import org.firstinspires.ftc.teamcode.mechanisms.misc.ReLocalizer;
+import org.firstinspires.ftc.teamcode.mechanisms.outtake.Arm;
 import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
+import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C;
 import org.firstinspires.ftc.teamcode.misc.PIDFControllerEx;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,9 +54,13 @@ public class ActiveCycleTests {
     Servo bucketServo;
     PIDController controller = new PIDController(0, 0, 0);
 
-    // specimen claw hardware
+    // arm
     @Mock
-    Servo clawServo;
+    Servo armPivot;
+    @Mock
+    Servo wrist;
+    @Mock
+    Servo claw;
 
     // drivetrain hardware
     @Mock
@@ -63,6 +73,12 @@ public class ActiveCycleTests {
     DcMotorEx rightBack;
     @Mock
     IMU imu;
+    @Mock
+    ColorRangeSensor colorSensor;
+    @Mock
+    TouchSensor touchSensor;
+
+    ColorSensorI2C colorSensorI2C;
 
     // other hardware
     Gamepad gamepad1 = new Gamepad();
@@ -73,22 +89,28 @@ public class ActiveCycleTests {
     Intake intake;
     Outtake outtake;
     DriveTrain drivetrain;
+    Arm arm;
 
     // this may not work...
     GamepadMapping controls = new GamepadMapping(gamepad1, gamepad2);
     ActiveCycle cycle;
     Robot robot;
+    ElapsedTime loopTime;
+    double startTime;
 
     @BeforeEach
     public void setUp() {
         activeIntake = new ActiveIntake(rollerMotor, pivotAxon);
         intake = new Intake(rightExtendo, leftExtendo, activeIntake);
-        outtake = new Outtake(slideLeft, slideRight, controller);
-        //specClaw = new SpecimenClaw(clawServo);
+        outtake = new Outtake(slideLeft, slideRight, controller, touchSensor);
         drivetrain = new DriveTrain(leftFront, rightFront, leftBack, rightBack, imu);
+        colorSensorI2C = new ColorSensorI2C(colorSensor, true);
+        arm = new Arm(armPivot, wrist, claw);
 
-        robot = new Robot(controls, drivetrain, outtake, intake);
+        robot = new Robot(controls, drivetrain, outtake, intake, colorSensorI2C, arm);
         cycle = new ActiveCycle(null, controls, robot);
+        loopTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        startTime = loopTime.milliseconds();
     }
 
     @Test
@@ -138,19 +160,190 @@ public class ActiveCycleTests {
 
         controls.extend.set(false);
         // hold transfer button
-        controls.highBasket.setLocked(true);
+        controls.transfer.setLocked(true);
 
         cycle.activeIntakeUpdate();
 
-        controls.highBasket.setLocked(true);
+        controls.highBasket.set(true);
 
         verify(rollerMotor).setPower(anyDouble());
 
-        controls.highBasket.setLocked(false);
+        controls.highBasket.set(false);
 
         cycle.activeIntakeUpdate();
 
         assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED, cycle.getState());
     }
+
+    @Test
+    public void testToSpecMode() {
+        cycle.setState(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED);
+
+        controls.specMode.set(true);
+
+        cycle.activeIntakeUpdate();
+
+        cycle.startTime = -500;
+
+        cycle.activeIntakeUpdate();
+
+        verify(armPivot).setPosition(anyDouble());
+
+        cycle.startTime = -1100;
+
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.SPEC_IDLE, cycle.getState());
+    }
+
+    @Test
+    public void testToIntakeToSpec() {
+        cycle.setState(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED);
+
+        controls.specMode.set(true);
+
+        cycle.activeIntakeUpdate();
+
+        cycle.startTime = -1100;
+
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.SPEC_IDLE, cycle.getState());
+
+        controls.extend.set(true);
+
+        cycle.activeIntakeUpdate();
+
+        verify(rightExtendo, atLeastOnce()).setPosition(anyDouble());
+
+        assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_EXTENDED, cycle.getState());
+
+        controls.extend.set(false);
+
+        cycle.activeIntakeUpdate();
+
+        verify(rightExtendo, atLeastOnce()).setPosition(anyDouble());
+
+        assertEquals(ActiveCycle.TransferState.SPEC_IDLE, cycle.getState());
+    }
+
+    @Test
+    public void testToBaseStateFromTransfer() {
+        cycle.setState(ActiveCycle.TransferState.TRANSFERING);
+        controls.botToBaseState.set(true);
+        cycle.activeIntakeUpdate();
+        assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED, cycle.getState());
+    }
+
+    @Test
+    public void testHang() {
+        cycle.setState(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED);
+        controls.hang.set(true);
+        cycle.activeIntakeUpdate();
+        assertEquals(ActiveCycle.TransferState.HANGING, cycle.getState());
+    }
+
+    @Test
+    public void testRetractAndSampleMode() {
+        cycle.setState(ActiveCycle.TransferState.EXTENDO_FULLY_EXTENDED);
+        controls.extend.set(false);
+        cycle.activeIntakeUpdate();
+        assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED, cycle.getState());
+    }
+
+    @Test
+    public void testToIntaking() {
+        cycle.setState(ActiveCycle.TransferState.EXTENDO_FULLY_EXTENDED);
+        controls.intakeOnToIntake.setLocked(true);
+        cycle.activeIntakeUpdate();
+        assertEquals(ActiveCycle.TransferState.INTAKING, cycle.getState());
+    }
+
+    @Test
+    public void testFlipUpWhenNotLocked() {
+        controls.extend.set(true);
+        cycle.setState(ActiveCycle.TransferState.INTAKING);
+        controls.intakeOnToIntake.setLocked(true);
+        cycle.activeIntakeUpdate();
+        controls.intakeOnToIntake.setLocked(false);
+        cycle.activeIntakeUpdate();
+        verify(pivotAxon, atLeastOnce()).setPosition(anyDouble());
+        assertEquals(ActiveCycle.TransferState.INTAKING, cycle.getState());
+    }
+
+    @Test
+    public void testClear() {
+        cycle.setState(ActiveCycle.TransferState.INTAKING);
+        controls.extend.set(true);
+
+        controls.pivotToClear.setLocked(true);
+        controls.clearIntake.set(true);
+        cycle.activeIntakeUpdate();
+
+        verify(rollerMotor).setPower(anyDouble());
+
+        controls.clearIntake.set(false);
+        cycle.activeIntakeUpdate();
+
+        verify(rollerMotor).setPower(0);
+
+        assertEquals(ActiveCycle.TransferState.INTAKING, cycle.getState());
+    }
+
+    @Test
+    public void testTransferWorks() {
+        cycle.setState(ActiveCycle.TransferState.TRANSFERING);
+        controls.transfer.setLocked(true);
+        cycle.activeIntakeUpdate();
+        verify(rollerMotor).setPower(anyDouble());
+        assertEquals(ActiveCycle.TransferState.TRANSFERING, cycle.getState());
+    }
+
+    @Test
+    public void testHighBasketFromTransfer() {
+        cycle.setState(ActiveCycle.TransferState.TRANSFERING);
+        controls.highBasket.set(true);
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.HIGH_BASKET, cycle.getState());
+    }
+
+    @Test
+    public void testLowBasketFromTransfer() {
+        cycle.setState(ActiveCycle.TransferState.TRANSFERING);
+        controls.lowBasket.set(true);
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.LOW_BASKET, cycle.getState());
+    }
+    @Test
+    public void testTransferToExtend() {
+        cycle.setState(ActiveCycle.TransferState.TRANSFERING);
+        controls.extend.set(true);
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_EXTENDED, cycle.getState());
+    }
+    @Test
+    public void testHighbasketToRetracted() {
+        cycle.setState(ActiveCycle.TransferState.HIGH_BASKET);
+        controls.highBasket.set(false);
+        cycle.activeIntakeUpdate();
+
+        controls.highBasket.set(true);
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.EXTENDO_FULLY_RETRACTED, cycle.getState());
+    }
+    @Test
+    public void testIdleToSpecScore() {
+        controls.specMode.set(true);
+        cycle.setState(ActiveCycle.TransferState.SPEC_IDLE);
+        controls.scoreSpec.set(true);
+        cycle.activeIntakeUpdate();
+
+        assertEquals(ActiveCycle.TransferState.SPEC_SCORING, cycle.getState());
+    }
+
 
 }

@@ -29,7 +29,7 @@ public class ActiveCycle {
     // ---------
     private final Telemetry telemetry;
     private final ElapsedTime loopTime;
-    private double startTime;
+    public double startTime;
     private boolean safeDeposit = false;
 
     public ActiveCycle(Telemetry telemetry, GamepadMapping controls, Robot robot) {
@@ -50,7 +50,7 @@ public class ActiveCycle {
 
     public void activeIntakeUpdate() {
 
-        telemetry.addData("transfer state", transferState.toString());
+        //telemetry.addData("transfer state", transferState.toString());
 
         // touch sensor failsafe
         if(outtake.touchSensor.isPressed()) {

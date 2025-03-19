@@ -72,18 +72,19 @@ public class Robot{
         outtake = new Outtake(hardwareMap, 0, 0.012, 0, 0.0001, 0.03, telemetry, controls); // tune PID values
         arm = new Arm(hardwareMap);
 
-
         //vision-y stuff
         //colorSensorAnalog = new ColorSensorAnalog(hardwareMap);
         colorSensorI2C = new ColorSensorI2C(hardwareMap);
     }
 
     // this is for junit testing only
-    public Robot(GamepadMapping controls, DriveTrain drivetrain, Outtake outtake, Intake intake) {
+    public Robot(GamepadMapping controls, DriveTrain drivetrain, Outtake outtake, Intake intake, ColorSensorI2C colorSensorI2C, Arm arm) {
         this.controls = controls;
         this.drivetrain = drivetrain;
         this.outtake = outtake;
         this.intake = intake;
+        this.colorSensorI2C = colorSensorI2C;
+        this.arm = arm;
     }
 
 //    public Pose2d reLocalize(){

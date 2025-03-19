@@ -49,10 +49,11 @@ public class Outtake {
     }
 
     // this is for J-Unit testing only
-    public Outtake(DcMotorEx slidesMotorLeft, DcMotorEx slidesMotorRight, PIDController controller) {
+    public Outtake(DcMotorEx slidesMotorLeft, DcMotorEx slidesMotorRight, PIDController controller, TouchSensor touchSensor) {
         this.outtakeSlideLeft = slidesMotorLeft;
         this.outtakeSlideRight = slidesMotorRight;
         this.controller = controller;
+        this.touchSensor = touchSensor;
     }
 
     public void moveTicks(double target) {
