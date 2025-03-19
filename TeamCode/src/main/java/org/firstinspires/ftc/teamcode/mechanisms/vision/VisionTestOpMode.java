@@ -6,11 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 @TeleOp
 @Config
@@ -24,6 +27,8 @@ public class VisionTestOpMode extends OpMode {
     boolean[] colors = new boolean[3];
 
     HashMap<String, Boolean> pressed;
+    Locale locale;
+    NumberFormat nf;
     @Override
     public void init() {
 
@@ -36,6 +41,11 @@ public class VisionTestOpMode extends OpMode {
         pressed.put("a", false);
         pressed.put("b", false);
         pressed.put("x", false);
+
+        locale = Locale.ENGLISH;
+        nf = NumberFormat.getNumberInstance(locale);
+        nf.setMaximumFractionDigits(2);
+
     }
 
     @Override
@@ -79,9 +89,9 @@ public class VisionTestOpMode extends OpMode {
                 limelight.location()[0],
                 limelight.location()[1]));
 
-        telemetry.addData("limelight (extend, translate):", String.format("(%s, %s)",
-                limelight.getVals()[0],
-                limelight.getVals()[1]));
+        telemetry.addData("limelight (extend, translate):", String.format("(%s, %s",
+                nf.format(limelight.getVals()[0]),
+                nf.format(limelight.getVals()[1])));
 
         telemetry.addData("ColorSensor Sample:", colorSensor.checkSample().toString());
 

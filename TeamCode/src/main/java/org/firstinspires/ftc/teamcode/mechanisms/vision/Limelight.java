@@ -23,7 +23,7 @@ public class Limelight {
     }
     public double[] getVals(){
         double[] result = limelight.getLatestResult().getPythonOutput();
-        return new double[]{result[1]/25.4, result[0]/25.4}; //extend by, translate by IN INCHES
+        return new double[]{result[1],Math.min(Math.max(result[0], -2),40)}; //extend by, translate by IN INCHES
     }
     public void setColors(boolean getRed, boolean getBlue, boolean getYellow){
         limelight.updatePythonInputs(new double[]{getRed?1.0:0.0, getBlue?1.0:0.0, getYellow?1.0:0.0, 0.0, 0.0, 0.0, 0.0, 0.0});

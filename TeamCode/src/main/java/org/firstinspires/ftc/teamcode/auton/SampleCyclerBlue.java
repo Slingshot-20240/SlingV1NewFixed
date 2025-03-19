@@ -261,7 +261,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                     //TODO: end limelight and get limelightOffsets save them to a variable see below
                     if (limeLightTimer.milliseconds() > 100) {
                         currentState = State.intakeState;
-                        intakePath(poseEstimate, 0 ,10);
+                        intakePath(poseEstimate, 0 ,limelight.getVals()[1]);
 
 //                        intakePath(poseEstimate, limelight.location()[0], limelight.location()[1]);
                     }
