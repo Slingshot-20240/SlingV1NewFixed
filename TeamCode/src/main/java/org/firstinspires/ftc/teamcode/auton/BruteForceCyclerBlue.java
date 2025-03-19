@@ -42,8 +42,8 @@ public class BruteForceCyclerBlue extends LinearOpMode {
 
 
     //tunable pos
-    public double scorePosX = -55.5;
-    public double scorePosY = -56.5;
+    public double scorePosX = -52.75;
+    public double scorePosY = -53.75;
 
     //limelight
     boolean isBlue = true;
@@ -90,7 +90,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                     intake.activeIntake.flipDownFull();
                 })
                 .waitSeconds(0.2)
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.readyForTransfer();
                     moveLift(slidePos);
                     //intake.activeIntake.flipDownFull();
@@ -123,20 +123,20 @@ public class BruteForceCyclerBlue extends LinearOpMode {
 //                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
 //                    arm.pullBackToGoUp();
 //                })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
                     //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
                     intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
                     arm.openClaw();
                     moveExtendo(.1);
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
                 })
-                .waitSeconds(1.3)
+                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(slidePos);
@@ -159,7 +159,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                     moveLift(slidePos);
                 })
                 //.waitSeconds(.2)
-                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY+.25, Math.toRadians(45)))
 
                 //score
 
@@ -186,7 +186,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
                 })
-                .waitSeconds(1.2)
+                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(slidePos);
@@ -229,7 +229,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                     arm.toScoreSample();
                 })
                 //.waitSeconds(.5)
-                .waitSeconds(.7)
+                .waitSeconds(1.3)
                 .build();
 
         while(opModeInInit() && !isStopRequested()){
@@ -318,7 +318,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
 
     public void pickUpPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .waitSeconds(0.15)
+                .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(slidePos);
                     arm.readyForTransfer();
@@ -344,7 +344,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                     intake.extendoFullExtend();
                     intake.activeIntake.motorRollerOnToIntake();
                 })
-                .waitSeconds(1)
+                .waitSeconds(.7)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
         if(offset > 24 || offset < 0)
@@ -363,7 +363,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                     arm.closeClaw();
 
                 })
-                .addTemporalMarker(1.1, () -> {
+                .addTemporalMarker(0.9, () -> {
                     //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(2000);
                     intake.activeIntake.motorRollerOff();
@@ -372,7 +372,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                 .setReversed(true)
                 .lineToLinearHeading(new Pose2d(-40, robotPose.getY(),Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(scorePosX+0.2, scorePosY+0.2, Math.toRadians(45)))
-                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY-.75, Math.toRadians(45)))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
