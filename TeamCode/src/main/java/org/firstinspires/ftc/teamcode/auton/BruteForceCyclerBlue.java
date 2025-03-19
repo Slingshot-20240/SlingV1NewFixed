@@ -369,7 +369,6 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                     intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
-                .setReversed(true)
                 .lineToLinearHeading(new Pose2d(-40, robotPose.getY(),Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(scorePosX+0.2, scorePosY+0.2, Math.toRadians(45)))
                 .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY-.75, Math.toRadians(45)))
