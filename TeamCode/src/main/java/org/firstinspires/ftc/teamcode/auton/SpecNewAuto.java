@@ -93,6 +93,7 @@ public class SpecNewAuto extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(59.5,-50))
 
                 //HP 1
+                .lineToConstantHeading(new Vector2d(hpX-3,hpY+6))
                 .lineToConstantHeading(new Vector2d(hpX-3,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
@@ -117,7 +118,8 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //HP 2
-                .lineToConstantHeading(new Vector2d(hpX,  hpY))
+                .lineToConstantHeading(new Vector2d(hpX,hpY+6))
+                .lineToConstantHeading(new Vector2d(hpX,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
                 })
@@ -141,7 +143,8 @@ public class SpecNewAuto extends LinearOpMode {
                 })
 
                 //HP 3
-                .lineToConstantHeading(new Vector2d(hpX,  hpY))
+                .lineToConstantHeading(new Vector2d(hpX,hpY+6))
+                .lineToConstantHeading(new Vector2d(hpX,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
                 })
@@ -164,7 +167,8 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //HP 4
-                .lineToConstantHeading(new Vector2d(hpX,  hpY))
+                .lineToConstantHeading(new Vector2d(hpX,hpY+6))
+                .lineToConstantHeading(new Vector2d(hpX,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
                 })
