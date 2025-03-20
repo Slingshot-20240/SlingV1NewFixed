@@ -80,7 +80,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                     arm.toScoreSample();
                 })
                 .lineToLinearHeading(new Pose2d(scorePosX+1, scorePosY-2.75, Math.toRadians(60)))
-                .waitSeconds(0.15)
+                .waitSeconds(0.05)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.openClaw();
                     moveExtendo(.1);
@@ -97,7 +97,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 //pickUp1
 //                .turn(Math.toRadians(pick1Angle))
                 .lineToLinearHeading(new Pose2d(-46.25,-57, Math.toRadians(90)))
-                .forward(15)
+                .forward(14)
                 .UNSTABLE_addTemporalMarkerOffset(0.05, () -> {
                     moveExtendo(0.1);
                     intake.activeIntake.flipToTransfer();
@@ -107,7 +107,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                     moveLift(slidePos);
                 })
 //                .waitSeconds(.1)
-                .lineToLinearHeading(new Pose2d(scorePosX+1, scorePosY+1, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
                 .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY-1.5, Math.toRadians(45)))
 
 
@@ -158,7 +158,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                     moveLift(slidePos);
                 })
                 //.waitSeconds(.2)
-                .lineToLinearHeading(new Pose2d(scorePosX+2, scorePosY+2, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
                 .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY-.25, Math.toRadians(45)))
 
                 //score
@@ -223,7 +223,7 @@ public class SampleCyclerBlue extends LinearOpMode {
 //                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
 //                    arm.pullBackToGoUp();
 //                })
-                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(1700);
                     intake.activeIntake.motorRollerOff();
@@ -269,7 +269,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                     intake.activeIntake.flipDownToClear();
                     intake.activeIntake.rollerMotor.setPower(0.75);
                     //TODO: end limelight and get limelightOffsets save them to a variable see below
-                    if (limeLightTimer.milliseconds() > 200) {
+                    if (limeLightTimer.milliseconds() > 150) {
                         currentState = State.intakeState;
                         intakePath(poseEstimate, 0 ,limelight.getVals()[1]);
 
