@@ -97,7 +97,7 @@ public class SampleCyclerBlue extends LinearOpMode {
                 //pickUp1
 //                .turn(Math.toRadians(pick1Angle))
                 .lineToLinearHeading(new Pose2d(-46.25,-57, Math.toRadians(90)))
-                .forward(14)
+                .forward(15)
                 .UNSTABLE_addTemporalMarkerOffset(0.05, () -> {
                     moveExtendo(0.1);
                     intake.activeIntake.flipToTransfer();
@@ -223,7 +223,7 @@ public class SampleCyclerBlue extends LinearOpMode {
 //                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
 //                    arm.pullBackToGoUp();
 //                })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                     //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(1700);
                     intake.activeIntake.motorRollerOff();
@@ -341,9 +341,9 @@ public class SampleCyclerBlue extends LinearOpMode {
                     intake.activeIntake.motorRollerOnToIntake();
                 })
                 //.waitSeconds(.2)
+                .waitSeconds(.3)
                 .turn(Math.toRadians(4))
                 .turn(Math.toRadians(-4))
-                .waitSeconds(.2)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
