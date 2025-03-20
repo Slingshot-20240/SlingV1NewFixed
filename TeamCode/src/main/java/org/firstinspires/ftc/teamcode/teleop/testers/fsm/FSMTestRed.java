@@ -43,6 +43,7 @@ public class FSMTestRed extends OpMode {
         robot.drivetrain.update();
 
         telemetry.addData("transferState", cycle.getState().stateName());
+        telemetry.addData("is blue?", robot.colorSensorI2C.isBlue);
 
         long currentTime = System.currentTimeMillis();
         long loopTime = currentTime - previousTime;

@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class ColorSensorI2C {
     ColorRangeSensor sensor;
     double blockDistance = 3.81;
-    boolean isBlue;
+    public boolean isBlue;
     public ColorSensorI2C(HardwareMap hm){
         this.sensor = hm.get(RevColorSensorV3.class, "colorSensor");
     }
@@ -33,7 +33,12 @@ public class ColorSensorI2C {
         this.isBlue = b;
     }
     public boolean opposingColor(){
-        return (isBlue?SampleTypes.RED:SampleTypes.BLUE).equals(checkSample());
+        if (isBlue && checkSample().equals(SampleTypes.RED) && !checkSample().equals(SampleTypes.YELLOW)) {
+            return true;
+        } else if (!isBlue && checkSample().equals(SampleTypes.BLUE) && !checkSample().equals(SampleTypes.YELLOW)) {
+            return true;
+        }
+        return false;
     }
     public boolean teamColor(){
         return (!isBlue?SampleTypes.RED:SampleTypes.BLUE).equals(checkSample());

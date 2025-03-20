@@ -235,6 +235,10 @@ public class BruteForceCyclerBlue extends LinearOpMode {
         while(opModeInInit() && !isStopRequested()){
             //TODO: add controller inputs here for alliance color
             //TODO: add stuff that changes what color we are  sensing for in our limelight
+            if (controls.botToBaseState.value()) {
+                colorSensor.setIsBlue(!colorSensor.isBlue);
+                limelight.setColors(colorSensor.isBlue, !colorSensor.isBlue, true);
+            }
         }
         waitForStart();
 

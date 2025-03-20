@@ -89,7 +89,7 @@ public class GamepadMapping {
         // TODO: FIGURE THESE OUT
         //safeDeposit.update(gamepad2.dpad_right);
         hang.update(gamepad2.dpad_down);
-        botToBaseState.update(gamepad1.dpad_right);
+        botToBaseState.update(gamepad2.touchpad);
 
         // intake
         activeIntakeUpdate();
@@ -105,7 +105,7 @@ public class GamepadMapping {
         specMode.update(gamepad2.dpad_right);
 
         // other
-        lockedMode.update(gamepad2.touchpad);
+        // lockedMode.update(gamepad2.touchpad);
     }
 
     public void activeIntakeUpdate() {

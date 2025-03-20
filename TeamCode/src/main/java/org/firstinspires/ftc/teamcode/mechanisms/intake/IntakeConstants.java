@@ -4,7 +4,7 @@ public class IntakeConstants {
 
     // pivoted up, pivoted down, transfer pos, clearing samples, spec mode
     // axon programmed for 0-255, 66 PMW (inverted)
-    private static final double[] pivotPositions = {.27, .89, .22, .5, .35};
+    private static final double[] pivotPositions = {.27, .89, .22, .53, .35};
 
     // right linkage in, right linkage extended, transfer, spec mode
     // axon programmed for 0-255, 75 PMW

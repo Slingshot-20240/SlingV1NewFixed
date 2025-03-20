@@ -62,6 +62,7 @@ public class ActiveCycle {
             controls.botToBaseState.set(false);
             transferState = TransferState.BASE_STATE;
             controls.resetAllControls();
+            colorSensor.setIsBlue(!colorSensor.isBlue);
         }
 
         // arm position farther for deposit
