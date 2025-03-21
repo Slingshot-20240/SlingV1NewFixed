@@ -27,6 +27,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
     State currentState = State.IDLE;
     SampleMecanumDrive drive;
     private Limelight limelight;
+    private int sample = 0;
 
 
     //mechanisms
@@ -246,6 +247,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
 
         currentState = State.initialSamplesState;
         drive.followTrajectorySequenceAsync(trajSeq);
+        sample = 4;
 
         while (opModeIsActive() && !isStopRequested()) {
 
@@ -254,9 +256,15 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                 case initialSamplesState:
                 case scoreState:
                     if (!drive.isBusy()) {
-                        arm.openClaw();
-                        currentState = State.pickupState;
-                        pickUpPath(poseEstimate);
+                        if(sample == 6){
+                            arm.openClaw();
+                            currentState = State.parkState;
+                            parkPath(poseEstimate);
+                        }else {
+                            arm.openClaw();
+                            currentState = State.pickupState;
+                            pickUpPath(poseEstimate);
+                        }
                     }
                     break;
                 case pickupState:
@@ -291,7 +299,13 @@ public class BruteForceCyclerBlue extends LinearOpMode {
                         }else{
                             currentState = State.scoreState;
                             scorePath(poseEstimate);
+                            sample ++;
                         }
+                    }
+                    break;
+                case parkState:
+                    if (!drive.isBusy()) {
+                        currentState = State.IDLE;
                     }
                     break;
                 case IDLE:
@@ -317,6 +331,7 @@ public class BruteForceCyclerBlue extends LinearOpMode {
         intakeState,
         spitState,
         scoreState,
+        parkState,
         IDLE            // Our bot will enter the IDLE state when done
     }
 
@@ -386,6 +401,18 @@ public class BruteForceCyclerBlue extends LinearOpMode {
 //                .back(0.01)
 //                .build();
 //        drive.followTrajectorySequenceAsync(trajSeq);
+    }
+
+    public void parkPath(Pose2d robotPose){
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.toScoreSample();
+                })
+                .splineToLinearHeading(new Pose2d(-24,-8,Math.toRadians(180)), Math.toRadians(0))
+                .back(8)
+                .build();
+        drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void moveLift(int ticks){

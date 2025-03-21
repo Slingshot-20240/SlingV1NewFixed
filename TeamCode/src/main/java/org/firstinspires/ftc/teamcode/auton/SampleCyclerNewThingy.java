@@ -19,11 +19,12 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 //TODO: merge and uncomment below
 //import org.firstinspires.ftc.teamcode.mechanisms.vision.Limelight;
 @Autonomous
-public class SampleCyclerBlueNewThingy extends LinearOpMode {
+public class SampleCyclerNewThingy extends LinearOpMode {
     ElapsedTime limeLightTimer = new ElapsedTime();
     Pose2d poseEstimate;
     State currentState = State.IDLE;
     SampleMecanumDrive drive;
+    private int sample = 0;
 
     //mechanisms
     private GamepadMapping controls;
@@ -229,6 +230,7 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
 
         currentState = State.initialSamplesState;
         drive.followTrajectorySequenceAsync(trajSeq);
+        sample = 4;
 
         while (opModeIsActive() && !isStopRequested()) {
 
@@ -236,11 +238,14 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
             switch (currentState) {
                 case initialSamplesState:
                 case scoreState:
-                    if (!drive.isBusy()) {
+                    if(sample == 6){
                         arm.openClaw();
-
-                        currentState = State.pickupState;
+                        currentState = State.parkState;
                         pickUpPath(poseEstimate);
+                    }else {
+                        arm.openClaw();
+                        currentState = State.pickupState;
+                        parkPath(poseEstimate);
                     }
                     break;
                 case pickupState:
@@ -276,6 +281,11 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                         }
                     }
                     break;
+                case parkState:
+                    if (!drive.isBusy()) {
+                        currentState = State.IDLE;
+                    }
+                    break;
                 case IDLE:
                     break;
             }
@@ -300,6 +310,7 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
         intakeState,
         spitState,
         scoreState,
+        parkState,
         IDLE            // Our bot will enter the IDLE state when done
     }
 
@@ -364,6 +375,18 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
                 .lineToConstantHeading(new Vector2d(-20,-8))
                 .waitSeconds(0.4)
+                .build();
+        drive.followTrajectorySequenceAsync(trajSeq);
+    }
+
+    public void parkPath(Pose2d robotPose){
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    arm.toScoreSample();
+                })
+                .splineToLinearHeading(new Pose2d(-24,-8,Math.toRadians(180)), Math.toRadians(0))
+                .back(8)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
