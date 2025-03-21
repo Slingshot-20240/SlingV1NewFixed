@@ -42,7 +42,7 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
     boolean isBlue = true;
 
     // outtake
-    public int slidePos = 300;
+    public int slidePos = 275;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -77,7 +77,7 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                     moveLift(1700);
                     arm.toScoreSample();
                 })
-                .lineToLinearHeading(new Pose2d(scorePosX-3, scorePosY, Math.toRadians(76)))
+                .lineToLinearHeading(new Pose2d(scorePosX-1.5, scorePosY, Math.toRadians(74)))
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.openClaw();
@@ -104,7 +104,7 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                     moveLift(slidePos);
                 })
 //                .waitSeconds(.1)
-                .lineToLinearHeading(new Pose2d(scorePosX-3, scorePosY, Math.toRadians(76)))
+                .lineToLinearHeading(new Pose2d(scorePosX-1, scorePosY-1, Math.toRadians(78)))
 
 
                 //score
@@ -124,14 +124,14 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                     intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
+                .waitSeconds(0.3)
+                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                     arm.openClaw();
                     moveExtendo(.1);
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
                 })
-                .waitSeconds(1)
+                .waitSeconds(0.8)
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.readyForTransfer();
                     moveLift(slidePos);
@@ -139,8 +139,8 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                 })
 
                 //pickUp2
-                .lineToLinearHeading(new Pose2d(-62.5, -41, Math.toRadians(82)))
-                .waitSeconds(0.2)
+                .lineToLinearHeading(new Pose2d(-63, -43, Math.toRadians(78)))
+                .forward(4)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     moveExtendo(0.1);
                     intake.activeIntake.flipToTransfer();
@@ -150,12 +150,12 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                     moveLift(slidePos);
                 })
                 //.waitSeconds(.2)
-                .lineToLinearHeading(new Pose2d(scorePosX-3, scorePosY, Math.toRadians(73)))
+                .lineToLinearHeading(new Pose2d(scorePosX-1, scorePosY-1, Math.toRadians(75)))
 
                 //score
 
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    intake.activeIntake.rollerMotor.setPower(0.75);
+                    intake.activeIntake.rollerMotor.setPower(1);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
@@ -170,7 +170,7 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                     intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
-                .waitSeconds(0.5)
+                .waitSeconds(0.6)
                 .UNSTABLE_addTemporalMarkerOffset(0.9, () -> {
                     arm.openClaw();
                     moveExtendo(.1);
@@ -185,44 +185,38 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                 })
 
                 //pickUp3
-                .lineToLinearHeading(new Pose2d(-36, -44.75, Math.toRadians(170)))
+//                .lineToLinearHeading(new Pose2d(-36, -44.75, Math.toRadians(170)))
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
                     moveExtendo(0.1);
                 })
-                .lineToLinearHeading(new Pose2d(-42.5, -30.75, Math.toRadians(170)))
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                .lineToLinearHeading(new Pose2d(-43, -33, Math.toRadians(170)))
+                .UNSTABLE_addTemporalMarkerOffset(0.15, () -> {
                     intake.activeIntake.flipToTransfer();
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.15, () -> {
                     intake.extendToTransfer();
                     moveLift(slidePos);
                 })
-                //.waitSeconds(0.6)
-                //.lineToLinearHeading(new Pose2d(scorePosX+1, scorePosY+1, Math.toRadians(45)))
-                .lineToLinearHeading(new Pose2d(scorePosX+2, scorePosY+2, Math.toRadians(45)))
 
-                //score
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> {
                     intake.activeIntake.rollerMotor.setPower(0.75);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
                     arm.closeClaw();
 
                 })
-//                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {
-//                    arm.pullBackToGoUp();
-//                })
-                //.waitSeconds(.1)
-                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(1.4, () -> {
                     //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
                     moveLift(1700);
                     intake.activeIntake.motorRollerOff();
                     arm.toScoreSample();
                 })
-                //.waitSeconds(.5)
-                .waitSeconds(1.5)
+                //.waitSeconds(0.6)
+                //.lineToLinearHeading(new Pose2d(scorePosX+1, scorePosY+1, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .waitSeconds(1)
                 .build();
 
         while(opModeInInit() && !isStopRequested()){
@@ -259,7 +253,7 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                 case limelightState:
                     moveExtendo(0.13);
                     intake.activeIntake.flipDownToClear();
-                    intake.activeIntake.rollerMotor.setPower(0.75);
+                    intake.activeIntake.rollerMotor.setPower(0.4);
                     //TODO: end limelight and get limelightOffsets save them to a variable see below
                     if (limeLightTimer.milliseconds() > 200) {
                         currentState = State.intakeState;
@@ -272,9 +266,9 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                         intake.activeIntake.flipToTransfer();
                         moveLift(slidePos);
                         intake.extendToTransfer();
-                        if(!colorSensor.hasSample() || colorSensor.opposingColor() && !colorSensor.checkSample().equals(ColorSensorI2C.SampleTypes.YELLOW)){
+                        if(!colorSensor.hasSample() || colorSensor.opposingColor()){
                             currentState = State.spitState;
-                            intake.activeIntake.rollerMotor.setPower(1);
+                            intake.activeIntake.rollerMotor.setPower(0.65);
                             spitPath(poseEstimate);
                         }else{
                             currentState = State.scoreState;
@@ -311,30 +305,32 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
 
     public void pickUpPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .waitSeconds(0.15)
+                .waitSeconds(0.05)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(0);
                     arm.readyForTransfer();
                 })
-                .splineTo(new Vector2d(-20.5,-8), Math.toRadians(0))
+                .splineTo(new Vector2d(-20,-8), Math.toRadians(0))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void intakePath(Pose2d robotPose, double xOffset, double yOffset){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .lineToConstantHeading(new Vector2d(-20.5, robotPose.getY() + yOffset)) // plus is for vision offsets
+                .lineToLinearHeading(new Pose2d(-20, robotPose.getY() + yOffset, Math.toRadians(0))) // plus is for vision offsets
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     intake.activeIntake.flipDownFull();
                 })
-                //.waitSeconds(0.75)
+                .waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     intake.extendoFullExtend();
                     intake.activeIntake.motorRollerOnToIntake();
                 })
-                .waitSeconds(.25)
-                .turn(Math.toRadians(4))
-                .turn(Math.toRadians(-4))
+                .waitSeconds(.4)
+                .turn(Math.toRadians(3))
+                .turn(Math.toRadians(-3))
+                .turn(Math.toRadians(3))
+                .turn(Math.toRadians(-3))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
@@ -343,10 +339,11 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
                 //transfer
                 .addTemporalMarker(0.9, () -> {
+                    moveLift(slidePos);
                     intake.activeIntake.rollerMotor.setPower(0.75);
                 })
 
-                .addTemporalMarker(1.1, () -> {
+                .addTemporalMarker(1.3, () -> {
                     arm.closeClaw();
 
                 })
@@ -357,15 +354,16 @@ public class SampleCyclerBlueNewThingy extends LinearOpMode {
                     arm.toScoreSample();
                 })
                 .lineToLinearHeading(new Pose2d(-40, robotPose.getY(),Math.toRadians(0)))
-                //.lineToLinearHeading(new Pose2d(scorePosX+0.2, scorePosY+0.2, Math.toRadians(45)))
-                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY-.75, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX-0.7, scorePosY-0.7, Math.toRadians(45)))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void spitPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .lineToConstantHeading(new Vector2d(-20.5,-8))
+                .lineToConstantHeading(new Vector2d(-20,-8))
+                .waitSeconds(0.4)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }

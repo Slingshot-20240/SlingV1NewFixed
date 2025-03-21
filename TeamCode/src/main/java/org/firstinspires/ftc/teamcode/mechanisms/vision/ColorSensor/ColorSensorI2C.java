@@ -33,9 +33,9 @@ public class ColorSensorI2C {
         this.isBlue = b;
     }
     public boolean opposingColor(){
-        if (isBlue && checkSample().equals(SampleTypes.RED) && !checkSample().equals(SampleTypes.YELLOW)) {
+        if (isBlue && checkSample().equals(SampleTypes.RED)) {
             return true;
-        } else if (!isBlue && checkSample().equals(SampleTypes.BLUE) && !checkSample().equals(SampleTypes.YELLOW)) {
+        } else if (!isBlue && checkSample().equals(SampleTypes.BLUE)) {
             return true;
         }
         return false;
@@ -68,10 +68,10 @@ public class ColorSensorI2C {
     }
 
     public enum SampleTypes{
-        YELLOW(new double[]{306,409,113}, "YELLOW"),
-        BLUE(new double[]{55,110,274}, "BLUE"),
-        RED(new double[]{187,115,77}, "RED"),
-        NONE(new double[]{26,49,43}, "NONE");
+        YELLOW(new double[]{190,270,60}, "YELLOW"),
+        BLUE(new double[]{40,80,170}, "BLUE"),
+        RED(new double[]{150,70,40}, "RED"),
+        NONE(new double[]{17,30,23}, "NONE");
         public final double[] color;
         public final String name;
         SampleTypes(double[] color, String name){

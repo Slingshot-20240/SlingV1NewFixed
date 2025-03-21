@@ -29,6 +29,7 @@ public class ActiveCycle {
     // ---------
     private final Telemetry telemetry;
     private final ElapsedTime loopTime;
+    private final ElapsedTime spitTime;
     public double startTime;
     private boolean safeDeposit = false;
 
@@ -45,6 +46,8 @@ public class ActiveCycle {
         transferState = TransferState.BASE_STATE;
 
         loopTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        spitTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
         startTime = loopTime.milliseconds();
     }
 
@@ -207,12 +210,15 @@ public class ActiveCycle {
 
             case WRONG_COLOR:
 
-                // if no longer detects
-                if (colorSensor.checkSample().equals(ColorSensorI2C.SampleTypes.NONE)) {
+                // if if still detects wrong color
+                if (!colorSensor.checkSample().equals(ColorSensorI2C.SampleTypes.NONE)) {
+                    spitTime.reset();
+                }
+                //after 200 ms of not detecting the wrong color
+                if(spitTime.milliseconds() > 200){
                     intake.activeIntake.motorRollerOff();
                     transferState = TransferState.INTAKING;
                 }
-
                 break;
 
             case TRANSFERING:
