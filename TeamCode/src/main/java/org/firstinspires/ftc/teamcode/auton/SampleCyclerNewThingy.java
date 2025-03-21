@@ -247,11 +247,11 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                     if(sample == 6){
                         arm.openClaw();
                         currentState = State.parkState;
-                        pickUpPath(poseEstimate);
+                        parkPath(poseEstimate);
                     }else {
                         arm.openClaw();
                         currentState = State.pickupState;
-                        parkPath(poseEstimate);
+                        pickUpPath(poseEstimate);
                     }
                     break;
                 case pickupState:
