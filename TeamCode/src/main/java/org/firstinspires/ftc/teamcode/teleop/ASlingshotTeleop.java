@@ -25,6 +25,13 @@ public class ASlingshotTeleop extends OpMode {
         robot.outtake.setMotorsToTeleOpMode();
 
         robot.colorSensorI2C.setIsBlue(isBlue);
+
+        if (controls.botToBaseState.value()) {
+            robot.colorSensorI2C.setIsBlue(!isBlue);
+            controls.botToBaseState.set(false);
+        }
+
+        telemetry.addData("is blue?", isBlue);
     }
 
     @Override

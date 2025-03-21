@@ -139,7 +139,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 })
 
                 //pickUp2
-                .lineToLinearHeading(new Pose2d(-62.5, -41, Math.toRadians(82)))
+                .lineToLinearHeading(new Pose2d(-63, -41, Math.toRadians(82)))
                 .waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     moveExtendo(0.1);
@@ -191,7 +191,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                     intake.activeIntake.motorRollerOnToIntake();
                     moveExtendo(0.1);
                 })
-                .lineToLinearHeading(new Pose2d(-42.5, -30.75, Math.toRadians(170)))
+                .lineToLinearHeading(new Pose2d(-43, -30.5, Math.toRadians(170)))
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipToTransfer();
                 })

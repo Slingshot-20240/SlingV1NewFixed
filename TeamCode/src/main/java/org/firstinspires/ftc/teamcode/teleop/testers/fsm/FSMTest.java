@@ -35,6 +35,11 @@ public class FSMTest extends OpMode {
     public void start() {
         telemetry.addData("is blue?", isBlue);
         previousTime = System.currentTimeMillis();
+
+        if (controls.botToBaseState.value()) {
+            robot.colorSensorI2C.setIsBlue(!isBlue);
+            controls.botToBaseState.set(false);
+        }
     }
 
     @Override

@@ -28,7 +28,7 @@ public class SpecNewAuto extends LinearOpMode {
 
     public double hpX = 36;
     public double hpY = -68;
-    public double scoreY = -32;
+    public double scoreY = -30.5;
 
     @Override
     public void runOpMode() throws InterruptedException {
