@@ -283,6 +283,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                     break;
                 case parkState:
                     if (!drive.isBusy()) {
+                        moveLift(200);
                         currentState = State.IDLE;
                     }
                     break;
@@ -383,10 +384,10 @@ public class SampleCyclerNewThingy extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
                 .waitSeconds(0.05)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    moveLift(0);
-                    arm.toScoreSample();
+                    moveLift(500);
+                    arm.pickSpec();
                 })
-                .splineToLinearHeading(new Pose2d(-20,-8, Math.toRadians(180)), Math.toRadians(0))
+                .splineTo(new Vector2d(-18,-8), Math.toRadians(0))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
