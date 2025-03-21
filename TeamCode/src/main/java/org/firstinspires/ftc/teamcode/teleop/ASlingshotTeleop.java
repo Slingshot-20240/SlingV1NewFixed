@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import static org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C.isBlue;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,7 +10,7 @@ import org.firstinspires.ftc.teamcode.fsm.ActiveCycle;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @TeleOp
-public class ASlingshotTeleopBlue extends OpMode {
+public class ASlingshotTeleop extends OpMode {
     private GamepadMapping controls;
     private ActiveCycle cycle;
     private Robot robot;
@@ -22,7 +24,7 @@ public class ASlingshotTeleopBlue extends OpMode {
 
         robot.outtake.setMotorsToTeleOpMode();
 
-        robot.colorSensorI2C.setIsBlue(true);
+        robot.colorSensorI2C.setIsBlue(isBlue);
     }
 
     @Override
@@ -32,6 +34,7 @@ public class ASlingshotTeleopBlue extends OpMode {
         robot.intake.extendoFullRetract();
 
         previousTime = System.currentTimeMillis();
+        telemetry.addData("is blue?", isBlue);
     }
 
     @Override
@@ -39,6 +42,8 @@ public class ASlingshotTeleopBlue extends OpMode {
         cycle.activeIntakeUpdate();
         controls.update();
         robot.drivetrain.update();
+
+        telemetry.addData("is blue?", isBlue);
 
         long currentTime = System.currentTimeMillis();
         long loopTime = currentTime - previousTime;

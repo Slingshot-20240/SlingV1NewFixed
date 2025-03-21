@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.teleop.testers.fsm;
 
+import static org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C.isBlue;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.fsm.ActiveCycle;
-import org.firstinspires.ftc.teamcode.mechanisms.intake.Intake;
-import org.firstinspires.ftc.teamcode.mechanisms.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 
 @TeleOp
-public class FSMTestBlue extends OpMode {
+public class FSMTest extends OpMode {
     private GamepadMapping controls;
     private ActiveCycle cycle;
     private Robot robot;
@@ -28,11 +28,12 @@ public class FSMTestBlue extends OpMode {
         robot.intake.resetHardware();
         robot.outtake.resetHardware();
 
-        robot.colorSensorI2C.setIsBlue(true);
+        robot.colorSensorI2C.setIsBlue(isBlue);
     }
 
     @Override
     public void start() {
+        telemetry.addData("is blue?", isBlue);
         previousTime = System.currentTimeMillis();
     }
 
@@ -43,7 +44,7 @@ public class FSMTestBlue extends OpMode {
         robot.drivetrain.update();
 
         telemetry.addData("transferState", cycle.getState().stateName());
-        telemetry.addData("is blue?", robot.colorSensorI2C.isBlue);
+        telemetry.addData("is blue?", isBlue);
 
         long currentTime = System.currentTimeMillis();
         long loopTime = currentTime - previousTime;

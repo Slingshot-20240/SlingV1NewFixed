@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.auton;
 
+import static org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C.isBlue;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -39,9 +41,6 @@ public class SampleCyclerNewThingy extends LinearOpMode {
     public double scorePosX = -55;
     public double scorePosY = -55;
 
-    //limelight
-    boolean isBlue = true;
-
     // outtake
     public int slidePos = 300;
 
@@ -69,8 +68,8 @@ public class SampleCyclerNewThingy extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
         colorSensor = robot.colorSensorI2C;
-        colorSensor.setIsBlue(isBlue);
-        limelight = new Limelight(hardwareMap, !isBlue, isBlue, true);
+        colorSensor.setIsBlue(true);
+        limelight = new Limelight(hardwareMap, false, true, true);
 
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
                 //preload
@@ -94,7 +93,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 })
 
                 //pickUp1
-                .lineToConstantHeading(new Vector2d(-50.5,-42))
+                .lineToConstantHeading(new Vector2d(-46.25,-42))
                 .waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(0.05, () -> {
                     moveExtendo(0.1);
@@ -202,7 +201,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 })
                 //.waitSeconds(0.6)
                 //.lineToLinearHeading(new Pose2d(scorePosX+1, scorePosY+1, Math.toRadians(45)))
-                .lineToLinearHeading(new Pose2d(scorePosX+2, scorePosY+2, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX+.5, scorePosY+.5, Math.toRadians(45)))
 
                 //score
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -228,7 +227,15 @@ public class SampleCyclerNewThingy extends LinearOpMode {
 
         while(opModeInInit() && !isStopRequested()){
             //TODO: add controller inputs here for alliance color
-            //TODO: add stuff that changes what color we are  sensing for in our limelight
+            //TODO: add stuff that changes what color we are sensing for in our limelight
+            controls.update();
+            if (controls.botToBaseState.value()) {
+                colorSensor.setIsBlue(!isBlue);
+                limelight.setColors(isBlue, !isBlue, true);
+                controls.botToBaseState.set(false);
+            }
+            telemetry.addData("isBlue?", isBlue);
+            telemetry.update();
         }
         waitForStart();
 
@@ -251,6 +258,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                             parkPath(poseEstimate);
                         } else {
                             arm.openClaw();
+                            sample++;
                             currentState = State.pickupState;
                             pickUpPath(poseEstimate);
                         }
@@ -372,7 +380,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 })
                 .lineToLinearHeading(new Pose2d(-40, robotPose.getY(),Math.toRadians(0)))
                 //.lineToLinearHeading(new Pose2d(scorePosX+0.2, scorePosY+0.2, Math.toRadians(45)))
-                .lineToLinearHeading(new Pose2d(scorePosX, scorePosY-.75, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(scorePosX-.5, scorePosY-.75, Math.toRadians(45)))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }

@@ -89,7 +89,7 @@ public class GamepadMapping {
         // TODO: FIGURE THESE OUT
         //safeDeposit.update(gamepad2.dpad_right);
         hang.update(gamepad2.dpad_down);
-        botToBaseState.update(gamepad2.touchpad);
+        botToBaseState.update(gamepad2.left_stick_button);
 
         // intake
         activeIntakeUpdate();

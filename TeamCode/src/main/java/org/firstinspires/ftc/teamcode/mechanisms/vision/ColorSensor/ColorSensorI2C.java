@@ -16,13 +16,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class ColorSensorI2C {
     ColorRangeSensor sensor;
     double blockDistance = 3.81;
-    public boolean isBlue;
+    public static boolean isBlue;
     public ColorSensorI2C(HardwareMap hm){
         this.sensor = hm.get(RevColorSensorV3.class, "colorSensor");
     }
-    public ColorSensorI2C( HardwareMap hm, boolean isBlue){
+    public ColorSensorI2C( HardwareMap hm, boolean isBlueYub){
         this.sensor = hm.get(RevColorSensorV3.class, "colorSensor");
-        this.isBlue = isBlue;
+        isBlue = isBlueYub;
     }
     // this is for testing only
     public ColorSensorI2C (ColorRangeSensor colorSensor, boolean isBlue) {
@@ -30,7 +30,7 @@ public class ColorSensorI2C {
         this.isBlue = isBlue;
     }
     public void setIsBlue(boolean b){
-        this.isBlue = b;
+        isBlue = b;
     }
     public boolean opposingColor(){
         if (isBlue && checkSample().equals(SampleTypes.RED) && !checkSample().equals(SampleTypes.YELLOW)) {
@@ -68,9 +68,9 @@ public class ColorSensorI2C {
     }
 
     public enum SampleTypes{
-        YELLOW(new double[]{306,409,113}, "YELLOW"),
-        BLUE(new double[]{55,110,274}, "BLUE"),
-        RED(new double[]{187,115,77}, "RED"),
+        YELLOW(new double[]{330,510,120}, "YELLOW"),
+        BLUE(new double[]{65,130,310}, "BLUE"),
+        RED(new double[]{200,115,70}, "RED"),
         NONE(new double[]{26,49,43}, "NONE");
         public final double[] color;
         public final String name;

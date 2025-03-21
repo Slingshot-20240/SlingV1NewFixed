@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.fsm;
 
+import static org.firstinspires.ftc.teamcode.mechanisms.vision.ColorSensor.ColorSensorI2C.isBlue;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -59,10 +61,10 @@ public class ActiveCycle {
 
         // base state reset
         if(controls.botToBaseState.value()) {
-            controls.botToBaseState.set(false);
             transferState = TransferState.BASE_STATE;
             controls.resetAllControls();
-            colorSensor.setIsBlue(!colorSensor.isBlue);
+            colorSensor.setIsBlue(!isBlue);
+            controls.botToBaseState.set(false);
         }
 
         // arm position farther for deposit

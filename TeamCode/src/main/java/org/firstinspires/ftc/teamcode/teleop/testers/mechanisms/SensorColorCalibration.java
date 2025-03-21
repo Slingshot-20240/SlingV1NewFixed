@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.misc.gamepad.GamepadMapping;
 import org.opencv.core.Scalar;
 
@@ -19,9 +20,13 @@ public class SensorColorCalibration extends OpMode {
     int iterationCount = 0;
     double[] currentMean = new double[3];
     ColorRangeSensor sensor;
+    Robot robot;
+    GamepadMapping controls;
     List<Object> test;
     @Override
     public void init() {
+        controls = new GamepadMapping(gamepad1, gamepad2);
+        robot = new Robot(hardwareMap, telemetry, controls);
         sensor = hardwareMap.get(ColorRangeSensor.class, "colorSensor");
     }
 
@@ -50,6 +55,16 @@ public class SensorColorCalibration extends OpMode {
         telemetry.addData("dist: ", sensor.getDistance(DistanceUnit.CM)); //see if this changes when a pixel is placed in. this is used to verify if there is a pixel or not
         telemetry.addData("mean:", parseDoubleArray(currentMean));
         telemetry.addData("current Val:", parseDoubleArray(byeLoopTime));
+
+        controls.update();
+
+        if (controls.intakeOnToIntake.locked()) {
+            robot.intake.activeIntake.flipDownFull();
+            robot.intake.activeIntake.motorRollerOnToIntake();
+        } else {
+            robot.intake.activeIntake.flipUp();
+            robot.intake.activeIntake.motorRollerOff();
+        }
     }
     public String parseDoubleArray(double[] array){
         //I chose to do this to sacrifice a little bit of memory for a little bit of speed :)
