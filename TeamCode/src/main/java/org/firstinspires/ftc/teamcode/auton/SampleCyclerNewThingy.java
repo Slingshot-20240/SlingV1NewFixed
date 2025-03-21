@@ -381,12 +381,12 @@ public class SampleCyclerNewThingy extends LinearOpMode {
 
     public void parkPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .waitSeconds(0.1)
+                .waitSeconds(0.05)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    moveLift(0);
                     arm.toScoreSample();
                 })
-                .splineToLinearHeading(new Pose2d(-24,-8,Math.toRadians(180)), Math.toRadians(0))
-                .back(8)
+                .splineToLinearHeading(new Pose2d(-20,-8, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
