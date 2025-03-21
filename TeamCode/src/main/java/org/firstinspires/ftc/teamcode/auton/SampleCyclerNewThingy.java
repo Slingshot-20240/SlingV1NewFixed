@@ -244,14 +244,16 @@ public class SampleCyclerNewThingy extends LinearOpMode {
             switch (currentState) {
                 case initialSamplesState:
                 case scoreState:
-                    if(sample == 6){
-                        arm.openClaw();
-                        currentState = State.parkState;
-                        parkPath(poseEstimate);
-                    }else {
-                        arm.openClaw();
-                        currentState = State.pickupState;
-                        pickUpPath(poseEstimate);
+                    if(!drive.isBusy()) {
+                        if (sample == 6) {
+                            arm.openClaw();
+                            currentState = State.parkState;
+                            parkPath(poseEstimate);
+                        } else {
+                            arm.openClaw();
+                            currentState = State.pickupState;
+                            pickUpPath(poseEstimate);
+                        }
                     }
                     break;
                 case pickupState:
@@ -387,9 +389,9 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 .waitSeconds(0.05)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(500);
-                    arm.pickSpec();
+                    arm.toScoreSpecimen();
                 })
-                .splineTo(new Vector2d(-18,-8), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-18,-8, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
