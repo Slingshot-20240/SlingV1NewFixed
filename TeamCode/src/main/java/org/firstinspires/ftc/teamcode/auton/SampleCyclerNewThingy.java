@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 @Autonomous
 public class SampleCyclerNewThingy extends LinearOpMode {
     ElapsedTime limeLightTimer = new ElapsedTime();
+    ElapsedTime runTime = new ElapsedTime();
     Pose2d poseEstimate;
     State currentState = State.IDLE;
     SampleMecanumDrive drive;
@@ -139,7 +140,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 })
 
                 //pickUp2
-                .lineToLinearHeading(new Pose2d(-63, -41, Math.toRadians(82)))
+                .lineToLinearHeading(new Pose2d(-63, -41, Math.toRadians(85)))
                 .waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     moveExtendo(0.1);
@@ -185,7 +186,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 })
 
                 //pickUp3
-                .lineToLinearHeading(new Pose2d(-36, -44.75, Math.toRadians(170)))
+//                .lineToLinearHeading(new Pose2d(-36, -44.75, Math.toRadians(170)))
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     intake.activeIntake.flipDownFull();
                     intake.activeIntake.motorRollerOnToIntake();
@@ -238,6 +239,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
             telemetry.update();
         }
         waitForStart();
+        runTime.reset();
 
         if (isStopRequested()) return;
 
@@ -274,7 +276,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 case limelightState:
                     moveExtendo(0.13);
                     intake.activeIntake.flipDownToClear();
-                    intake.activeIntake.rollerMotor.setPower(0.75);
+                    intake.activeIntake.rollerMotor.setPower(0.5);
                     //TODO: end limelight and get limelightOffsets save them to a variable see below
                     if (limeLightTimer.milliseconds() > 200) {
                         currentState = State.intakeState;
@@ -284,16 +286,26 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                     break;
                 case intakeState:
                     if (!drive.isBusy()) {
-                        intake.activeIntake.flipToTransfer();
+//                        intake.activeIntake.flipToTransfer();
                         moveLift(slidePos);
                         intake.extendToTransfer();
                         if(!colorSensor.hasSample() || colorSensor.opposingColor() && !colorSensor.checkSample().equals(ColorSensorI2C.SampleTypes.YELLOW)){
                             currentState = State.spitState;
-                            intake.activeIntake.rollerMotor.setPower(1);
+                            intake.activeIntake.rollerMotor.setPower(0.45);
                             spitPath(poseEstimate);
                         }else{
-                            currentState = State.scoreState;
-                            scorePath(poseEstimate);
+                            //TODO: uncomment this when BSTEM
+                            if(runTime.milliseconds() > 27000){
+                                intake.activeIntake.motorRollerOff();
+                                intake.activeIntake.flipToTransfer();
+                                currentState = State.IDLE;
+                            }else{
+                                currentState = State.scoreState;
+                                scorePath(poseEstimate);
+                            }
+                            //TODO: commet out when BSTEM
+//                            currentState = State.scoreState;
+//                            scorePath(poseEstimate);
                         }
                     }
                     break;
@@ -335,17 +347,17 @@ public class SampleCyclerNewThingy extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
                 .waitSeconds(0.15)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    moveLift(0);
+                    moveLift(slidePos);
                     arm.readyForTransfer();
                 })
-                .splineTo(new Vector2d(-20.5,-8), Math.toRadians(0))
+                .splineTo(new Vector2d(-21,-8), Math.toRadians(0))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void intakePath(Pose2d robotPose, double xOffset, double yOffset){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .lineToConstantHeading(new Vector2d(-20.5, robotPose.getY() + yOffset)) // plus is for vision offsets
+                .lineToConstantHeading(new Vector2d(-21, robotPose.getY() + yOffset)) // plus is for vision offsets
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     intake.activeIntake.flipDownFull();
                 })
@@ -363,6 +375,9 @@ public class SampleCyclerNewThingy extends LinearOpMode {
 
     public void scorePath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                .addTemporalMarker(0, () -> {
+                    intake.activeIntake.flipToTransfer();
+                })
                 //transfer
                 .addTemporalMarker(0.9, () -> {
                     intake.activeIntake.rollerMotor.setPower(0.75);
@@ -381,21 +396,22 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(-40, robotPose.getY(),Math.toRadians(0)))
                 //.lineToLinearHeading(new Pose2d(scorePosX+0.2, scorePosY+0.2, Math.toRadians(45)))
                 .lineToLinearHeading(new Pose2d(scorePosX-.5, scorePosY-.75, Math.toRadians(45)))
+                .waitSeconds(0.1)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void spitPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .lineToConstantHeading(new Vector2d(-20.5,-8))
+                .lineToConstantHeading(new Vector2d(-21,-8))
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
 
     public void parkPath(Pose2d robotPose){
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
-                .waitSeconds(0.05)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0.75, () -> {
                     moveLift(500);
                     arm.toScoreSpecimen();
                 })
