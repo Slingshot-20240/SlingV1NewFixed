@@ -26,8 +26,8 @@ public class SpecNewAuto extends LinearOpMode {
     private Intake intake;
     private Arm arm;
 
-    public double hpX = 36;
-    public double hpY = -68;
+    public double hpX = 40-1.5;
+    public double hpY = -70;
     public double scoreY = -30.5;
 
     @Override
@@ -61,23 +61,24 @@ public class SpecNewAuto extends LinearOpMode {
                     //raise slides (small);
                     //flip arm to score
                 })
-                .lineToConstantHeading(new Vector2d(6,  scoreY-3.5))
+                .lineToConstantHeading(new Vector2d(6,  scoreY-2.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
-                .waitSeconds(.2)
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {
+
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                     moveLift(0);
                 })
+                .waitSeconds(.5)
 
                 //pickup 1
                 .splineToConstantHeading(new Vector2d(26,  -45),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(39,  -32),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(36.5,  -32),Math.toRadians(90))
 
 
-                .lineToConstantHeading(new Vector2d(39,  -13))
+                .lineToConstantHeading(new Vector2d(36.5,  -13))
                 .splineToConstantHeading(new Vector2d(43,  -13),Math.toRadians(0))
                 .lineToConstantHeading(new Vector2d(44,  -13))
                 .lineToConstantHeading(new Vector2d(44,-55))
@@ -105,7 +106,7 @@ public class SpecNewAuto extends LinearOpMode {
                 })
 
                 //score 1
-                .lineToConstantHeading(new Vector2d(-1,  scoreY-5))
+                .lineToConstantHeading(new Vector2d(-1,  scoreY-8))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -118,7 +119,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //HP 2
-                .lineToConstantHeading(new Vector2d(hpX,hpY+6))
+                .lineToConstantHeading(new Vector2d(hpX,hpY+12))
                 .lineToConstantHeading(new Vector2d(hpX,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
@@ -129,7 +130,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 2
-                .lineToConstantHeading(new Vector2d(4,  scoreY-6.5))
+                .lineToConstantHeading(new Vector2d(4,  scoreY-8.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -143,7 +144,7 @@ public class SpecNewAuto extends LinearOpMode {
                 })
 
                 //HP 3
-                .lineToConstantHeading(new Vector2d(hpX,hpY+6))
+                .lineToConstantHeading(new Vector2d(hpX,hpY+12))
                 .lineToConstantHeading(new Vector2d(hpX,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();
@@ -154,7 +155,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 3
-                .lineToConstantHeading(new Vector2d(-2,  scoreY-5.5))
+                .lineToConstantHeading(new Vector2d(-2,  scoreY-7.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -167,7 +168,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //HP 4
-                .lineToConstantHeading(new Vector2d(hpX,hpY+6))
+                .lineToConstantHeading(new Vector2d(hpX,hpY+12))
                 .lineToConstantHeading(new Vector2d(hpX,hpY))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {
                     arm.closeClaw();

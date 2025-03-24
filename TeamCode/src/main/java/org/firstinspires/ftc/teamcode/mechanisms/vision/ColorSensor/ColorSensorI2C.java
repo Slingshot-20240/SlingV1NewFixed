@@ -14,9 +14,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorSensorI2C {
-    ColorRangeSensor sensor;
+    public ColorRangeSensor sensor;
     double blockDistance = 3.81;
     public static boolean isBlue;
+
+    private double rThresh = 0.7;
+    private double bThresh = 2.1;
+    private double yThresh = 0.9;
+
     public ColorSensorI2C(HardwareMap hm){
         this.sensor = hm.get(RevColorSensorV3.class, "colorSensor");
     }
@@ -44,19 +49,33 @@ public class ColorSensorI2C {
         return (!isBlue?SampleTypes.RED:SampleTypes.BLUE).equals(checkSample());
     }
     public SampleTypes checkSample(){
-        double[] sensorVals = new double[3];
-        sensorVals[0] = sensor.red();
-        sensorVals[1] = sensor.green();
-        sensorVals[2] = sensor.blue();
-        SampleTypes best = null;
-        double least = Double.MAX_VALUE;
-        for(SampleTypes s : SampleTypes.values()){
-            if(Math.abs(sensorVals[0]-s.color[0])+Math.abs(sensorVals[1]-s.color[1])+Math.abs(sensorVals[2]-s.color[2]) < least){
-                least = Math.abs(sensorVals[0]-s.color[0])+Math.abs(sensorVals[1]-s.color[1])+Math.abs(sensorVals[2]-s.color[2]);
-                best = s;
-            };
+//        double[] sensorVals = new double[3];
+//        sensorVals[0] = sensor.red();
+//        sensorVals[1] = sensor.green();
+//        sensorVals[2] = sensor.blue();
+//        SampleTypes best = null;
+//        double least = Double.MAX_VALUE;
+//        for(SampleTypes s : SampleTypes.values()){
+//            if(Math.abs(sensorVals[0]-s.color[0])+Math.abs(sensorVals[1]-s.color[1])+Math.abs(sensorVals[2]-s.color[2]) < least){
+//                least = Math.abs(sensorVals[0]-s.color[0])+Math.abs(sensorVals[1]-s.color[1])+Math.abs(sensorVals[2]-s.color[2]);
+//                best = s;
+//            };
+//        }
+//        return best;
+
+        if (sensor.red()/sensor.blue() > rThresh && sensor.red()/sensor.green() > yThresh) {
+            return SampleTypes.RED;
+        } else if (sensor.blue()/sensor.red() > bThresh) {
+            return SampleTypes.BLUE;
+        } else if (sensor.red()/sensor.blue() > rThresh && sensor.red()/sensor.green() < yThresh) {
+            return SampleTypes.YELLOW;
         }
-        return best;
+        return SampleTypes.NONE;
+    }
+    public void changeThres(double rThresh, double bThresh, double yThresh) {
+        this.rThresh = rThresh;
+        this.bThresh = bThresh;
+        this.yThresh = yThresh;
     }
     public double[] sensorVals(){
         return new double[]{sensor.red(), sensor.green(), sensor.blue(), sensor.getDistance(DistanceUnit.CM)};
@@ -68,9 +87,9 @@ public class ColorSensorI2C {
     }
 
     public enum SampleTypes{
-        YELLOW(new double[]{330,510,120}, "YELLOW"),
-        BLUE(new double[]{65,130,310}, "BLUE"),
-        RED(new double[]{200,115,70}, "RED"),
+        YELLOW(new double[]{370,424,108}, "YELLOW"),
+        BLUE(new double[]{47,96,251}, "BLUE"),
+        RED(new double[]{230,109,58}, "RED"),
         NONE(new double[]{26,49,43}, "NONE");
         public final double[] color;
         public final String name;

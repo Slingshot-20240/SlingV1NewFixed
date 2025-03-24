@@ -109,10 +109,10 @@ public class ActiveCycle {
                 }
 
                 // spec mode!
-                if (controls.specMode.value()) {
-                    transferState = TransferState.SPEC_MODE;
-                    startTime = loopTime.milliseconds();
-                }
+//                if (controls.specMode.value()) {
+//                    transferState = TransferState.SPEC_MODE;
+//                    startTime = loopTime.milliseconds();
+//                }
 
                 // hang (press bot to base state if mess up)
                 if (controls.hang.value()) {
@@ -200,10 +200,10 @@ public class ActiveCycle {
                 }
 
                 // check color sensor
-                if (colorSensor.opposingColor()) {
-                    intake.activeIntake.clearIntake();
-                    transferState = TransferState.WRONG_COLOR;
-                }
+//                if (colorSensor.opposingColor()) {
+//                    intake.activeIntake.clearIntake();
+//                    transferState = TransferState.WRONG_COLOR;
+//                }
 
                 break;
 
@@ -352,11 +352,12 @@ public class ActiveCycle {
                 break;
 
             case HANGING:
-
                 // go to low pos to hang
                 if (!controls.hang.value()) {
                     outtake.moveTicks(OuttakeConstants.SlidePositions.HANGING_LOW.getSlidePos());
                     //transferState = ActiveCycle.TransferState.SLIDES_RETRACTED;
+                } else if (controls.hang.value()) {
+                    outtake.moveTicks(OuttakeConstants.SlidePositions.HANGING_HIGH.getSlidePos());
                 }
 
                 break;
@@ -451,11 +452,11 @@ public class ActiveCycle {
                 outtake.extendToSpecimenHighRackHigh();
 
                 // open claw
-                if (loopTime.milliseconds() - startTime <= 800 && loopTime.milliseconds() - startTime >= 500) {
+                if (loopTime.milliseconds() - startTime <= 1000 && loopTime.milliseconds() - startTime >= 700) {
                     arm.openClaw();
 
                 // wait a bit, then move back down to spec idle
-                } else if (loopTime.milliseconds() - startTime > 800) {
+                } else if (loopTime.milliseconds() - startTime > 1000) {
                     transferState = TransferState.SPEC_IDLE;
                     arm.pickSpec();
                     controls.openClaw.set(false);
