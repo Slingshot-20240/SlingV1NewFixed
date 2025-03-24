@@ -27,8 +27,8 @@ public class SpecNewAuto extends LinearOpMode {
     private Arm arm;
 
     public double hpX = 40-1.5;
-    public double hpY = -70;
-    public double scoreY = -30.5;
+    public double hpY = -71;
+    public double scoreY = -27.5;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -61,12 +61,12 @@ public class SpecNewAuto extends LinearOpMode {
                     //raise slides (small);
                     //flip arm to score
                 })
-                .lineToConstantHeading(new Vector2d(6,  scoreY-2.5))
+                .lineToConstantHeading(new Vector2d(8,  scoreY-5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    moveLift(1000);
+                    moveLift(2000);
                 })
 
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     arm.openClaw();
                     arm.pickSpec();
                     moveLift(0);
@@ -85,13 +85,13 @@ public class SpecNewAuto extends LinearOpMode {
 
                 //pickup 2
                 .lineToConstantHeading(new Vector2d(42,-13))
-                .splineToConstantHeading(new Vector2d(53,  -13),Math.toRadians(0))
-                .lineToConstantHeading(new Vector2d(53,-55))
+                .splineToConstantHeading(new Vector2d(55,  -13),Math.toRadians(0))
+                .lineToConstantHeading(new Vector2d(55,-55))
 
                 //pickup 3
                 .lineToConstantHeading(new Vector2d(47,  -13))
-                .splineToConstantHeading(new Vector2d(59.5,  -13),Math.toRadians(0))
-                .lineToConstantHeading(new Vector2d(59.5,-50))
+                .splineToConstantHeading(new Vector2d(62,  -13),Math.toRadians(0))
+                .lineToConstantHeading(new Vector2d(62,-50))
 
                 //HP 1
                 .lineToConstantHeading(new Vector2d(hpX-3,hpY+6))
@@ -106,7 +106,7 @@ public class SpecNewAuto extends LinearOpMode {
                 })
 
                 //score 1
-                .lineToConstantHeading(new Vector2d(-1,  scoreY-8))
+                .lineToConstantHeading(new Vector2d(-8,  scoreY-8))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -130,7 +130,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 2
-                .lineToConstantHeading(new Vector2d(4,  scoreY-8.5))
+                .lineToConstantHeading(new Vector2d(-4,  scoreY-8))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -155,7 +155,7 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 3
-                .lineToConstantHeading(new Vector2d(-2,  scoreY-7.5))
+                .lineToConstantHeading(new Vector2d(0,  scoreY-7.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
                 })
@@ -179,20 +179,51 @@ public class SpecNewAuto extends LinearOpMode {
                     moveLift(0);
                 })
                 //score 4
-                .lineToConstantHeading(new Vector2d(-8,  scoreY-6.5))
+                .lineToConstantHeading(new Vector2d(4,  scoreY-6.5))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     moveLift(1000);
+                    moveExtendo(0.1);
+                    intake.activeIntake.motorRollerOnToIntake();
                 })
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
                     arm.openClaw();
                     arm.pickSpec();
+                    intake.activeIntake.flipDownFull();
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> {
                     moveLift(0);
                 })
                 //park
-                .lineToConstantHeading(new Vector2d(hpX,  hpY))
+                .lineToLinearHeading(new Pose2d(hpX-9,  hpY+24,Math.toRadians(-45)))
+                .waitSeconds(0.2)
+                .addTemporalMarker(0, () -> {
+                    intake.activeIntake.flipToTransfer();
+                    intake.extendoFullRetract();
+                })
+                .waitSeconds(0.1)
+                //transfer
+                .addTemporalMarker(0.7, () -> {
+                    intake.activeIntake.rollerMotor.setPower(0.75);
+                })
+
+                .addTemporalMarker(0.9, () -> {
+                    arm.closeClaw();
+
+                })
+                .addTemporalMarker(1.3, () -> {
+                    //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
+                    moveLift(1900);
+                    intake.activeIntake.motorRollerOff();
+                    arm.toScoreSample();
+                })
+                .lineToLinearHeading(new Pose2d(-55,  -55, Math.toRadians(80)))
+                .addTemporalMarker(0.1, () -> {
+                    //arm.wrist.setPosition(OuttakeConstants.ArmPositions.GRABBING_SPEC.getWristPos());
+                    arm.openClaw();
+                })
+                .waitSeconds(0.3)
+                .forward(6)
                 .build();
         waitForStart();
 
