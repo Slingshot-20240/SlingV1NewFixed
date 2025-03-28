@@ -30,6 +30,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
     private int sample = 0;
     private double cord1 = -8;
     private double cord2 = -8;
+    private double cord3 = -8;
     private int tryCount = 0;
 
     //mechanisms
@@ -241,9 +242,11 @@ public class SampleCyclerNewThingy extends LinearOpMode {
 
             cord1 -= gamepad2.left_stick_y*0.002;
             cord2 -= gamepad2.right_stick_y*0.002;
+            cord2 += (gamepad2.right_trigger- gamepad2.left_trigger)*0.002;
             telemetry.addData("isBlue", isBlue);
             telemetry.addData("cord 5", cord1);
             telemetry.addData("cord 6", cord2);
+            telemetry.addData("cord 7", cord3);
             telemetry.update();
         }
         waitForStart();
@@ -286,12 +289,14 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                     moveExtendo(0.13);
                     intake.activeIntake.flipDownToClear();
                     intake.activeIntake.rollerMotor.setPower(0.5);
+                    currentState = State.intakeState;
+                    intakePath(poseEstimate, 0 ,0);
                     //TODO: end limelight and get limelightOffsets save them to a variable see below
-                    if (limeLightTimer.milliseconds() > 10) {
-                        currentState = State.intakeState;
-                        intakePath(poseEstimate, 0 ,0);
-
-                    }
+//                    if (limeLightTimer.milliseconds() > 0) {
+//                        currentState = State.intakeState;
+//                        intakePath(poseEstimate, 0 ,0);
+//
+//                    }
                     break;
                 case intakeState:
                     if (!drive.isBusy()) {
@@ -386,9 +391,25 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                     .turn(Math.toRadians(4.5))
                     .turn(Math.toRadians(-4.5))
                     .build();
-        }else {
+        }else if(sample == 6){
             trajSeq = drive.trajectorySequenceBuilder(robotPose)
                     .lineToConstantHeading(new Vector2d(-18, cord2 + tryCount * 3.5))// plus is for vision offsets
+                    .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                        moveExtendo(0.07);
+                        intake.activeIntake.flipDownFull();
+                    })
+                    //.waitSeconds(0.75)
+                    .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {
+                        intake.extendoFullExtend();
+                        intake.activeIntake.motorRollerOnToIntake();
+                    })
+                    .waitSeconds(0.6)
+                    .turn(Math.toRadians(4.5))
+                    .turn(Math.toRadians(-4.5))
+                    .build();
+        }else{
+            trajSeq = drive.trajectorySequenceBuilder(robotPose)
+                    .lineToConstantHeading(new Vector2d(-18, cord3 + tryCount * 3.5))// plus is for vision offsets
                     .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                         moveExtendo(0.07);
                         intake.activeIntake.flipDownFull();
