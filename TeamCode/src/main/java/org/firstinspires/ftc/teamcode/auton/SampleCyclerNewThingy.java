@@ -46,7 +46,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
     public double scorePosY = -55.25;
 
     // outtake
-    public int slidePos = 300;
+    public int slidePos = 270;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -262,7 +262,7 @@ public class SampleCyclerNewThingy extends LinearOpMode {
                 case initialSamplesState:
                 case scoreState:
                     if(!drive.isBusy()) {
-                        if (sample == 6) {
+                        if (sample == 7) {
                             arm.openClaw();
                             currentState = State.parkState;
                             moveLift(300);
@@ -448,10 +448,10 @@ public class SampleCyclerNewThingy extends LinearOpMode {
         TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(robotPose)
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0.75, () -> {
-                    moveLift(500);
+                    moveLift(1800);
                     arm.toScoreSpecimen();
                 })
-                .splineToLinearHeading(new Pose2d(-18,-8, Math.toRadians(180)), Math.toRadians(0))
+                .forward(15)
                 .build();
         drive.followTrajectorySequenceAsync(trajSeq);
     }
