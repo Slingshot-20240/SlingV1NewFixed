@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.mechanisms.outtake;
 public class OuttakeConstants {
 
     // Retracted, low basket, high basket, below spec high rack, score spec low, score spec high, hang high, hang low, transfer
-    private static double[] slidePositions = {0, 700, 1900, 0, 700, 2200, 1600, 300}; // mini extend
+    private static double[] slidePositions = {0, 700, 2000, 0, 700, 2200, 1600, 300}; // mini extend
     public enum SlidePositions {
         RETRACTED(slidePositions[0]),
         LOW_BASKET(slidePositions[1]), // probably could work for hang
@@ -24,7 +24,7 @@ public class OuttakeConstants {
     }
 
     // Transfer, going up, deposit, grab spec, safe deposit
-    private static double[] armPositions = {.2, .13, .81, .32, .9};
+    private static double[] armPositions = {.2, .13, .9, .32, .9};
     // Transfer, deposit, pick spec
     private static double[] wristPositions = {.95, 0, 0.95};
     // open, closed
