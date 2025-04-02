@@ -378,12 +378,10 @@ public class ActiveCycleTests {
     public void testSpecRetractingToIdle() {
         cycle.setState(ActiveCycle.TransferState.SPEC_RETRACTING);
 
-        cycle.startTime = -900;
+        cycle.startTime = -1000;
 
         cycle.activeIntakeUpdate();
 
         assertEquals(ActiveCycle.TransferState.SPEC_IDLE, cycle.getState());
     }
-
-
 }
