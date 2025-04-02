@@ -71,6 +71,7 @@ public class GamepadMapping {
         openClaw = new Toggle(false);
         scoreSpec = new Toggle(false);
 
+
         // OTHER
         botToBaseState = new Toggle(false);
         specMode = new Toggle(false);
@@ -78,9 +79,15 @@ public class GamepadMapping {
     }
 
     public void joystickUpdate() {
-        drive = gamepad1.left_stick_y;
-        strafe = gamepad1.left_stick_x;
-        turn = gamepad1.right_stick_x;
+        if(gamepad1.x){
+            drive = gamepad1.left_stick_y*0.3;
+            strafe = gamepad1.left_stick_x*0.3;
+            turn = gamepad1.right_stick_x*0.3;
+        }else {
+            drive = gamepad1.left_stick_y;
+            strafe = gamepad1.left_stick_x;
+            turn = gamepad1.right_stick_x;
+        }
     }
 
     public void update() {

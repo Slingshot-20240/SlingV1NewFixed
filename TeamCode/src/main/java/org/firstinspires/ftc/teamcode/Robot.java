@@ -41,6 +41,7 @@ public class Robot{
     // arm
 
     public DriveTrain drivetrain;
+    public boolean slowMode = false;
     public IMU imu;
     public Outtake outtake;
     public Intake intake;
