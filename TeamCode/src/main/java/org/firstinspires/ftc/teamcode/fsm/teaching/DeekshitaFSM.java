@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.fsm.teaching;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -19,10 +20,16 @@ public class DeekshitaFSM {
     Intake intake;
     Arm arm;
 
+    ElapsedTime loopTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
+    double startTime;
+
 
     public DeekshitaFSM(Gamepad gamepad1, Gamepad gamepad2, HardwareMap hardwareMap, Telemetry telemetry) {
         controls = new GamepadMapping(gamepad1, gamepad2);
         robot = new Robot(hardwareMap, telemetry, controls);
+
+        startTime = loopTime.milliseconds();
     }
 
     public void update() {
@@ -124,6 +131,38 @@ public class DeekshitaFSM {
                 }
 
                 break;
+
+            case PICKUP:
+                intake.extendoFullRetract();
+                outtake.returnToRetracted();
+                arm.pickSpec();
+                if (controls.openClaw.value()){
+                    arm.closeClaw();
+                } else {
+                    arm.openClaw();
+                }
+                if (controls.scoreSpec.value()){
+                    state = States.GO_TO_SCORE;
+                }
+                break;
+            case GO_TO_SCORE:
+                outtake.returnToRetracted();
+                arm.toScoreSpecimen();
+                if (!controls.scoreSpec.value()){
+                    state = States.SCORED;
+                    startTime = loopTime.milliseconds();
+                }
+                break;
+
+            case SCORED:
+                outtake.extendToSpecimenHighRackHigh();
+                if (loopTime.milliseconds() - startTime >= 500 && loopTime.milliseconds() - startTime <=1000){
+                    arm.openClaw();
+                } else if (loopTime.milliseconds() - startTime > 1000){
+                    state = States.BASE_STATE;
+                    break;
+                }
+            break;
         }
     }
 
@@ -132,6 +171,9 @@ public class DeekshitaFSM {
         BASE_STATE("BASE STATE"),
         HIGH_BASKET("HIGH BASKET"),
         FULLY_EXTENDED("FULLY EXTENDED"),
+        PICKUP("PICKUP"),
+        GO_TO_SCORE("GO_TO_SCORE"),
+        SCORED("SCORED"),
         TRANSFER("TRANSFER");
 
         String name;
