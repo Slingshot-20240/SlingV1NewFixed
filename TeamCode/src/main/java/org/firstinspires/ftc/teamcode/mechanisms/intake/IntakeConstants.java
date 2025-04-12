@@ -4,15 +4,15 @@ public class IntakeConstants {
 
     // pivoted up, pivoted down, transfer pos, clearing samples, spec mode
     // axon programmed for 0-255, 66 PMW (inverted)
-    private static final double[] pivotPositions = {.27, .89, .22, .53, .42};
+    private static final double[] pivotPositions = {.27-0.13, .89-0.13, 0.07, .53-0.13, .42-0.13};
 
     // right linkage in, right linkage extended, transfer, spec mode
     // axon programmed for 0-255, 75 PMW
-    private static final double[] rightLinkagePositions = {.33, .035, .3, .2};
+    private static final double[] rightLinkagePositions = {.33, .035, .32, .2};
 
     // left linkage in, left linkage extended
     // axon programmed for 0-255, 75 PMW
-    private static final double[] leftLinkagePositions = {.33, .035, .3, .2};
+    private static final double[] leftLinkagePositions = {.33, .035, .32, .2};
 
     private static final double[] v4bPositions = {0,0}; //TODO: you need to fix this there was nothing there and it brok
     public enum ActiveIntakeStates {
