@@ -123,6 +123,16 @@ public class GamepadMapping {
         clearIntake.update(gamepad1.x);
     }
 
+    public void roboCampUpdate() {
+        joystickUpdate();
+
+        // extend.update(gamepad1.right_bumper);
+
+        // outtake
+        // lowBasket.update(gamepad2.left_trigger > 0.3);
+        // highBasket.update(gamepad2.left_bumper);
+    }
+
     public void presModeUpdate() {
         extend.update(gamepad1.right_bumper);
         intakeOnToIntake.update(gamepad1.right_trigger > 0.5);
